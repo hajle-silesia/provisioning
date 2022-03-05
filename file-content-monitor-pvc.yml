@@ -4,7 +4,7 @@ metadata:
   name: file-content-monitor-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadOnlyMany
   resources:
     requests:
       storage: 1Mi
