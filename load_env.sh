@@ -1,1 +1,0 @@
-PROFILE=hajle-silesia
