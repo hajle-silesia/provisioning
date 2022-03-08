@@ -7,8 +7,9 @@ Currently, all scripts are prepared to be run on Microsoft Windows OS.
 
 ### Installation
 Prerequisites:
-- Hyper-V enabled and current user added to "Hyper-V Administrators" group
-- [minikube](https://minikube.sigs.k8s.io/docs/start/) installed and default driver set to hyperv
+- Hyper-V enabled
+- current user added to "Hyper-V Administrators" group
+- [minikube](https://minikube.sigs.k8s.io/docs/start/) installed
 - [X Window System](https://sourceforge.net/projects/vcxsrv/) installed
 
 Setup:
