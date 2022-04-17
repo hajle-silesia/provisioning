@@ -32,19 +32,4 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Lint with bandit
-      run: bandit -r .
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mtweeman/${{ github.event.repository.owner.login }}_${{ github.event.repository.name }}:latest
-    - name: Login to Docker Hub
-      run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-    - name: Publish the Docker image
-      run: docker push mtweeman/${{ github.event.repository.owner.login }}_${{ github.event.repository.name }}:latest
-      
+      run: bandit -r .      
