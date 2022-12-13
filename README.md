@@ -1,14 +1,12 @@
 ### About
 This repository is responsible for:
 - preparing local machine environment to run minikube cluster
-- creating Kubernetes infrastructure foundation for other components
-
-Currently, all scripts are prepared to be run on Microsoft Windows OS. 
+- creating Kubernetes infrastructure for other components
 
 ### Installation
 Prerequisites:
-- Hyper-V enabled
-- current user added to "Hyper-V Administrators" group
+- WSL enabled on Windows
+- [Docker](https://www.docker.com/products/docker-desktop/) installed
 - [minikube](https://minikube.sigs.k8s.io/docs/start/) installed
 - [X Window System](https://sourceforge.net/projects/vcxsrv/) installed
 
@@ -17,7 +15,7 @@ Setup:
 - press Win+R
 - type ```shell:startup```
 - copy hajle-silesia-x11-config.xlaunch and hajle-silesia-autostart.sh into Autostart folder
-- execute cluster_start.sh
+- execute cluster-start.sh
 
 Result:
 - hajle-silesia cluster should be spin in minikube and it should start automatically with OS start
