@@ -1,0 +1,3 @@
+variable "agents" {
+  type = map
+}
