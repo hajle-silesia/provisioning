@@ -1,4 +1,9 @@
-*.pyc
+*.py[cod]
 venv/
 .idea
 .env
+.coverage
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
