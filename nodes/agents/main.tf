@@ -1,22 +1,24 @@
-data "template_file" "agent-startup-script" {
+data "template_file" "agent_startup_script" {
   template = file("${path.module}/create-agent.sh")
   vars     = {
-    token     = var.token
-    server_ip = var.server_ip
+    k3s_version = var.k3s_version
+    token       = var.token
+    server_ip   = var.server_ip
   }
 }
 
-resource "google_compute_instance_template" "agent_template" {
-  lifecycle {
-    create_before_destroy = true
-  }
-
+resource "google_compute_instance_template" "agent" {
   name_prefix  = "agent-${var.name}-"
-  machine_type = "t2a-standard-1"
-  tags         = ["agent"]
+  machine_type = var.machine_type
+  tags         = [
+    "agent",
+  ]
+
+  metadata_startup_script = data.template_file.agent_startup_script.rendered
 
   metadata = {
-    ssh-keys = file("~/.ssh/id_ed25519.pub")
+    block-project-ssh-keys = "TRUE"
+    enable-oslogin         = "TRUE"
   }
 
   disk {
@@ -29,22 +31,38 @@ resource "google_compute_instance_template" "agent_template" {
 
   network_interface {
     network    = var.network
-    subnetwork = google_compute_subnetwork.agents_subnetwork.id
-    access_config {
-    }
+    subnetwork = google_compute_subnetwork.agents.id
   }
 
-  metadata_startup_script = data.template_file.agent-startup-script.rendered
+  service_account {
+    email  = var.service_account
+    scopes = [
+      "cloud-platform",
+    ]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
-resource "google_compute_instance_group_manager" "agents" {
-  name = "agents-${var.name}"
+resource "google_compute_region_instance_group_manager" "agents" {
+  name = "agents"
 
-  base_instance_name = "agent-${var.name}"
+  base_instance_name        = "agent"
+  region                    = var.region
+  distribution_policy_zones = var.zones
 
   version {
-    instance_template = google_compute_instance_template.agent_template.id
+    instance_template = google_compute_instance_template.agent.id
   }
 
-  target_size = 2
+  target_size = var.target_size
+
+  update_policy {
+    type                         = "PROACTIVE"
+    instance_redistribution_type = "PROACTIVE"
+    minimal_action               = "REPLACE"
+    max_surge_fixed              = length(var.zones)
+  }
 }
