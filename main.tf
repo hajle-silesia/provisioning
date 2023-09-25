@@ -9,21 +9,9 @@ terraform {
 
 provider "google" {
   project = var.project
-  region  = "europe-west4"
-  zone    = "europe-west4-a"
+  region  = "us-central1"
+  zone    = "us-central1-a"
 }
-
-#resource "google_project_service" "custom" {
-#  for_each = toset([
-#    "compute.googleapis.com",
-#    "servicenetworking.googleapis.com",
-#    "dns.googleapis.com",
-#    "servicenetworking.googleapis.com",
-#  ])
-#
-#  project = var.project
-#  service = each.value
-#}
 
 resource "google_service_account" "servers" {
   account_id   = "servers"
@@ -40,19 +28,27 @@ resource "google_service_account" "external_secrets" {
   display_name = "external-secrets"
 }
 
-resource "google_project_iam_member" "secrets_manager" {
-  for_each = toset([
-    "roles/secretmanager.secretAccessor",
-  ])
-  project = var.project
-  role    = each.key
-  member  = "serviceAccount:${google_service_account.external_secrets.email}"
+resource "google_secret_manager_secret_iam_binding" "external_secrets" {
+  project   = var.project
+  secret_id = "key"
+  role      = "roles/secretmanager.secretAccessor"
+  members   = [
+    google_service_account.external_secrets.member
+  ]
+
+  depends_on = [
+    module.secrets,
+  ]
 }
 
 resource "google_service_account_iam_member" "main" {
   service_account_id = google_service_account.external_secrets.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${module.identities.workload_identity_pool_name}/*"
+}
+
+module "services" {
+  source = "./services"
 }
 
 module "network" {
@@ -102,8 +98,8 @@ module "agents" {
   k3s_version     = var.k3s_version
   machine_type    = each.value.machine_type
   target_size     = each.value.target_size
-  server_ip       = module.servers["europe-west4"].internal_lb_ip
-  token           = module.servers["europe-west4"].token
+  server_ip       = module.servers["us-central1"].internal_lb_ip
+  token           = module.servers["us-central1"].token
   service_account = google_service_account.agents.email
 }
 
@@ -114,7 +110,11 @@ module "identities" {
 module "dns" {
   source = "./dns"
 
-  external_lb_ip = module.servers["europe-west4"].external_lb_ip
+  external_lb_ip = module.servers["us-central1"].external_lb_ip
+}
+
+module "secrets" {
+  source = "./secrets"
 }
 
 #resource "null_resource" "server_ssh_readiness" {

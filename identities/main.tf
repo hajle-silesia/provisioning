@@ -1,10 +1,10 @@
-resource "google_iam_workload_identity_pool" "ext_secrets1" {
-  workload_identity_pool_id = "ext-secrets17"
+resource "google_iam_workload_identity_pool" "ext_secrets" {
+  workload_identity_pool_id = "ext-secrets19"
 }
 
 resource "google_iam_workload_identity_pool_provider" "ext_secrets" {
-  workload_identity_pool_id          = google_iam_workload_identity_pool.ext_secrets1.workload_identity_pool_id
-  workload_identity_pool_provider_id = google_iam_workload_identity_pool.ext_secrets1.workload_identity_pool_id
+  workload_identity_pool_id          = google_iam_workload_identity_pool.ext_secrets.workload_identity_pool_id
+  workload_identity_pool_provider_id = google_iam_workload_identity_pool.ext_secrets.workload_identity_pool_id
   display_name                       = "external-secrets"
 
   oidc {

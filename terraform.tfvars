@@ -1,13 +1,13 @@
-project = "brewing-system"
+project = "brewing-system-3"
 
 k3s_version = "v1.25.11+k3s1"
 
 servers = {
-  europe-west4 = {
-    region = "europe-west4"
+  us-central1 = {
+    region = "us-central1"
     zones  = [
-      "europe-west4-a",
-      "europe-west4-b",
+      "us-central1-a",
+      "us-central1-b",
     ]
     cidr_range   = "10.20.0.0/17"
     machine_type = "t2a-standard-1"
@@ -16,11 +16,11 @@ servers = {
 }
 
 agents = {
-  europe-west4 = {
-    region = "europe-west4"
+  us-central1 = {
+    region = "us-central1"
     zones  = [
-      "europe-west4-a",
-      "europe-west4-b",
+      "us-central1-a",
+      "us-central1-b",
     ]
     cidr_range   = "10.20.128.0/17"
     machine_type = "t2a-standard-1"
