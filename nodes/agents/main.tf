@@ -25,7 +25,7 @@ resource "google_compute_instance_template" "agent" {
     source_image = "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-arm64-v20230302"
     auto_delete  = true
     boot         = true
-    disk_size_gb = 10
+    disk_size_gb = 15
     disk_type    = "pd-balanced"
   }
 
