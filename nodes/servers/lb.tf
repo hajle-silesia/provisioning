@@ -29,7 +29,7 @@ resource "google_compute_backend_service" "external" {
   backend {
     group                 = google_compute_region_instance_group_manager.servers.instance_group
     balancing_mode        = "RATE"
-    max_rate_per_instance = 20
+    max_rate_per_instance = 200
   }
 }
 
@@ -53,38 +53,30 @@ resource "google_compute_global_forwarding_rule" "external" {
   ip_address            = google_compute_global_address.server_external.id
 }
 
-resource "google_compute_backend_service" "internal" {
+resource "google_compute_region_backend_service" "internal" {
   name                  = "internal"
-  load_balancing_scheme = "INTERNAL_SELF_MANAGED"
+  region                = var.region
+  load_balancing_scheme = "INTERNAL"
 
   health_checks = [
     google_compute_health_check.internal.id,
   ]
   backend {
-    group                 = google_compute_region_instance_group_manager.servers.instance_group
-    balancing_mode        = "RATE"
-    max_rate_per_instance = 20
+    group = google_compute_region_instance_group_manager.servers.instance_group
   }
 }
 
-resource "google_compute_url_map" "internal" {
-  name            = "internal"
-  default_service = google_compute_backend_service.internal.id
-}
-
-resource "google_compute_target_http_proxy" "internal" {
-  name    = "internal"
-  url_map = google_compute_url_map.internal.id
-}
-
-resource "google_compute_global_forwarding_rule" "internal" {
+resource "google_compute_forwarding_rule" "internal" {
   name                  = "internal"
-  network               = var.network
-  ip_protocol           = "TCP"
-  load_balancing_scheme = "INTERNAL_SELF_MANAGED"
-  port_range            = "6443-6443"
-  target                = google_compute_target_http_proxy.internal.id
-  ip_address            = google_compute_address.server_internal.id
+  subnetwork            = google_compute_subnetwork.servers.self_link
+  region                = var.region
+  load_balancing_scheme = "INTERNAL"
+  allow_global_access   = true
+  ports                 = [
+    6443,
+  ]
+  backend_service = google_compute_region_backend_service.internal.id
+  ip_address      = google_compute_address.server_internal.id
 }
 
 resource "google_compute_ssl_certificate" "default" {
