@@ -1,6 +1,6 @@
 project = "brewing-system-3"
 
-k3s_version = "v1.25.11+k3s1"
+k3s_version = "v1.28.2+k3s1"
 
 servers = {
   us-central1 = {
