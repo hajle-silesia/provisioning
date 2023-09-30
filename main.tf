@@ -29,15 +29,15 @@ resource "google_service_account" "external_secrets" {
 }
 
 resource "google_secret_manager_secret_iam_binding" "external_secrets" {
+  for_each = toset([
+    "file-content",
+  ])
+
   project   = var.project
-  secret_id = "key"
+  secret_id = each.value
   role      = "roles/secretmanager.secretAccessor"
   members   = [
     google_service_account.external_secrets.member
-  ]
-
-  depends_on = [
-    module.secrets,
   ]
 }
 
@@ -111,10 +111,6 @@ module "dns" {
   source = "./dns"
 
   external_lb_ip = module.servers["us-central1"].external_lb_ip
-}
-
-module "secrets" {
-  source = "./secrets"
 }
 
 #resource "null_resource" "server_ssh_readiness" {
