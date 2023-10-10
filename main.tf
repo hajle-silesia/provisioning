@@ -128,6 +128,10 @@ module "dns" {
   external_lb_ip = module.servers["us-central1"].external_lb_ip
 }
 
+module "monitoring" {
+  source = "./monitoring"
+}
+
 #resource "null_resource" "server_ssh_readiness" {
 #  provisioner "remote-exec" {
 #    connection {
