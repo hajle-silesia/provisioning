@@ -4,6 +4,9 @@ resource "google_project_service" "custom" {
     "secretmanager.googleapis.com",
     "servicenetworking.googleapis.com",
     "dns.googleapis.com",
+    "osconfig.googleapis.com",
+    "monitoring.googleapis.com",
+    "logging.googleapis.com",
   ])
 
   service = each.value

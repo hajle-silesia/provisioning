@@ -23,6 +23,21 @@ resource "google_service_account" "agents" {
   display_name = "agents"
 }
 
+resource "google_project_iam_binding" "servers" {
+  for_each = toset([
+    "roles/logging.logWriter",
+    "roles/monitoring.metricWriter",
+    "roles/osconfig.guestPolicyAdmin",
+  ])
+
+  project = var.project
+  role    = each.value
+  members = [
+    "serviceAccount:${google_service_account.servers.email}",
+    "serviceAccount:${google_service_account.agents.email}",
+  ]
+}
+
 resource "google_service_account" "external_secrets" {
   account_id   = "external-secrets"
   display_name = "external-secrets"
