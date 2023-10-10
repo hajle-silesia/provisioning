@@ -1,8 +1,7 @@
 resource "google_dns_managed_zone" "hajlesilesia_online" {
   name          = "hajlesilesia-online"
   dns_name      = "hajlesilesia.online."
-  description   = "hajlesilesia Public DNS zone"
-  force_destroy = "true"
+  description   = "hajlesilesia public DNS zone"
 }
 
 resource "google_dns_record_set" "a" {
