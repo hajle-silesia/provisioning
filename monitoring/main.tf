@@ -25,4 +25,16 @@ resource "google_monitoring_alert_policy" "disk_utilization" {
       }
     }
   }
+
+  notification_channels = [
+    google_monitoring_notification_channel.default.name,
+  ]
+}
+
+resource "google_monitoring_notification_channel" "default" {
+  display_name = "default"
+  type         = "email"
+  labels       = {
+    email_address = "mtweeman@gmail.com"
+  }
 }
