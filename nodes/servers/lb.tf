@@ -95,8 +95,8 @@ resource "google_compute_url_map" "external_redirect" {
 }
 
 resource "google_compute_target_http_proxy" "external_redirect" {
-  name             = "external-redirect"
-  url_map          = google_compute_url_map.external_redirect.id
+  name    = "external-redirect"
+  url_map = google_compute_url_map.external_redirect.id
 }
 
 resource "google_compute_global_forwarding_rule" "external_redirect" {
@@ -108,4 +108,32 @@ resource "google_compute_global_forwarding_rule" "external_redirect" {
   ip_address            = google_compute_global_address.server_external.id
 }
 
+resource "google_compute_backend_service" "cluster_api" {
+  name                  = "cluster-api"
+  protocol              = "TCP"
+  load_balancing_scheme = "EXTERNAL"
 
+  health_checks = [
+    google_compute_health_check.external.id,
+  ]
+  port_name = "cluster-api"
+  backend {
+    group                        = google_compute_region_instance_group_manager.servers.instance_group
+    balancing_mode               = "CONNECTION"
+    max_connections_per_instance = 100
+  }
+}
+
+resource "google_compute_target_tcp_proxy" "cluster_api" {
+  name            = "cluster-api"
+  backend_service = google_compute_backend_service.cluster_api.id
+}
+
+resource "google_compute_global_forwarding_rule" "cluster_api" {
+  name                  = "cluster-api"
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "6443-6443"
+  target                = google_compute_target_tcp_proxy.cluster_api.id
+  ip_address            = google_compute_global_address.server_external.id
+}

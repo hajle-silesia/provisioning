@@ -74,6 +74,11 @@ resource "google_compute_region_instance_group_manager" "servers" {
     port = 80
   }
 
+  named_port {
+    name = "cluster-api"
+    port = 6443
+  }
+
   update_policy {
     type                         = "PROACTIVE"
     instance_redistribution_type = "PROACTIVE"
