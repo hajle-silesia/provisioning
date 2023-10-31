@@ -5,6 +5,7 @@ resource "google_compute_subnetwork" "servers" {
   ip_cidr_range = var.cidr_range
 
   private_ip_google_access = true
+  private_ipv6_google_access = "ENABLE_BIDIRECTIONAL_ACCESS_TO_GOOGLE"
 }
 
 resource "google_compute_router" "servers" {

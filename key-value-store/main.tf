@@ -5,7 +5,7 @@ resource "random_id" "key_value_store" {
 
 resource "google_sql_database_instance" "key_value_store" {
   name             = random_id.key_value_store.hex
-  database_version = "POSTGRES_14"
+  database_version = "POSTGRES_15"
 
   settings {
     tier              = "db-f1-micro"
@@ -15,6 +15,7 @@ resource "google_sql_database_instance" "key_value_store" {
     ip_configuration {
       ipv4_enabled    = false
       private_network = var.network
+      require_ssl     = true
     }
 
     backup_configuration {
@@ -30,6 +31,51 @@ resource "google_sql_database_instance" "key_value_store" {
     database_flags {
       name  = "max_connections"
       value = 50
+    }
+
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_hostname"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_connections"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_disconnections"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_duration"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "cloudsql.enable_pgaudit"
+      value = "on"
+    }
+
+    database_flags {
+      name  = "log_min_error_statement"
+      value = "error"
+    }
+
+    database_flags {
+      name  = "log_statement"
+      value = "ddl"
     }
   }
 
