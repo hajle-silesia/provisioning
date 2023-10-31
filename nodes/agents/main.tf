@@ -17,8 +17,8 @@ resource "google_compute_instance_template" "agent" {
   metadata_startup_script = data.template_file.agent_startup_script.rendered
 
   metadata = {
-    block-project-ssh-keys = "TRUE"
-    enable-oslogin         = "TRUE"
+    block-project-ssh-keys = true
+    enable-oslogin         = true
   }
 
   disk {
