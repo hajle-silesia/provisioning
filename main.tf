@@ -5,6 +5,11 @@ terraform {
       version = "4.62.1"
     }
   }
+
+  backend "gcs" {
+    bucket = "brewing-system-4-tf-state-prod"
+    prefix = "terraform/state"
+  }
 }
 
 provider "google" {
@@ -113,9 +118,11 @@ module "agents" {
   k3s_version     = var.k3s_version
   machine_type    = each.value.machine_type
   target_size     = each.value.target_size
-  server_ip       = module.servers["us-central1"].internal_lb_ip
+  internal_lb_ip  = module.servers["us-central1"].internal_lb_ip
   token           = module.servers["us-central1"].token
   service_account = google_service_account.agents.email
+
+  depends_on = [module.servers]
 }
 
 module "identities" {

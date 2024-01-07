@@ -7,6 +7,7 @@ resource "google_project_service" "custom" {
     "osconfig.googleapis.com",
     "monitoring.googleapis.com",
     "logging.googleapis.com",
+    "iamcredentials.googleapis.com",
   ])
 
   service = each.value

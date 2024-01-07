@@ -30,7 +30,7 @@ variable "target_size" {
   type = string
 }
 
-variable "server_ip" {
+variable "internal_lb_ip" {
 }
 
 variable "token" {
