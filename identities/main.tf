@@ -1,5 +1,5 @@
 resource "google_iam_workload_identity_pool" "ext_secrets" {
-  workload_identity_pool_id = "ext-secrets31"
+  workload_identity_pool_id = "ext-secrets19"
 }
 
 resource "google_iam_workload_identity_pool_provider" "ext_secrets" {
