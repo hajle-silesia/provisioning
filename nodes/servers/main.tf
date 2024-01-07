@@ -36,7 +36,7 @@ resource "google_compute_instance_template" "server" {
     auto_delete  = true
     boot         = true
     disk_size_gb = 20
-    disk_type    = "pd-balanced"
+    disk_type    = "pd-standard"
   }
 
   network_interface {

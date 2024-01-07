@@ -5,7 +5,7 @@ resource "random_id" "key_value_store" {
 
 resource "google_sql_database_instance" "key_value_store" {
   name             = random_id.key_value_store.hex
-  database_version = "POSTGRES_14"
+  database_version = "POSTGRES_15"
 
   settings {
     tier              = "db-f1-micro"

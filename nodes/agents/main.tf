@@ -1,9 +1,9 @@
 data "template_file" "agent_startup_script" {
   template = file("${path.module}/create-agent.sh")
   vars     = {
-    k3s_version = var.k3s_version
-    token       = var.token
-    server_ip   = var.server_ip
+    k3s_version    = var.k3s_version
+    token          = var.token
+    internal_lb_ip = var.internal_lb_ip
   }
 }
 
@@ -26,7 +26,7 @@ resource "google_compute_instance_template" "agent" {
     auto_delete  = true
     boot         = true
     disk_size_gb = 20
-    disk_type    = "pd-balanced"
+    disk_type    = "pd-standard"
   }
 
   network_interface {
