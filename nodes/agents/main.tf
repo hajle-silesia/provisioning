@@ -1,24 +1,21 @@
-data "template_file" "agent_startup_script" {
-  template = file("${path.module}/create-agent.sh")
-  vars     = {
-    k3s_version    = var.k3s_version
-    token          = var.token
-    internal_lb_ip = var.internal_lb_ip
-  }
-}
-
 resource "google_compute_instance_template" "agent" {
   name_prefix  = "agent-${var.name}-"
   machine_type = var.machine_type
   tags         = [
     "agent",
   ]
-
-  metadata_startup_script = data.template_file.agent_startup_script.rendered
+  labels = {
+    env = "prod"
+  }
 
   metadata = {
     block-project-ssh-keys = true
     enable-oslogin         = true
+  }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = true
+    enable_vtpm                 = true
   }
 
   disk {

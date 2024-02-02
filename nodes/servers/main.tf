@@ -1,34 +1,21 @@
-resource "random_string" "token" {
-  length  = 32
-  special = false
-}
-
-data "template_file" "server_startup_script" {
-  template = file("${path.module}/create-server.sh")
-  vars     = {
-    k3s_version              = var.k3s_version
-    token                    = random_string.token.result
-    internal_lb_ip           = google_compute_address.server_internal.address
-    external_lb_ip           = google_compute_global_address.server_external.address
-    key_value_store_ip       = var.key_value_store_ip
-    key_value_store_user     = var.key_value_store_user
-    key_value_store_password = var.key_value_store_password
-    key_value_store_name     = var.key_value_store_name
-  }
-}
-
 resource "google_compute_instance_template" "server" {
   name_prefix  = "server-${var.name}-"
   machine_type = var.machine_type
   tags         = [
     "server",
   ]
-
-  metadata_startup_script = data.template_file.server_startup_script.rendered
+  labels = {
+    env = "prod"
+  }
 
   metadata = {
     block-project-ssh-keys = true
     enable-oslogin         = true
+  }
+
+  shielded_instance_config {
+    enable_integrity_monitoring = true
+    enable_vtpm                 = true
   }
 
   disk {

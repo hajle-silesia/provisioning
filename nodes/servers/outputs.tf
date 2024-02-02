@@ -1,7 +1,3 @@
-output "token" {
-  value = random_string.token.result
-}
-
 output "internal_lb_ip" {
   value = google_compute_address.server_internal.address
 }
