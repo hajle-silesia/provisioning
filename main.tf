@@ -2,12 +2,12 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.62.1"
+      version = "5.14.0"
     }
   }
 
   backend "gcs" {
-    bucket = "brewing-system-4-tf-state-prod"
+    bucket = "brewing-system-state-prod"
     prefix = "terraform/state"
   }
 }
@@ -95,15 +95,9 @@ module "servers" {
   region          = each.value.region
   zones           = each.value.zones
   cidr_range      = each.value.cidr_range
-  k3s_version     = var.k3s_version
   machine_type    = each.value.machine_type
   target_size     = each.value.target_size
   service_account = google_service_account.servers.email
-
-  key_value_store_ip       = module.key_value_store.key_value_store_ip
-  key_value_store_name     = module.key_value_store.key_value_store_name
-  key_value_store_user     = module.key_value_store.key_value_store_user
-  key_value_store_password = module.key_value_store.key_value_store_password
 }
 
 module "agents" {
@@ -115,14 +109,9 @@ module "agents" {
   region          = each.value.region
   zones           = each.value.zones
   cidr_range      = each.value.cidr_range
-  k3s_version     = var.k3s_version
   machine_type    = each.value.machine_type
   target_size     = each.value.target_size
-  internal_lb_ip  = module.servers["us-central1"].internal_lb_ip
-  token           = module.servers["us-central1"].token
   service_account = google_service_account.agents.email
-
-  depends_on = [module.servers]
 }
 
 module "identities" {
@@ -138,62 +127,3 @@ module "dns" {
 module "monitoring" {
   source = "./monitoring"
 }
-
-#resource "null_resource" "server_ssh_readiness" {
-#  provisioner "remote-exec" {
-#    connection {
-#      type     = "ssh"
-#      host     = module.servers.server_ip
-#      user     = "root"
-#      password = ""
-#    }
-#
-#    scripts = [
-#      "${path.module}/is-server-startup-script-finished.sh",
-#    ]
-#  }
-#}
-#
-#resource "null_resource" "copying_secrets" {
-#  provisioner "file" {
-#    connection {
-#      type     = "ssh"
-#      host     = module.servers.server_ip
-#      user     = "root"
-#      password = ""
-#    }
-#
-#    source      = "/home/the401/.google_cloud/file-content-secret.key"
-#    destination = "/home/mtweeman/file-content-secret.key"
-#  }
-#
-#  depends_on = [null_resource.server_ssh_readiness]
-#}
-#
-#resource "null_resource" "argo_cd_deployment" {
-#  provisioner "remote-exec" {
-#    connection {
-#      type     = "ssh"
-#      host     = module.servers.server_ip
-#      user     = "root"
-#      password = ""
-#    }
-#
-#    scripts = [
-#      "${path.module}/deploy-argo-cd.sh",
-#      "${path.module}/deploy-secrets.sh",
-#      "${path.module}/deploy-app.sh",
-#    ]
-#  }
-#
-#  depends_on = [null_resource.copying_secrets]
-#}
-#
-#data "external" "kubeconfig" {
-#  program = ["${path.module}/get-server-kubeconfig.sh"]
-#  query   = {
-#    server_ip = module.servers.server_ip
-#  }
-#
-#  depends_on = [null_resource.server_ssh_readiness]
-#}

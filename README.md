@@ -1,11 +1,11 @@
 ## About
-Infrastructure as Code (IaC) repository for CRUD operations on infrastructure.  
+Repository for provisioning infrastructure resources.  
 
 Tool: Terraform  
 Cloud provider: Google Cloud
 
 ## Requirements
-CLI tools useful for infrastructure management from local machine:
+CLI tools useful for provisioning infrastructure from local machine:
 - k3s
 - gcloud
 - terraform
