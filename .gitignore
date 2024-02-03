@@ -7,3 +7,5 @@ venv/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
+/certificates
+!/certificates/.gitkeep
