@@ -7,4 +7,3 @@ venv/
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
-certificates/
