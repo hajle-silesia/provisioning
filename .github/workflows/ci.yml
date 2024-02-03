@@ -37,7 +37,7 @@ jobs:
         CERTIFICATE: ${{ vars.CERTIFICATE }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     - name: Provision infrastructure
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
       run: |
         echo "${CERTIFICATE}" > ./certificates/cert.pem
         echo "${PRIVATE_KEY}" > ./certificates/key.pem
