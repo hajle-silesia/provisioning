@@ -34,7 +34,7 @@ jobs:
         -input=false
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        CERTIFICATE: ${{ vars.CERTIFICATE }}
+        CERTIFICATE: ${{ secrets.CERTIFICATE }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     - name: Provision infrastructure
       if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
@@ -46,5 +46,5 @@ jobs:
         -input=false
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        CERTIFICATE: ${{ vars.CERTIFICATE }}
+        CERTIFICATE: ${{ secrets.CERTIFICATE }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
