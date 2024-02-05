@@ -48,8 +48,11 @@ jobs:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           CERTIFICATE: ${{ secrets.CERTIFICATE }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      - name: Install jq
+        run: |
+          sudo apt update && sudo apt install -y jq
       - name: Save output
-        run: terraform output -json > output.json
+        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Upload artifact
