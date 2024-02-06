@@ -1,0 +1,71 @@
+name: hajle-silesia/configuration-management
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    types:
+      - completed
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  update_config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/github-script@v6
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "artifact"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            let fs = require('fs');
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/artifact.zip`, Buffer.from(download.data));
+      - name: Unzip artifact
+        run: unzip artifact.zip
+      - name: Checkout config repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.workflow }}
+          path: config
+      - name: Update values
+        run: |
+          declare -A values
+          while IFS="=" read -r key value
+          do
+            values["${key}"]="${value}"
+          done < <(jq -r "to_entries | map(\"\(.key)=\(.value|tostring)\") | .[]" output.json)
+          sed -i "s|external_lb_ip: [[:print:]]*|external_lb_ip: ${values['external_lb_ip']}|" ./config/values.yaml
+          sed -i "s|internal_lb_ip: [[:print:]]*|internal_lb_ip: ${values['internal_lb_ip']}|" ./config/values.yaml
+          sed -i "s|key_value_store_ip: [[:print:]]*|key_value_store_ip: ${values['key_value_store_ip']}|" ./config/values.yaml
+          sed -i "s|key_value_store_name: [[:print:]]*|key_value_store_name: ${values['key_value_store_name']}|" ./config/values.yaml
+          sed -i "s|key_value_store_user: [[:print:]]*|key_value_store_user: ${values['key_value_store_user']}|" ./config/values.yaml
+          cat ./config/values.yaml
+      - name: Push updated files
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.PUSH_TOKEN }}
+        with:
+          source_file: ./config/values.yaml
+          destination_repo: ${{ github.workflow }}
+          destination_folder: .
+          user_email: mtweeman@gmail.com
+          user_name: mtweeman
+          destination_branch: master
+          commit_message: Updated config
