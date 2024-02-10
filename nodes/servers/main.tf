@@ -73,3 +73,12 @@ resource "google_compute_region_instance_group_manager" "servers" {
     max_surge_fixed              = length(var.zones)
   }
 }
+
+data "google_compute_region_instance_group" "mig_data" {
+  self_link = google_compute_region_instance_group_manager.servers.self_link
+}
+
+data "google_compute_instance" "instance_data" {
+  self_link = data.google_compute_region_instance_group.mig_data.instances[count.index].instance
+  count     = length(data.google_compute_region_instance_group.mig_data.instances)
+}

@@ -51,6 +51,7 @@ jobs:
           do
             values["${key}"]="${value}"
           done < <(jq -r "to_entries | map(\"\(.key)=\(.value|tostring)\") | .[]" output.json)
+          sed -i "s|first_server_internal_ip: [[:print:]]*|first_server_internal_ip: ${values['first_server_internal_ip']}|" ./config/values.yaml
           sed -i "s|external_lb_ip: [[:print:]]*|external_lb_ip: ${values['external_lb_ip']}|" ./config/values.yaml
           sed -i "s|internal_lb_ip: [[:print:]]*|internal_lb_ip: ${values['internal_lb_ip']}|" ./config/values.yaml
           sed -i "s|key_value_store_ip: [[:print:]]*|key_value_store_ip: ${values['key_value_store_ip']}|" ./config/values.yaml
