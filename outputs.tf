@@ -6,6 +6,10 @@ output "internal_lb_ip" {
   value = module.servers["us-central1"].internal_lb_ip
 }
 
+output "first_server_internal_ip" {
+  value = module.servers["us-central1"].first_server_internal_ip
+}
+
 output "key_value_store_ip" {
   value = module.key_value_store.key_value_store_ip
 }
