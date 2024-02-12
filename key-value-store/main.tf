@@ -91,10 +91,5 @@ resource "google_sql_database" "key_value_store" {
 resource "google_sql_user" "key_value_store" {
   name     = "admin"
   instance = google_sql_database_instance.key_value_store.name
-  password = random_password.key_value_store.result
-}
-
-resource "random_password" "key_value_store" {
-  length  = 16
-  special = false
+  password = var.KEY_VALUE_STORE_PASSWORD
 }

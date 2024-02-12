@@ -22,11 +22,6 @@ output "key_value_store_user" {
   value = module.key_value_store.key_value_store_user
 }
 
-output "key_value_store_password" {
-  value     = module.key_value_store.key_value_store_password
-  sensitive = true
-}
-
 output "workload_identity_pool_provider_name" {
   value = module.identities.workload_identity_pool_provider_name
 }

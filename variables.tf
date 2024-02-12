@@ -9,3 +9,7 @@ variable "servers" {
 variable "agents" {
   type = map
 }
+
+variable "KEY_VALUE_STORE_PASSWORD" {
+  type = string
+}
