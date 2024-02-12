@@ -9,7 +9,3 @@ output "key_value_store_name" {
 output "key_value_store_user" {
   value = google_sql_user.key_value_store.name
 }
-
-output "key_value_store_password" {
-  value = google_sql_user.key_value_store.password
-}

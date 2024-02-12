@@ -23,35 +23,37 @@ jobs:
       - name: Set up provisioning tool
         uses: hashicorp/setup-terraform@v3
       - name: Initialize provisioning tool
-        run: terraform init
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: terraform init
       - name: Plan infrastructure changes
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
           terraform plan \
           -input=false
+      - name: Provision infrastructure
+        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           CERTIFICATE: ${{ secrets.CERTIFICATE }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-      - name: Provision infrastructure
-        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
+          TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
           terraform apply \
           -auto-approve \
           -input=false
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       - name: Save output
-        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

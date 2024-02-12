@@ -83,7 +83,8 @@ module "firewall" {
 module "key_value_store" {
   source = "./key-value-store"
 
-  network = module.network.id
+  network                  = module.network.id
+  KEY_VALUE_STORE_PASSWORD = var.KEY_VALUE_STORE_PASSWORD
 }
 
 module "servers" {
