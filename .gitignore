@@ -1,11 +1,9 @@
 *.py[cod]
 venv/
-.idea
+.idea/
 .env
-.coverage
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
 /certificates
 !/certificates/.gitkeep

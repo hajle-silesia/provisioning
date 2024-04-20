@@ -1,37 +1,18 @@
-resource "google_compute_firewall" "iap" {
-  name    = "iap"
-  network = var.network
-
-  allow {
-    protocol = "tcp"
-    ports    = [
-      22,
-    ]
-  }
-
-  source_ranges = [
-    "35.235.240.0/20",
-  ]
-  target_tags = [
-    "server",
-    "agent",
-  ]
+resource "oci_core_network_security_group" "ssh" {
+  compartment_id = var.compartment_ocid
+  vcn_id         = var.network_id
 }
 
-resource "google_compute_firewall" "internal" {
-  name    = "internal"
-  network = var.network
-
-  allow {
-    protocol = "all"
-  }
-
-  source_tags = [
-    "server",
-    "agent",
-  ]
-  target_tags = [
-    "server",
-    "agent",
-  ]
-}
+# resource "oci_core_network_security_group_security_rule" "ssh" {
+#   network_security_group_id = oci_core_network_security_group.ssh.id
+#   direction                 = "INGRESS"
+#   protocol                  = 6  # TCP
+#   source_type               = "CIDR_BLOCK"
+#   source                    = "0.0.0.0/0"
+#   tcp_options {
+#     destination_port_range {
+#       min = 22
+#       max = 22
+#     }
+#   }
+# }

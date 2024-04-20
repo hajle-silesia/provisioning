@@ -1,8 +1,12 @@
+variable "compartment_ocid" {
+  type = string
+}
+
 variable "name" {
   type = string
 }
 
-variable "network" {
+variable "network_id" {
   type = string
 }
 
@@ -10,7 +14,7 @@ variable "region" {
   type = string
 }
 
-variable "zones" {
+variable "availability_domains" {
   type = list(string)
 }
 
@@ -18,14 +22,14 @@ variable "cidr_range" {
   type = string
 }
 
-variable "machine_type" {
+variable "shape" {
   type = string
 }
 
-variable "target_size" {
+variable "image_id" {
   type = string
 }
 
-variable "service_account" {
+variable "nsg_id" {
   type = string
 }
