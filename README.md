@@ -2,12 +2,12 @@
 Repository for provisioning infrastructure resources.  
 
 Tool: Terraform  
-Cloud provider: Google Cloud
+Cloud provider: Oracle Cloud Infrastructure
 
 ## Requirements
 CLI tools useful for provisioning infrastructure from local machine:
 - k3s
-- gcloud
+- oci
 - terraform
 - helm
 

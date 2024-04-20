@@ -2,6 +2,6 @@ variable "compartment_ocid" {
   type = string
 }
 
-variable "network_id" {
+variable "network_cidr_range" {
   type = string
 }

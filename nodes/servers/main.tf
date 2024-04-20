@@ -1,84 +1,60 @@
-resource "google_compute_instance_template" "server" {
-  name_prefix  = "server-${var.name}-"
-  machine_type = var.machine_type
-  tags         = [
-    "server",
-  ]
-  labels = {
-    env = "prod"
-  }
+resource "oci_core_instance_configuration" "server" {
+  compartment_id = var.compartment_ocid
 
-  metadata = {
-    block-project-ssh-keys = true
-    enable-oslogin         = true
-  }
+  instance_details {
+    instance_type = "compute"
 
-  shielded_instance_config {
-    enable_integrity_monitoring = true
-    enable_vtpm                 = true
-  }
+    launch_details {
+      compartment_id = var.compartment_ocid
 
-  disk {
-    source_image = "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-arm64-v20230302"
-    auto_delete  = true
-    boot         = true
-    disk_size_gb = 20
-    disk_type    = "pd-standard"
-  }
+      instance_options {
+        are_legacy_imds_endpoints_disabled = true
+      }
 
-  network_interface {
-    network    = var.network
-    subnetwork = google_compute_subnetwork.servers.id
-  }
+      create_vnic_details {
+        assign_private_dns_record = true
+        assign_public_ip          = true
+        subnet_id                 = oci_core_subnet.servers.id
+        nsg_ids                   = [
+          var.nsg_id,
+        ]
+      }
 
-  service_account {
-    email  = var.service_account
-    scopes = [
-      "cloud-platform",
-    ]
-  }
+      metadata = {
+        "ssh_authorized_keys" = file("./certificates/ssh-key-2024-03-16.key.pub")
+      }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+      shape = var.shape
+      shape_config {
+        memory_in_gbs = 6
+        ocpus         = 1
+      }
 
-resource "google_compute_region_instance_group_manager" "servers" {
-  name = "servers"
+      is_pv_encryption_in_transit_enabled = true
 
-  base_instance_name        = "server"
-  region                    = var.region
-  distribution_policy_zones = var.zones
+      source_details {
+        image_id    = var.image_id
+        source_type = "image"
+      }
 
-  version {
-    instance_template = google_compute_instance_template.server.id
-  }
-
-  target_size = var.target_size
-
-  named_port {
-    name = "http"
-    port = 80
-  }
-
-  named_port {
-    name = "cluster-api"
-    port = 6443
-  }
-
-  update_policy {
-    type                         = "PROACTIVE"
-    instance_redistribution_type = "PROACTIVE"
-    minimal_action               = "REPLACE"
-    max_surge_fixed              = length(var.zones)
+      #       launch_options {
+      #         is_pv_encryption_in_transit_enabled = true
+      #         network_type                        = "PARAVIRTUALIZED"
+      #       }
+    }
   }
 }
 
-data "google_compute_region_instance_group" "mig_data" {
-  self_link = google_compute_region_instance_group_manager.servers.self_link
-}
+resource "oci_core_instance_pool" "servers" {
+  compartment_id            = var.compartment_ocid
+  instance_configuration_id = oci_core_instance_configuration.server.id
+  size                      = length(var.availability_domains)
 
-data "google_compute_instance" "instance_data" {
-  self_link = data.google_compute_region_instance_group.mig_data.instances[count.index].instance
-  count     = length(data.google_compute_region_instance_group.mig_data.instances)
+  dynamic "placement_configurations" {
+    for_each = var.availability_domains
+    content {
+      availability_domain = placement_configurations.value
+      primary_subnet_id   = oci_core_subnet.servers.id
+    }
+  }
 }
