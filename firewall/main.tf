@@ -1,4 +1,4 @@
-resource "oci_core_network_security_group" "ssh" {
+resource "oci_core_network_security_group" "default" {
   compartment_id = var.compartment_ocid
   vcn_id         = var.network_id
 }

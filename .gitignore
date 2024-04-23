@@ -5,5 +5,3 @@ venv/
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-/certificates
-!/certificates/.gitkeep
