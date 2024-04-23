@@ -6,11 +6,11 @@ variable "user_ocid" {
   type = string
 }
 
-variable "fingerprint" {
+variable "private_key_path" {
   type = string
 }
 
-variable "private_key_path" {
+variable "fingerprint" {
   type = string
 }
 
@@ -28,4 +28,12 @@ variable "network_cidr_range" {
 
 variable "servers" {
   type = map
+}
+
+variable "shape" {
+  type = string
+}
+
+variable "image_id" {
+  type = string
 }

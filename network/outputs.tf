@@ -1,3 +1,3 @@
-output "id" {
-  value = oci_core_vcn.default.id
+output "object" {
+  value = oci_core_vcn.default
 }

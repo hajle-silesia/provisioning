@@ -10,7 +10,7 @@ variable "network_id" {
   type = string
 }
 
-variable "region" {
+variable "cidr_range" {
   type = string
 }
 
@@ -18,7 +18,7 @@ variable "availability_domains" {
   type = list(string)
 }
 
-variable "cidr_range" {
+variable "nsg_id" {
   type = string
 }
 
@@ -27,9 +27,5 @@ variable "shape" {
 }
 
 variable "image_id" {
-  type = string
-}
-
-variable "nsg_id" {
   type = string
 }

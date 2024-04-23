@@ -14,7 +14,6 @@ resource "oci_core_instance_configuration" "server" {
       create_vnic_details {
         assign_private_dns_record = true
         assign_public_ip          = true
-        subnet_id                 = oci_core_subnet.servers.id
         nsg_ids                   = [
           var.nsg_id,
         ]
@@ -36,11 +35,6 @@ resource "oci_core_instance_configuration" "server" {
         image_id    = var.image_id
         source_type = "image"
       }
-
-      #       launch_options {
-      #         is_pv_encryption_in_transit_enabled = true
-      #         network_type                        = "PARAVIRTUALIZED"
-      #       }
     }
   }
 }
@@ -57,4 +51,14 @@ resource "oci_core_instance_pool" "servers" {
       primary_subnet_id   = oci_core_subnet.servers.id
     }
   }
+}
+
+data "oci_core_instance_pool_instances" "servers" {
+  compartment_id   = var.compartment_ocid
+  instance_pool_id = oci_core_instance_pool.servers.id
+}
+
+data "oci_core_instance" "data" {
+  instance_id = data.oci_core_instance_pool_instances.servers.instances[count.index].id
+  count       = length(data.oci_core_instance_pool_instances.servers.instances)
 }
