@@ -23,38 +23,40 @@ jobs:
       - name: Set up provisioning tool
         uses: hashicorp/setup-terraform@v3
       - name: Initialize provisioning tool
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: terraform init
       - name: Plan infrastructure changes
         env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
           CERTIFICATE: ${{ secrets.CERTIFICATE }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
+          OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
+          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
+          OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
+          OCI_REGION: ${{ vars.OCI_REGION }}
+          OCI_INSTANCES_SSH_PRIVATE_KEY: ${{ secrets.OCI_INSTANCES_SSH_PRIVATE_KEY }}
           TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
+          echo "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > ./certificates/ssh-key-2024-03-16.key.pub
           terraform plan \
           -input=false
-      - name: Provision infrastructure
-        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
-        run: |
-          echo "${CERTIFICATE}" > ./certificates/cert.pem
-          echo "${PRIVATE_KEY}" > ./certificates/key.pem
-          terraform apply \
-          -auto-approve \
-          -input=false
-      - name: Save output
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          path: output.json
+#      - name: Provision infrastructure
+#        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
+#        env:
+#          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+#          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+#          TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
+#        run: |
+#          echo "${CERTIFICATE}" > ./certificates/cert.pem
+#          echo "${PRIVATE_KEY}" > ./certificates/key.pem
+#          terraform apply \
+#          -auto-approve \
+#          -input=false
+#      - name: Save output
+#        env:
+#        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          path: output.json
