@@ -37,6 +37,10 @@ resource "oci_core_instance_configuration" "server" {
       }
     }
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "oci_core_instance_pool" "servers" {
@@ -60,5 +64,5 @@ data "oci_core_instance_pool_instances" "servers" {
 
 data "oci_core_instance" "data" {
   instance_id = data.oci_core_instance_pool_instances.servers.instances[count.index].id
-  count       = length(data.oci_core_instance_pool_instances.servers.instances)
+  count       = length(var.availability_domains)
 }

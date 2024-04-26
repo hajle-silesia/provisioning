@@ -5,6 +5,11 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "http" {
+    address       = "https://fru7nifnglug.objectstorage.eu-frankfurt-1.oci.customer-oci.com/p/nY37eHyOBRm3TsUEp4JBiLHGy4F3Tm3imROtqIe4tJyQBkW2wZEgOUDdLb04z0eG/n/fru7nifnglug/b/backend/o/state/terraform.tfstate"
+    update_method = "PUT"
+  }
 }
 
 provider "oci" {
