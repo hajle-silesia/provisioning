@@ -46,27 +46,17 @@ jobs:
           path: config
       - name: Update values
         run: |
-          declare -A values
-          while IFS="=" read -r key value
-          do
-            values["${key}"]="${value}"
-          done < <(jq -r "to_entries | map(\"\(.key)=\(.value|tostring)\") | .[]" output.json)
-          sed -i "s|first_server_internal_ip: [[:print:]]*|first_server_internal_ip: ${values['first_server_internal_ip']}|" ./config/values.yaml
-          sed -i "s|external_lb_ip: [[:print:]]*|external_lb_ip: ${values['external_lb_ip']}|" ./config/values.yaml
-          sed -i "s|internal_lb_ip: [[:print:]]*|internal_lb_ip: ${values['internal_lb_ip']}|" ./config/values.yaml
-          sed -i "s|key_value_store_ip: [[:print:]]*|key_value_store_ip: ${values['key_value_store_ip']}|" ./config/values.yaml
-          sed -i "s|key_value_store_name: [[:print:]]*|key_value_store_name: ${values['key_value_store_name']}|" ./config/values.yaml
-          sed -i "s|key_value_store_user: [[:print:]]*|key_value_store_user: ${values['key_value_store_user']}|" ./config/values.yaml
-          cat ./config/values.yaml
+          cp output.json config/inventories/prod/hosts.yaml
+          cat config/inventories/prod/hosts.yaml
       - name: Push updated files
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.PUSH_TOKEN }}
         with:
-          source_file: ./config/values.yaml
+          source_file: config/inventories/prod/hosts.yaml
           destination_repo: ${{ github.workflow }}
           destination_folder: .
           user_email: mtweeman@gmail.com
           user_name: mtweeman
           destination_branch: master
-          commit_message: Updated config
+          commit_message: Updated hosts

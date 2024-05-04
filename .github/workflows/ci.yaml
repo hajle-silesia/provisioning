@@ -23,16 +23,21 @@ jobs:
       - name: Set up provisioning tool
         uses: hashicorp/setup-terraform@v3
       - name: Initialize provisioning tool
+        env:
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform init
       - name: Plan infrastructure changes
         env:
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
           OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
           OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
           OCI_REGION: ${{ vars.OCI_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
           TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
         run: |
@@ -44,13 +49,15 @@ jobs:
       - name: Provision infrastructure
         if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
         env:
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
           OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
           OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
           OCI_REGION: ${{ vars.OCI_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
           TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
         run: |
@@ -67,7 +74,9 @@ jobs:
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
           OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
           OCI_REGION: ${{ vars.OCI_REGION }}
-        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' > output.json
+          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' | yq -P > output.json
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
