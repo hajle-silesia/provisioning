@@ -6,9 +6,18 @@ terraform {
     }
   }
 
-  backend "http" {
-    address       = "https://fru7nifnglug.objectstorage.eu-frankfurt-1.oci.customer-oci.com/p/nY37eHyOBRm3TsUEp4JBiLHGy4F3Tm3imROtqIe4tJyQBkW2wZEgOUDdLb04z0eG/n/fru7nifnglug/b/backend/o/state/terraform.tfstate"
-    update_method = "PUT"
+  backend "s3" {
+    bucket                      = "backend"
+    region                      = "eu-frankfurt-1"
+    key                         = "state/terraform.tfstate"
+    skip_region_validation      = true
+    skip_credentials_validation = true
+    skip_requesting_account_id  = true
+    use_path_style              = true
+    skip_metadata_api_check     = true
+    endpoints = {
+      s3 = "https://fru7nifnglug.compat.objectstorage.eu-frankfurt-1.oraclecloud.com"
+    }
   }
 }
 
