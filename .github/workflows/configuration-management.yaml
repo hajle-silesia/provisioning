@@ -44,18 +44,14 @@ jobs:
         with:
           repository: ${{ github.workflow }}
           path: config
-      - name: Update values
-        run: |
-          cp output.json config/inventories/prod/hosts.yaml
-          cat config/inventories/prod/hosts.yaml
       - name: Push updated files
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.PUSH_TOKEN }}
         with:
-          source_file: config/inventories/prod/hosts.yaml
+          source_file: hosts.yaml
           destination_repo: ${{ github.workflow }}
-          destination_folder: .
+          destination_folder: inventories/prod
           user_email: mtweeman@gmail.com
           user_name: mtweeman
           destination_branch: master

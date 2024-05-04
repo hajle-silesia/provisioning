@@ -76,8 +76,8 @@ jobs:
           OCI_REGION: ${{ vars.OCI_REGION }}
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' | yq -P > output.json
+        run: terraform output -json | jq -r 'to_entries | reduce .[] as $item ({}; .[$item.key] = $item.value.value)' | yq -P > hosts.yaml
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          path: output.json
+          path: hosts.yaml
