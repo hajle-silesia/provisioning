@@ -1,0 +1,23 @@
+name: golden image CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker image tag'
+        required: true
+        default: 'latest'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: echo Docker tag
+      run: |
+        echo "Docker tag: ${{ github.event.inputs.docker_tag }}"
