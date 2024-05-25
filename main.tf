@@ -53,6 +53,5 @@ module "servers" {
   availability_domains = each.value.availability_domains
   cidr_range           = each.value.cidr_range
   shape                = var.shape
-  image_id             = var.image_id
   nsg_id               = module.firewall.nsg_id
 }
