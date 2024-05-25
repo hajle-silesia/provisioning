@@ -1,3 +1,18 @@
+data "oci_core_images" "data" {
+  compartment_id = var.compartment_ocid
+
+  sort_by    = "TIMECREATED"
+  sort_order = "DESC"
+
+  filter {
+    name   = "display_name"
+    values = [
+      "^golden-image-([TZ0-9-:]+)$"
+    ]
+    regex = true
+  }
+}
+
 resource "oci_core_instance_configuration" "server" {
   compartment_id = var.compartment_ocid
 
@@ -20,7 +35,8 @@ resource "oci_core_instance_configuration" "server" {
       }
 
       metadata = {
-        "ssh_authorized_keys" = file("./certificates/ssh-key-2024-03-16.key.pub")
+        ssh_authorized_keys = file("./certificates/ssh-key-2024-03-16.key.pub")
+        user_data           = base64encode(file("./nodes/servers/create-server.sh"))
       }
 
       shape = var.shape
@@ -32,7 +48,7 @@ resource "oci_core_instance_configuration" "server" {
       is_pv_encryption_in_transit_enabled = true
 
       source_details {
-        image_id    = var.image_id
+        image_id    = data.oci_core_images.data.images[0].id
         source_type = "image"
       }
     }
@@ -54,6 +70,13 @@ resource "oci_core_instance_pool" "servers" {
       availability_domain = placement_configurations.value
       primary_subnet_id   = oci_core_subnet.servers.id
     }
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    replace_triggered_by  = [
+      oci_core_instance_configuration.server.instance_details.launch_details.source_details.image_id,
+    ]
   }
 }
 

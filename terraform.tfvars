@@ -8,7 +8,6 @@ compartment_ocid = "ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dt
 
 network_cidr_range = "10.20.0.0/16"
 shape              = "VM.Standard.A1.Flex"
-image_id           = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa6odzhcjyusigce7aenknxyk3fw44xcsmmqqc7a4hrmyvnhgbll7q"
 
 servers = {
   eu-frankfurt-1 = {
