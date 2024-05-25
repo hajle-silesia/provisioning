@@ -33,7 +33,3 @@ variable "servers" {
 variable "shape" {
   type = string
 }
-
-variable "image_id" {
-  type = string
-}

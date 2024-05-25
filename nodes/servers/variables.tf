@@ -25,7 +25,3 @@ variable "nsg_id" {
 variable "shape" {
   type = string
 }
-
-variable "image_id" {
-  type = string
-}
