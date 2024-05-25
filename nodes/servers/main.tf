@@ -75,7 +75,7 @@ resource "oci_core_instance_pool" "servers" {
   lifecycle {
     create_before_destroy = true
     replace_triggered_by  = [
-      oci_core_instance_configuration.server.instance_details.launch_details.source_details.image_id,
+      oci_core_instance_configuration.server,
     ]
   }
 }

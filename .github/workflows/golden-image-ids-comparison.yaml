@@ -1,0 +1,42 @@
+name: Golden image IDs comparison
+
+on:
+  schedule:
+    - cron: 0 0 * * 0
+  workflow_dispatch:
+
+jobs:
+  compare-images-ids:
+    runs-on: ubuntu-latest
+    outputs:
+      build_flag: ${{ steps.images-comparison.outputs.build_flag }}
+
+    steps:
+      - name: Get images list
+        env:
+          OCI_CLI_TENANCY: ${{ vars.OCI_TENANCY_OCID }}
+          OCI_CLI_USER: ${{ vars.OCI_USER_OCID }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_PRIVATE_KEY }}
+          OCI_CLI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
+          OCI_CLI_REGION: ${{ vars.OCI_REGION }}
+        uses: oracle-actions/run-oci-cli-command@v1.2.0
+        id: images-list
+        with:
+          command: compute image list --compartment-id "${{ env.OCI_CLI_TENANCY }}" --sort-by TIMECREATED --sort-order DESC --all
+      - name: Get the latest image ID
+        id: latest-image-id
+        run: |
+          latest_image_id=$(echo ${{ steps.images-list.outputs.output }} | \
+          jq -r '[.data[] | select(.["display-name"]|test("^Canonical-Ubuntu-22.04-aarch64-([\\.0-9-]+)$")) | .["id"]] | .[0]')
+          echo "latest_image_id=${latest_image_id}" >> $GITHUB_OUTPUT
+      - name: Get base image ID of the latest golden image
+        id: latest-golden-image-base-image-id
+        run: |
+          latest_golden_image_base_image_id=$(echo ${{ steps.images-list.outputs.output }} | \
+          jq -r '[.data[] | select(.["display-name"]|test("^golden-image-([TZ0-9-:]+)$")) | .["base-image-id"]] | .[0]')
+          echo "latest_golden_image_base_image_id=${latest_golden_image_base_image_id}" >> $GITHUB_OUTPUT
+      - name: Compare images IDs and set build flag
+        if: ${{ steps.latest-image-id.outputs.latest_image_id != steps.latest-golden-image-base-image-id.outputs.latest_golden_image_base_image_id }}
+        id: images-comparison
+        run: |
+          echo "build_flag=true" >> $GITHUB_OUTPUT

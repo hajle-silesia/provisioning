@@ -5,6 +5,13 @@ on:
     branches:
       [master]
   pull_request:
+  workflow_run:
+    workflows:
+      - Golden image CI
+    types:
+      - completed
+    branches:
+      - master
   workflow_dispatch:
 
 permissions:
