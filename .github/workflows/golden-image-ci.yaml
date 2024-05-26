@@ -11,13 +11,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  golden-image-ci:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     env:
       working_dir: nodes/images
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.build_flag == 'true' }}
+    outputs:
+      flag: ${{ steps.set-flag.outputs.flag }}
+    if: |
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.flag == 'true') ||
+      github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
@@ -30,3 +34,7 @@ jobs:
         run: |
           echo -n "${OCI_PRIVATE_KEY}" > certificates/mtweeman@gmail.com_2024-03-02T19_23_13.049Z.pem
           packer build ${{ env.working_dir }}
+      - name: Set flag
+        id: set-flag
+        run: |
+          echo "flag=true" >> $GITHUB_OUTPUT

@@ -9,7 +9,7 @@ jobs:
   compare-images-ids:
     runs-on: ubuntu-latest
     outputs:
-      build_flag: ${{ steps.images-comparison.outputs.build_flag }}
+      flag: ${{ steps.images-comparison.outputs.unequal_flag }}
 
     steps:
       - name: Get images list
@@ -35,8 +35,8 @@ jobs:
           latest_golden_image_base_image_id=$(echo ${{ steps.images-list.outputs.output }} | \
           jq -r '[.data[] | select(.["display-name"]|test("^golden-image-([TZ0-9-:]+)$")) | .["base-image-id"]] | .[0]')
           echo "latest_golden_image_base_image_id=${latest_golden_image_base_image_id}" >> $GITHUB_OUTPUT
-      - name: Compare images IDs and set build flag
+      - name: Compare images IDs and set flag
         if: ${{ steps.latest-image-id.outputs.latest_image_id != steps.latest-golden-image-base-image-id.outputs.latest_golden_image_base_image_id }}
         id: images-comparison
         run: |
-          echo "build_flag=true" >> $GITHUB_OUTPUT
+          echo "unequal_flag=true" >> $GITHUB_OUTPUT

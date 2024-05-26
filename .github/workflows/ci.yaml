@@ -1,4 +1,4 @@
-name: CI
+name: Infrastructure CD
 
 on:
   push:
@@ -18,11 +18,16 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  infrastructure-cd:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
+    if: |
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.flag == 'true') ||
+      github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
