@@ -30,9 +30,12 @@ jobs:
         run: packer init ${{ env.working_dir }}
       - name: Build machine image
         env:
+          K3S_TOKEN: ${{ secrets.K3S_TOKEN }}
           OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
+          OCI_INSTANCES_SSH_PRIVATE_KEY: ${{ secrets.OCI_INSTANCES_SSH_PRIVATE_KEY }}
         run: |
           echo -n "${OCI_PRIVATE_KEY}" > certificates/mtweeman@gmail.com_2024-03-02T19_23_13.049Z.pem
+          echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > certificates/ssh-key-2024-03-16.key
           packer build ${{ env.working_dir }}
       - name: Set flag
         id: set-flag

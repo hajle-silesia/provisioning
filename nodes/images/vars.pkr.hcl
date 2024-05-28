@@ -22,3 +22,13 @@ variable "region" {
   type    = string
   default = "eu-frankfurt-1"
 }
+
+variable "k3s_version" {
+  type    = string
+  default = "v1.29.4+k3s1"
+}
+
+variable "k3s_token" {
+  type = string
+  default = env("K3S_TOKEN")
+}
