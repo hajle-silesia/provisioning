@@ -55,7 +55,7 @@ jobs:
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
-          echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > ./certificates/ssh-key-2024-03-16.key.pub
+          echo -n "${OCI_INSTANCES_SSH_PUBLIC_KEY}" > ./certificates/ssh-key-2024-03-16.key.pub
           terraform plan \
           -input=false
       - name: Provision infrastructure

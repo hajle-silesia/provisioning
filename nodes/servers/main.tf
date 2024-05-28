@@ -36,7 +36,6 @@ resource "oci_core_instance_configuration" "server" {
 
       metadata = {
         ssh_authorized_keys = file("./certificates/ssh-key-2024-03-16.key.pub")
-        user_data           = base64encode(file("./nodes/servers/create-server.sh"))
       }
 
       shape = var.shape
