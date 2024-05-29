@@ -19,6 +19,7 @@ for port in "${servers_inbound_ports[@]}"; do
 done
 
 firewall-cmd --reload
+firewall-cmd --runtime-to-permanent
 
 # Cluster installation
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${K3S_VERSION}" sh -s - server \

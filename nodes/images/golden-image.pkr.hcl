@@ -49,6 +49,7 @@ build {
       "K3S_TOKEN=${var.k3s_token}",
     ]
     inline = [
+      "cloud-init status --wait",
       "sudo bash ~/create-server.sh",
       "rm ~/create-server.sh",
     ]
