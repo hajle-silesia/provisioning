@@ -63,6 +63,7 @@ jobs:
         if: |
           (github.ref == 'refs/heads/master' && github.event_name == 'push') ||
           github.event_name == 'workflow_dispatch'
+        id: provisioning-infrastructure
         env:
           OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
           OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
@@ -83,3 +84,14 @@ jobs:
           terraform apply \
           -auto-approve \
           -input=false
+      - name: Commit imported variables
+        if: steps.provisioning-infrastructure.conclusion == 'success'
+        run:
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add machine-images/imported-vars.pkr.hcl
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: steps.provisioning-infrastructure.conclusion == 'success'
+        with:
+          github_token: ${{ secrets.PUSH_TOKEN }}

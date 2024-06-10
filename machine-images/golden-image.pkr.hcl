@@ -20,7 +20,7 @@ source "oracle-oci" "server" {
     display_name_search = "^Canonical-Ubuntu-22.04-aarch64-([\\.0-9-]+)$"
   }
 
-  compartment_ocid     = "ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dtvvwtctl2toucgqcyeha"
+  compartment_ocid     = var.tenancy_ocid
   image_name           = "golden-image-${timestamp()}"
   shape                = "VM.Standard.A1.Flex"
   ssh_private_key_file = "certificates/ssh-key-2024-03-16.key"
