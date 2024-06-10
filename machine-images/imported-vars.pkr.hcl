@@ -2,5 +2,5 @@
 
 variable "internal_lb" {
   type    = string
-  default = "10.20.113.125"
+  default = "10.20.26.35"
 }
