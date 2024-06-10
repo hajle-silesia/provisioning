@@ -27,7 +27,7 @@ variable "network_cidr_range" {
 }
 
 variable "servers" {
-  type = map
+  type = map(any)
 }
 
 variable "shape" {

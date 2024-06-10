@@ -16,7 +16,7 @@ jobs:
     permissions:
       contents: read
     env:
-      working_dir: nodes/images
+      working_dir: machine-images
     outputs:
       flag: ${{ steps.set-flag.outputs.flag }}
     if: |

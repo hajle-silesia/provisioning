@@ -9,16 +9,6 @@ resource "oci_load_balancer_backend_set" "internal" {
   }
 }
 
-resource "oci_load_balancer_backend" "internal" {
-  backendset_name  = oci_load_balancer_backend_set.internal.name
-  load_balancer_id = oci_load_balancer_load_balancer.internal.id
-  port             = 6443
-
-  count      = length(var.availability_domains)
-  ip_address = data.oci_core_instance.data[count.index].private_ip
-}
-
-
 resource "oci_load_balancer_load_balancer" "internal" {
   compartment_id = var.compartment_ocid
   display_name   = "internal"

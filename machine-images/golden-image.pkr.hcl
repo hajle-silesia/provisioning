@@ -25,7 +25,7 @@ source "oracle-oci" "server" {
   shape                = "VM.Standard.A1.Flex"
   ssh_private_key_file = "certificates/ssh-key-2024-03-16.key"
   ssh_username         = "ubuntu"
-  subnet_ocid          = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaavqfim5xlodlm3d5cusqs5quhokangy2kijercgywmgholp3wkl6q"
+  subnet_ocid          = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa7s6w2fwhae3f4donkjxa5nibxbmca6fls3smhlubx2laxynhheba"
   shape_config {
     memory_in_gbs = 6
     ocpus         = 1
@@ -39,19 +39,26 @@ build {
   ]
 
   provisioner "file" {
-    source      = "nodes/images/create-server.sh"
-    destination = "~/create-server.sh"
+    source      = "machine-images/scripts/create-server-golden-image.sh"
+    destination = "~/create-server-golden-image.sh"
+  }
+
+  provisioner "file" {
+    source      = "machine-images/scripts/user-data.sh"
+    destination = "~/user-data.sh"
   }
 
   provisioner "shell" {
+    execute_command = "sudo bash -c '{{ .Vars }} {{ .Path }}'"
     environment_vars = [
       "K3S_VERSION=${var.k3s_version}",
       "K3S_TOKEN=${var.k3s_token}",
+      "INTERNAL_LB=${var.internal_lb}",
+      "COMPARTMENT_OCID=${var.tenancy_ocid}",
+      "AVAILABILITY_DOMAIN=${var.availability_domain}",
     ]
-    inline = [
-      "cloud-init status --wait",
-      "sudo bash ~/create-server.sh",
-      "rm ~/create-server.sh",
+    scripts = [
+      "machine-images/scripts/create-server-golden-image.sh",
     ]
   }
 }
