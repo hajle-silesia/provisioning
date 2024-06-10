@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   infrastructure-cd:
@@ -63,6 +63,7 @@ jobs:
         if: |
           (github.ref == 'refs/heads/master' && github.event_name == 'push') ||
           github.event_name == 'workflow_dispatch'
+        id: provisioning-infrastructure
         env:
           OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
           OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
@@ -83,3 +84,16 @@ jobs:
           terraform apply \
           -auto-approve \
           -input=false
+      - name: Commit imported variables
+        if: steps.provisioning-infrastructure.conclusion == 'success'
+        continue-on-error: true
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add machine-images/imported-vars.pkr.hcl
+          git commit -m "Updated imported variables for machine images by github-actions[bot]"
+      - name: Push changes
+        if: steps.provisioning-infrastructure.conclusion == 'success'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PUSH_TOKEN }}

@@ -8,6 +8,11 @@ on:
       - completed
     branches:
       - master
+  push:
+    branches:
+      - master
+    paths:
+      - machine-images/imported-vars.pkr.hcl
   workflow_dispatch:
 
 jobs:
