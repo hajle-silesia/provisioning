@@ -86,14 +86,12 @@ jobs:
           -input=false
       - name: Commit imported variables
         if: steps.provisioning-infrastructure.conclusion == 'success'
-        continue-on-error: true
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add machine-images/imported-vars.pkr.hcl
           git commit -m "Updated imported variables for machine images by github-actions[bot]"
       - name: Push changes
-        if: steps.provisioning-infrastructure.conclusion == 'success'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PUSH_TOKEN }}
