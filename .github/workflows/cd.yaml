@@ -56,10 +56,13 @@ jobs:
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
           echo -n "${OCI_INSTANCES_SSH_PUBLIC_KEY}" > ./certificates/ssh-key-2024-03-16.key.pub
+          echo -n "${OCI_PRIVATE_KEY}" > ./certificates/mtweeman@gmail.com_2024-03-02T19_23_13.049Z.pem
           terraform plan \
           -input=false
       - name: Provision infrastructure
-        if: (github.ref == 'refs/heads/master' && github.event_name == 'push') || github.event_name == 'workflow_dispatch'
+        if: |
+          (github.ref == 'refs/heads/master' && github.event_name == 'push') ||
+          github.event_name == 'workflow_dispatch'
         env:
           OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
           OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
@@ -76,6 +79,7 @@ jobs:
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
           echo -n "${OCI_INSTANCES_SSH_PUBLIC_KEY}" > ./certificates/ssh-key-2024-03-16.key.pub
+          echo -n "${OCI_PRIVATE_KEY}" > ./certificates/mtweeman@gmail.com_2024-03-02T19_23_13.049Z.pem
           terraform apply \
           -auto-approve \
           -input=false

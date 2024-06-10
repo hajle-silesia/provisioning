@@ -32,3 +32,8 @@ variable "k3s_token" {
   type = string
   default = env("K3S_TOKEN")
 }
+
+variable "availability_domain" {
+  type    = string
+  default = "ppDV:EU-FRANKFURT-1-AD-1"
+}

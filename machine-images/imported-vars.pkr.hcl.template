@@ -1,0 +1,6 @@
+# This file is generated automatically
+
+variable "internal_lb" {
+  type    = string
+  default = "${INTERNAL_LB}"
+}
