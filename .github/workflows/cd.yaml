@@ -3,15 +3,13 @@ name: Infrastructure CD
 on:
   push:
     branches:
-      [master]
-  pull_request:
-  workflow_run:
-    workflows:
-      - Golden image CI
-    types:
-      - completed
-    branches:
       - master
+    paths-ignore:
+      - 'machine-images/*'
+  pull_request:
+  repository_dispatch:
+    types:
+      - golden-image-ci
   workflow_dispatch:
 
 permissions:
@@ -26,11 +24,13 @@ jobs:
     if: |
       github.event_name == 'push' ||
       github.event_name == 'pull_request' ||
-      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.flag == 'true') ||
+      (github.event_name == 'repository_dispatch' && github.event.client_payload.flag == 'true') ||
       github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up provisioning tool
         uses: hashicorp/setup-terraform@v3
@@ -61,7 +61,8 @@ jobs:
           -input=false
       - name: Provision infrastructure
         if: |
-          (github.ref == 'refs/heads/master' && github.event_name == 'push') ||
+          github.event_name == 'push' ||
+          github.event_name == 'repository_dispatch' ||
           github.event_name == 'workflow_dispatch'
         id: provisioning-infrastructure
         env:
@@ -91,7 +92,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add machine-images/imported-vars.pkr.hcl
-          git commit -m "Updated imported variables for machine images by github-actions[bot]"
+          git commit -m "github-actions[bot]: Updated imported variables for machine images"
       - name: Push changes
         if: steps.provisioning-infrastructure.conclusion == 'success'
         uses: ad-m/github-push-action@master
