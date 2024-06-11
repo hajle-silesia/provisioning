@@ -8,8 +8,6 @@ on:
 jobs:
   compare-images-ids:
     runs-on: ubuntu-latest
-    outputs:
-      flag: ${{ steps.images-comparison.outputs.unequal_flag }}
 
     steps:
       - name: Get images list
@@ -38,5 +36,9 @@ jobs:
       - name: Compare images IDs and set flag
         if: ${{ steps.latest-image-id.outputs.latest_image_id != steps.latest-golden-image-base-image-id.outputs.latest_golden_image_base_image_id }}
         id: images-comparison
-        run: |
-          echo "unequal_flag=true" >> $GITHUB_OUTPUT
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+          repository: hajle-silesia/provisioning
+          event-type: golden-image-ids-comparison
+          client-payload: '{"unequal_flag": "true"}'

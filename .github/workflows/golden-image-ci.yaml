@@ -6,13 +6,9 @@ on:
       - master
     paths:
       - 'machine-images/imported-vars.pkr.hcl'
-  workflow_run:
-    workflows:
-      - Golden image IDs comparison
+  repository_dispatch:
     types:
-      - completed
-    branches:
-      - master
+      - golden-image-ids-comparison
   workflow_dispatch:
 
 jobs:
@@ -22,11 +18,9 @@ jobs:
       contents: read
     env:
       working_dir: machine-images
-    outputs:
-      flag: ${{ steps.set-flag.outputs.flag }}
     if: |
       github.event_name == 'push' ||
-      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.flag == 'true') ||
+      (github.event_name == 'success' && github.event.client_payload.unequal_flag == 'true') ||
       github.event_name == 'workflow_dispatch'
 
     steps:
@@ -44,6 +38,9 @@ jobs:
           echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > certificates/ssh-key-2024-03-16.key
           packer build ${{ env.working_dir }}
       - name: Set flag
-        id: set-flag
-        run: |
-          echo "flag=true" >> $GITHUB_OUTPUT
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PUSH_TOKEN }}
+          repository: hajle-silesia/provisioning
+          event-type: golden-image-ci
+          client-payload: '{"flag": "true"}'
