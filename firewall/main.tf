@@ -8,6 +8,16 @@ resource "oci_core_default_security_list" "internal" {
   }
 
   ingress_security_rules {
+    protocol = 6  # TCP
+    source = "0.0.0.0/0"
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+
+  ingress_security_rules {
     protocol = "all"
     source   = var.network_cidr_range
   }
