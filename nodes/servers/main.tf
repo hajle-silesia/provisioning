@@ -44,9 +44,6 @@ resource "oci_core_instance_configuration" "server" {
       create_vnic_details {
         assign_private_dns_record = true
         assign_public_ip          = true
-        nsg_ids = [
-          var.nsg_id,
-        ]
       }
 
       metadata = {

@@ -18,10 +18,6 @@ variable "availability_domains" {
   type = list(string)
 }
 
-variable "nsg_id" {
-  type = string
-}
-
 variable "shape" {
   type = string
 }

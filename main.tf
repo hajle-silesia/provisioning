@@ -39,8 +39,8 @@ module "network" {
 module "firewall" {
   source                           = "./firewall"
   compartment_ocid                 = var.compartment_ocid
-  network_id                       = module.network.object.id
   network_default_security_list_id = module.network.object.default_security_list_id
+  network_cidr_range               = var.network_cidr_range
 }
 
 module "servers" {
@@ -53,5 +53,4 @@ module "servers" {
   availability_domains = each.value.availability_domains
   cidr_range           = each.value.cidr_range
   shape                = var.shape
-  nsg_id               = module.firewall.nsg_id
 }
