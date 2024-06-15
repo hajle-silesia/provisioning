@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'machine-images/imported-vars.pkr.hcl'
+      - 'machine-images/**'
   repository_dispatch:
     types:
       - golden-image-ids-comparison
