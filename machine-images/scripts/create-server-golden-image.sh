@@ -21,14 +21,25 @@ function install_oci_cli() {
 }
 
 
+function disable_firewalls() {
+  firewall_services=(
+    "ufw"
+  )
+
+  for service in "${firewall_services[@]}"; do
+    systemctl disable "${service}"
+  done
+}
+
+
 function configure_firewall() {
   systemctl enable firewalld
   systemctl start firewalld
 
   servers_inbound_ports=(
-  "2379"
-  "2380"
-  "6443"
+    "2379"
+    "2380"
+    "6443"
   )
   for port in "${servers_inbound_ports[@]}"; do
     firewall-cmd --zone=public --add-port="${port}"/tcp --permanent
@@ -59,6 +70,7 @@ cloud-init status --wait
 update_and_upgrade_packages
 install_packages
 install_oci_cli
+disable_firewalls
 configure_firewall
 set_per_instance_script
 rm /home/ubuntu/create-server-golden-image.sh
