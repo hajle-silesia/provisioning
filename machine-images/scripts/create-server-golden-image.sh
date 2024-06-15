@@ -13,11 +13,22 @@ function install_packages() {
 }
 
 
-function install_oci_cli() {
+function install_cloud_provider_cli() {
   curl -LO https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
   chmod +x install.sh
   ./install.sh --accept-all-defaults
   rm -f install.sh
+}
+
+
+function install_package_manager_for_container_orchestration_tool() {
+  curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
+  apt-get install -y \
+    apt-transport-https
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+  apt-get update
+  apt-get install -y \
+    helm
 }
 
 
@@ -69,7 +80,8 @@ function set_per_instance_script() {
 cloud-init status --wait
 update_and_upgrade_packages
 install_packages
-install_oci_cli
+install_cloud_provider_cli
+install_package_manager_for_container_orchestration_tool
 disable_firewalls
 configure_firewall
 set_per_instance_script
