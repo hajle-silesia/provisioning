@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths-ignore:
-      - 'machine-images/*'
+      - 'machine-images/**'
   pull_request:
   repository_dispatch:
     types:
