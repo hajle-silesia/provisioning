@@ -14,6 +14,7 @@ servers = {
     availability_domains = [
       "ppDV:EU-FRANKFURT-1-AD-1",
       "ppDV:EU-FRANKFURT-1-AD-2",
+      "ppDV:EU-FRANKFURT-1-AD-3",
     ]
     cidr_range = "10.20.0.0/17"
   },
