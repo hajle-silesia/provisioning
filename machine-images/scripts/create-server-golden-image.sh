@@ -72,7 +72,7 @@ function set_per_instance_script() {
     echo "export COMPARTMENT_OCID=${COMPARTMENT_OCID}"
     echo "export AVAILABILITY_DOMAIN=${AVAILABILITY_DOMAIN}"
 
-    echo "initiate_cluster"
+    echo "main"
   } >> /var/lib/cloud/scripts/per-instance/user-data.sh
 }
 
