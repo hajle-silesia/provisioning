@@ -2,7 +2,7 @@
 
 
 function main() {
-  USER_DATA_OUTPUT_LOG="${user-data-output.log}"
+  USER_DATA_OUTPUT_LOG="user-data-output.log"
   
   echo "$(date -uIs): Checking running instances" >> "${USER_DATA_OUTPUT_LOG}"
   all_running_instances=$(oci compute instance list --compartment-id "${COMPARTMENT_OCID}" --all --sort-by TIMECREATED | jq -r '[.data[] | select(.["lifecycle-state"] == "RUNNING")] | length')
