@@ -54,12 +54,15 @@ function join_cluster() {
 
 function delete_unready_nodes() {
   echo "$(date -uIs): Deleting unready nodes" >> "${USER_DATA_OUTPUT_LOG}"
+  hostname="$(hostname)"
   unready_nodes=$(kubectl get nodes --no-headers | grep "NotReady" | awk '{print $1}')
 
   for node in ${unready_nodes}; do
-    echo "$(date -uIs): Deleting node ${node}" >> "${USER_DATA_OUTPUT_LOG}"
-    kubectl delete node "${node}"
-    echo "$(date -uIs): Deleted node ${node}" >> "${USER_DATA_OUTPUT_LOG}"
+    if [[ "${node}" != "${hostname}" ]]; then
+      echo "$(date -uIs): Deleting node ${node}" >> "${USER_DATA_OUTPUT_LOG}"
+      kubectl delete node "${node}"
+      echo "$(date -uIs): Deleted node ${node}" >> "${USER_DATA_OUTPUT_LOG}"
+    fi
   done
 }
 
