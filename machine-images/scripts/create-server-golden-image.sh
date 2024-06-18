@@ -35,10 +35,14 @@ function install_package_manager_for_container_orchestration_tool() {
 function disable_firewalls() {
   firewall_services=(
     "ufw"
+    "iptables"
+    "ip6tables"
+    "nftables"
   )
 
   for service in "${firewall_services[@]}"; do
     systemctl disable "${service}"
+    systemctl mask "${service}"
   done
 }
 
