@@ -44,7 +44,7 @@ function deploy_cd_tool_for_container_orchestration_tool() {
 
 
 function set_env_variables() {
-  echo "export KUBECONFIG=/etc/rancher/k3s/k3s/yaml" >> .bashrc
+  echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> .bashrc
 }
 
 
@@ -96,5 +96,5 @@ function delete_unready_nodes() {
 
 
 cd /root
-export OCI_CLI_AUTH=instance_principal
-export PATH="${PATH}:/root/bin"
+OCI_CLI_AUTH=instance_principal
+PATH="${PATH}:/root/bin"
