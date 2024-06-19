@@ -12,10 +12,14 @@ function main() {
 
   if [[ "${all_running_instances}" -eq 1 && "${availability_domain_0_running_instances}" -eq 1 ]]; then
     initiate_cluster
+    set_env_variables
+    deploy_cd_tool_for_container_orchestration_tool
+    deploy_business_application
   else
     wait_lb
     join_cluster
     delete_unready_nodes
+    set_env_variables
   fi
 }
 
@@ -27,6 +31,30 @@ function initiate_cluster() {
     --write-kubeconfig-mode 600 \
     --token "${K3S_TOKEN}" \
     --tls-san "${INTERNAL_LB}"
+}
+
+
+function deploy_cd_tool_for_container_orchestration_tool() {
+  {
+    echo "$(date -uIs): Deploy CD tool for container orchestration tool"
+    k3s kubectl create namespace argocd
+    k3s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.7/manifests/install.yaml
+  } >> "${USER_DATA_OUTPUT_LOG}"
+}
+
+
+function set_env_variables() {
+  echo "export KUBECONFIG=/etc/rancher/k3s/k3s/yaml" >> .bashrc
+}
+
+
+function deploy_business_application() {
+  {
+    echo "$(date -uIs): Deploy business application"
+    helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/cd-config/master/docs
+    helm repo update
+    helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd
+  } >> "${USER_DATA_OUTPUT_LOG}"
 }
 
 
