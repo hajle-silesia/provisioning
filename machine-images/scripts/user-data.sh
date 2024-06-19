@@ -96,5 +96,5 @@ function delete_unready_nodes() {
 
 
 cd /root
-OCI_CLI_AUTH=instance_principal
+export OCI_CLI_AUTH=instance_principal
 PATH="${PATH}:/root/bin"
