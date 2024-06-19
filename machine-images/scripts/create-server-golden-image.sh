@@ -70,11 +70,11 @@ function set_per_instance_script() {
   chmod 744 /var/lib/cloud/scripts/per-instance/user-data.sh
 
   {
-    echo "export K3S_VERSION=${K3S_VERSION}"
-    echo "export K3S_TOKEN=${K3S_TOKEN}"
-    echo "export INTERNAL_LB=${INTERNAL_LB}"
-    echo "export COMPARTMENT_OCID=${COMPARTMENT_OCID}"
-    echo "export AVAILABILITY_DOMAIN=${AVAILABILITY_DOMAIN}"
+    echo "K3S_VERSION=${K3S_VERSION}"
+    echo "K3S_TOKEN=${K3S_TOKEN}"
+    echo "INTERNAL_LB=${INTERNAL_LB}"
+    echo "COMPARTMENT_OCID=${COMPARTMENT_OCID}"
+    echo "AVAILABILITY_DOMAIN=${AVAILABILITY_DOMAIN}"
 
     echo "main"
   } >> /var/lib/cloud/scripts/per-instance/user-data.sh
