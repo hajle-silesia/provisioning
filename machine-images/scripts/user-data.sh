@@ -36,9 +36,9 @@ function initiate_cluster() {
 
 function deploy_cd_tool_for_container_orchestration_tool() {
   {
-    echo "$(date -uIs): Deploy CD tool for container orchestration tool"
+    echo "$(date -uIs): Deploying CD tool for container orchestration tool"
     k3s kubectl create namespace argocd
-    k3s kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.6.7/manifests/install.yaml
+    curl -sSfL https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.3/manifests/install.yaml | k3s kubectl apply -n argocd -f -
   } >> "${USER_DATA_OUTPUT_LOG}"
 }
 
@@ -50,7 +50,7 @@ function set_env_variables() {
 
 function deploy_business_application() {
   {
-    echo "$(date -uIs): Deploy business application"
+    echo "$(date -uIs): Deploying business application"
     helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/cd-config/master/docs
     helm repo update
     helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd

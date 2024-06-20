@@ -8,7 +8,6 @@ function update_and_upgrade_packages() {
 
 function install_packages() {
   apt-get install -y \
-    firewalld \
     jq
 }
 
@@ -35,9 +34,6 @@ function install_package_manager_for_container_orchestration_tool() {
 function disable_firewalls() {
   firewall_services=(
     "ufw"
-    "iptables"
-    "ip6tables"
-    "nftables"
   )
 
   for service in "${firewall_services[@]}"; do
@@ -87,7 +83,7 @@ install_packages
 install_cloud_provider_cli
 install_package_manager_for_container_orchestration_tool
 disable_firewalls
-configure_firewall
+#configure_firewall
 set_per_instance_script
 rm /home/ubuntu/create-server-golden-image.sh
 rm /home/ubuntu/user-data.sh
