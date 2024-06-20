@@ -46,9 +46,7 @@ function deploy_cd_tool_for_container_orchestration_tool() {
 function set_env_variables() {
   echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> .bashrc
 
-  # shellcheck source=src/util.sh
-  . ~/.bashrc
-
+  . .bashrc
 }
 
 
