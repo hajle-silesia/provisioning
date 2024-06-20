@@ -10,7 +10,7 @@ function main() {
   echo "$(date -uIs): Quantity of all running instances: ${all_running_instances}" >> "${USER_DATA_OUTPUT_LOG}"
   echo "$(date -uIs): Quantity of availability domain '0' running instances: ${availability_domain_0_running_instances}" >> "${USER_DATA_OUTPUT_LOG}"
 
-  if [[ "${all_running_instances}" -eq 1 && "${availability_domain_0_running_instances}" -eq 1 ]]; then
+  if [[ "${all_running_instances}" -le 1 && "${availability_domain_0_running_instances}" -le 1 ]]; then
     initiate_cluster
     set_env_variables
     deploy_cd_tool_for_container_orchestration_tool
@@ -45,6 +45,10 @@ function deploy_cd_tool_for_container_orchestration_tool() {
 
 function set_env_variables() {
   echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> .bashrc
+
+  # shellcheck source=src/util.sh
+  . ~/.bashrc
+
 }
 
 

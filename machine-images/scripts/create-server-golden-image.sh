@@ -32,14 +32,12 @@ function install_package_manager_for_container_orchestration_tool() {
 
 
 function disable_firewalls() {
-  firewall_services=(
-    "ufw"
-  )
+  netfilter-persistent stop
+  netfilter-persistent flush
 
-  for service in "${firewall_services[@]}"; do
-    systemctl disable "${service}"
-    systemctl mask "${service}"
-  done
+  systemctl stop netfilter-persistent
+  systemctl disable netfilter-persistent
+  systemctl mask netfilter-persistent
 }
 
 
