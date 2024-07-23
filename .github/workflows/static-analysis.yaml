@@ -1,0 +1,13 @@
+name: Static analysis
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  canonical-format-analysis:
+    name: Check canonical format
+    uses: ./.github/workflows/terraform-fmt.yaml

@@ -60,7 +60,7 @@ resource "oci_core_instance_configuration" "server" {
 
       source_details {
         image_id = (length(data.oci_core_images.golden_image.images[*].id) != 0 ?
-          data.oci_core_images.golden_image.images[0].id : data.oci_core_images.ubuntu.images[0].id)
+        data.oci_core_images.golden_image.images[0].id : data.oci_core_images.ubuntu.images[0].id)
         source_type = "image"
       }
     }
@@ -74,7 +74,7 @@ resource "oci_core_instance_configuration" "server" {
 resource "oci_core_instance_pool" "servers" {
   compartment_id            = var.compartment_ocid
   instance_configuration_id = oci_core_instance_configuration.server.id
-  size = length(var.availability_domains)
+  size                      = length(var.availability_domains)
 
   dynamic "placement_configurations" {
     for_each = var.availability_domains
@@ -99,7 +99,7 @@ data "oci_core_instance_pool_instances" "servers" {
 
 data "oci_core_instance" "data" {
   instance_id = data.oci_core_instance_pool_instances.servers.instances[count.index].id
-  count = length(var.availability_domains)
+  count       = length(var.availability_domains)
 }
 
 resource "oci_identity_dynamic_group" "servers" {

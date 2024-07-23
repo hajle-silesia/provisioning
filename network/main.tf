@@ -1,6 +1,6 @@
 resource "oci_core_vcn" "default" {
   compartment_id = var.compartment_ocid
-  cidr_blocks    = [
+  cidr_blocks = [
     var.network_cidr_range,
   ]
 }
