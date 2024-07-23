@@ -6,8 +6,22 @@ on:
       - master
   pull_request:
   workflow_dispatch:
+    inputs:
+      terraform-version:
+        description: Terraform version
+        type: string
+        required: false
+        default: latest
+      working-directory:
+        description: Working directory
+        type: string
+        required: false
+        default: .
 
 jobs:
-  canonical-format-analysis:
+  canonical-format-check:
     name: Check canonical format
     uses: ./.github/workflows/terraform-fmt.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+      terraform-version: ${{ inputs.terraform-version }}
