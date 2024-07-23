@@ -13,7 +13,7 @@ resource "oci_load_balancer_load_balancer" "internal" {
   compartment_id = var.compartment_ocid
   display_name   = "internal"
   shape          = "flexible"
-  subnet_ids     = [
+  subnet_ids = [
     oci_core_subnet.servers.id,
   ]
 
