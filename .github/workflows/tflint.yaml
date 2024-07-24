@@ -1,0 +1,25 @@
+name: TFLint
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        type: string
+        required: false
+        default: .
+
+jobs:
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      - name: TFLint
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          tflint --init
+          tflint --recursive --config "$(pwd)/.tflint.hcl"

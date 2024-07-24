@@ -26,9 +26,17 @@ jobs:
       working-directory: ${{ inputs.working-directory }}
       terraform-version: ${{ inputs.terraform-version }}
 
+  linter:
+    name: Lint
+    uses: ./.github/workflows/tflint.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+
   configuration-files-validation:
     name: Validate configuration files
     uses: ./.github/workflows/terraform-validate.yaml
     with:
       working-directory: ${{ inputs.working-directory }}
       terraform-version: ${{ inputs.terraform-version }}
+
+

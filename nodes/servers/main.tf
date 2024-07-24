@@ -92,16 +92,6 @@ resource "oci_core_instance_pool" "servers" {
   }
 }
 
-data "oci_core_instance_pool_instances" "servers" {
-  compartment_id   = var.compartment_ocid
-  instance_pool_id = oci_core_instance_pool.servers.id
-}
-
-data "oci_core_instance" "data" {
-  instance_id = data.oci_core_instance_pool_instances.servers.instances[count.index].id
-  count       = length(var.availability_domains)
-}
-
 resource "oci_identity_dynamic_group" "servers" {
   compartment_id = var.compartment_ocid
   name           = "servers"
