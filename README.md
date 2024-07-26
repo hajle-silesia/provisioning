@@ -47,6 +47,11 @@ CLI tools useful when working from local machine:
 - [Template](.github/workflows/tflint.yaml)
 - [Documentation](https://github.com/terraform-linters/tflint)
 
+### Trivy
+
+- [Template](.github/workflows/trivy.yaml)
+- [Documentation](https://github.com/aquasecurity/trivy)
+
 ### Aggregator of all static analyzers
 
 - [Template](.github/workflows/static-analysis.yaml)
@@ -54,6 +59,7 @@ CLI tools useful when working from local machine:
    - [Terraform fmt](#terraform-fmt)
    - [Terraform validate](#terraform-validate)
    - [TFLint](#tflint)
+   - [Trivy](#trivy)
 
 ## Access to cluster
 
