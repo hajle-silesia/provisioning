@@ -1,0 +1,48 @@
+name: Trivy
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        type: string
+        required: false
+        default: .
+      severity:
+        type: string
+        required: false
+        default: MEDIUM,HIGH,CRITICAL
+
+jobs:
+  trivy:
+    name: Trivy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Trivy
+        run: |
+          sudo apt-get install wget apt-transport-https gnupg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy
+      - name: Trivy config
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          scanning_failed=false
+          
+          while IFS= read -r file; do
+            echo "Scanning ${file}"
+            trivy \
+            config "${file}" \
+            --severity ${{ inputs.severity }} \
+            --exit-code 1
+          
+            if (( $? != 0 )); then
+              scanning_failed=true
+            fi
+          done < <(find "$(pwd)" -type f -name "*.tf")
+          
+          if [ "${scanning_failed}" = true ]; then
+            exit 1
+          fi

@@ -7,36 +7,70 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      terraform-version:
-        description: Terraform version
-        type: string
-        required: false
-        default: latest
       working-directory:
         description: Working directory
         type: string
         required: false
         default: .
+      terraform-version:
+        description: Terraform version
+        type: string
+        required: false
+        default: latest
+      severity:
+        description: Severity
+        type: string
+        required: false
+        default: MEDIUM,HIGH,CRITICAL
+
+env:
+  working-directory: ${{ inputs.working-directory || '.' }}
+  terraform-version: ${{ inputs.terraform-version || 'latest' }}
+  severity: ${{ inputs.severity || 'MEDIUM,HIGH,CRITICAL' }}
 
 jobs:
+  preparation:
+    name: Preparation
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "null"
+    outputs:
+      working-directory: ${{ env.working-directory }}
+      terraform-version: ${{ env.terraform-version }}
+      severity: ${{ env.severity }}
+
   canonical-format-check:
+    needs:
+      - preparation
     name: Check canonical format
     uses: ./.github/workflows/terraform-fmt.yaml
     with:
-      working-directory: ${{ inputs.working-directory }}
-      terraform-version: ${{ inputs.terraform-version }}
+      working-directory: ${{ needs.preparation.outputs.working-directory }}
+      terraform-version: ${{ needs.preparation.outputs.terraform-version }}
 
   linter:
+    needs:
+      - preparation
     name: Lint
     uses: ./.github/workflows/tflint.yaml
     with:
-      working-directory: ${{ inputs.working-directory }}
+      working-directory: ${{ needs.preparation.outputs.working-directory }}
 
   configuration-files-validation:
+    needs:
+      - preparation
     name: Validate configuration files
     uses: ./.github/workflows/terraform-validate.yaml
     with:
-      working-directory: ${{ inputs.working-directory }}
-      terraform-version: ${{ inputs.terraform-version }}
+      working-directory: ${{ needs.preparation.outputs.working-directory }}
+      terraform-version: ${{ needs.preparation.outputs.terraform-version }}
 
-
+  security-vulnerabilities-scan:
+    needs:
+      - preparation
+    name: Check security vulnerabilities
+    uses: ./.github/workflows/trivy.yaml
+    with:
+      working-directory: ${{ needs.preparation.outputs.working-directory }}
+      severity: ${{ needs.preparation.outputs.severity }}
