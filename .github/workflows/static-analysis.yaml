@@ -23,6 +23,9 @@ on:
         required: false
         default: MEDIUM,HIGH,CRITICAL
 
+permissions:
+  contents: read
+
 env:
   working-directory: ${{ inputs.working-directory || '.' }}
   terraform-version: ${{ inputs.terraform-version || 'latest' }}
