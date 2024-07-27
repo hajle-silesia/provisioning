@@ -46,3 +46,9 @@ jobs:
     with:
       working-directory: ${{ inputs.working-directory }}
       severity: ${{ inputs.severity }}
+
+  checkov:
+    name: Checkov
+    uses: ./.github/workflows/checkov.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}

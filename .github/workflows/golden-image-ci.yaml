@@ -11,6 +11,9 @@ on:
       - golden-image-ids-comparison
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   golden-image-ci:
     runs-on: ubuntu-latest
