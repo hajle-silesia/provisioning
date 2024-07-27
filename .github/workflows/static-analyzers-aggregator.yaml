@@ -16,6 +16,9 @@ on:
         required: false
         default: MEDIUM,HIGH,CRITICAL
 
+permissions:
+  contents: read
+
 jobs:
   canonical-format-check:
     name: Check canonical format

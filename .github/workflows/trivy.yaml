@@ -12,6 +12,9 @@ on:
         required: false
         default: MEDIUM,HIGH,CRITICAL
 
+permissions:
+  contents: read
+
 jobs:
   trivy:
     name: Trivy
