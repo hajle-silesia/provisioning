@@ -40,37 +40,12 @@ jobs:
       terraform-version: ${{ env.terraform-version }}
       severity: ${{ env.severity }}
 
-  canonical-format-check:
+  static-analysis:
     needs:
       - preparation
-    name: Check canonical format
-    uses: ./.github/workflows/terraform-fmt.yaml
+    name: Static analysis
+    uses: ./.github/workflows/static-analyzers-aggregator.yaml
     with:
       working-directory: ${{ needs.preparation.outputs.working-directory }}
       terraform-version: ${{ needs.preparation.outputs.terraform-version }}
-
-  linter:
-    needs:
-      - preparation
-    name: Lint
-    uses: ./.github/workflows/tflint.yaml
-    with:
-      working-directory: ${{ needs.preparation.outputs.working-directory }}
-
-  configuration-files-validation:
-    needs:
-      - preparation
-    name: Validate configuration files
-    uses: ./.github/workflows/terraform-validate.yaml
-    with:
-      working-directory: ${{ needs.preparation.outputs.working-directory }}
-      terraform-version: ${{ needs.preparation.outputs.terraform-version }}
-
-  security-vulnerabilities-scan:
-    needs:
-      - preparation
-    name: Check security vulnerabilities
-    uses: ./.github/workflows/trivy.yaml
-    with:
-      working-directory: ${{ needs.preparation.outputs.working-directory }}
       severity: ${{ needs.preparation.outputs.severity }}

@@ -1,0 +1,45 @@
+name: Static analyzers aggregator
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        type: string
+        required: false
+        default: .
+      terraform-version:
+        type: string
+        required: false
+        default: latest
+      severity:
+        type: string
+        required: false
+        default: MEDIUM,HIGH,CRITICAL
+
+jobs:
+  canonical-format-check:
+    name: Check canonical format
+    uses: ./.github/workflows/terraform-fmt.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+      terraform-version: ${{ inputs.terraform-version }}
+
+  linter:
+    name: Lint
+    uses: ./.github/workflows/tflint.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+
+  configuration-files-validation:
+    name: Validate configuration files
+    uses: ./.github/workflows/terraform-validate.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+      terraform-version: ${{ inputs.terraform-version }}
+
+  security-vulnerabilities-scan:
+    name: Check security vulnerabilities
+    uses: ./.github/workflows/trivy.yaml
+    with:
+      working-directory: ${{ inputs.working-directory }}
+      severity: ${{ inputs.severity }}
