@@ -13,6 +13,8 @@ CLI tools useful when working from local machine:
 - oci
 - terraform
 - tflint
+- trivy
+- checkov
 - helm
 - packer
 
