@@ -52,6 +52,11 @@ CLI tools useful when working from local machine:
 - [Template](.github/workflows/trivy.yaml)
 - [Documentation](https://github.com/aquasecurity/trivy)
 
+### Checkov
+
+- [Template](.github/workflows/checkov.yaml)
+- [Documentation](https://github.com/bridgecrewio/checkov-action)
+
 ### Aggregator of all static analyzers
 
 - [Template](.github/workflows/static-analysis.yaml)
@@ -60,6 +65,7 @@ CLI tools useful when working from local machine:
    - [Terraform validate](#terraform-validate)
    - [TFLint](#tflint)
    - [Trivy](#trivy)
+   - [Checkov](#checkov)
 
 ## Access to cluster
 
