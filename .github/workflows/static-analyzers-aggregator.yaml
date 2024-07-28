@@ -47,8 +47,8 @@ jobs:
       working-directory: ${{ inputs.working-directory }}
       severity: ${{ inputs.severity }}
 
-  checkov:
-    name: Checkov
+  security-and-compliance-benchmarks-scan:
+    name: Security and compliance benchmarks scan
     uses: ./.github/workflows/checkov.yaml
     with:
       working-directory: ${{ inputs.working-directory }}
