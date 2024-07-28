@@ -55,7 +55,7 @@ function deploy_business_application() {
     echo "$(date -uIs): Deploying business application"
     helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/cd-config/master/docs
     helm repo update
-    helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd
+    helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd 2>&1
   } >> "${USER_DATA_OUTPUT_LOG}"
 }
 
