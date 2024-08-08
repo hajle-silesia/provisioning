@@ -38,7 +38,7 @@ resource "oci_core_instance_configuration" "server" {
       compartment_id = var.compartment_ocid
 
       instance_options {
-        are_legacy_imds_endpoints_disabled = true
+        are_legacy_imds_endpoints_disabled = false # vault CLI uses IMDSv1
       }
 
       create_vnic_details {
@@ -90,6 +90,12 @@ resource "oci_core_instance_pool" "servers" {
     port             = 6443
     vnic_selection   = "PrimaryVnic"
   }
+  load_balancers {
+    backend_set_name = oci_load_balancer_backend_set.vault.name
+    load_balancer_id = oci_load_balancer_load_balancer.internal.id
+    port             = 8200
+    vnic_selection   = "PrimaryVnic"
+  }
 }
 
 resource "oci_identity_dynamic_group" "servers" {
@@ -99,11 +105,15 @@ resource "oci_identity_dynamic_group" "servers" {
   matching_rule  = "ALL {instance.compartment.id = '${var.compartment_ocid}'}"
 }
 
-resource "oci_identity_policy" "compute_instance_list" {
+resource "oci_identity_policy" "compute_instances_list" {
   compartment_id = var.compartment_ocid
-  name           = "compute-instance-list"
+  name           = "compute-instances-list"
   description    = "Listing compute instances in servers pool"
   statements = [
+    # listing compute instances in user-data script for machine image
     "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to inspect instances in compartment id ${var.compartment_ocid}",
+    # using OCI KMS service to get key for vault auto-unsealing
+    # https://developer.hashicorp.com/vault/docs/configuration/seal/ocikms#authentication
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to use keys in compartment id ${var.compartment_ocid}",
   ]
 }

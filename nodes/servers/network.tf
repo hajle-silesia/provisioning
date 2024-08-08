@@ -3,4 +3,5 @@ resource "oci_core_subnet" "servers" {
   display_name   = "servers-${var.name}"
   vcn_id         = var.network_id
   cidr_block     = var.cidr_range
+  dns_label      = "servers"
 }
