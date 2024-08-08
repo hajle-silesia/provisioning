@@ -15,10 +15,11 @@ module "servers" {
   source   = "./nodes/servers"
   for_each = var.servers
 
-  compartment_ocid     = var.compartment_ocid
-  name                 = each.key
-  network_id           = module.network.object.id
-  availability_domains = each.value.availability_domains
-  cidr_range           = each.value.cidr_range
-  shape                = var.shape
+  compartment_ocid       = var.compartment_ocid
+  name                   = each.key
+  network_id             = module.network.object.id
+  availability_domains   = each.value.availability_domains
+  cidr_range             = each.value.cidr_range
+  shape                  = var.shape
+  vault_cert_private_key = var.vault_cert_private_key
 }

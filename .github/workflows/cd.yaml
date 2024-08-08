@@ -52,6 +52,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
           TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
+          TF_VAR_vault_cert_private_key: ${{ secrets.VAULT_PRIVATE_KEY }}
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem
@@ -77,6 +78,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
           TF_VAR_KEY_VALUE_STORE_PASSWORD: ${{ secrets.KEY_VALUE_STORE_PASSWORD }}
+          TF_VAR_vault_cert_private_key: ${{ secrets.VAULT_PRIVATE_KEY }}
         run: |
           echo "${CERTIFICATE}" > ./certificates/cert.pem
           echo "${PRIVATE_KEY}" > ./certificates/key.pem

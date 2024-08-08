@@ -33,3 +33,7 @@ variable "servers" {
 variable "shape" {
   type = string
 }
+
+variable "vault_cert_private_key" {
+  type = string
+}

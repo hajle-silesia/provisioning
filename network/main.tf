@@ -3,6 +3,8 @@ resource "oci_core_vcn" "default" {
   cidr_blocks = [
     var.network_cidr_range,
   ]
+  display_name = "default"
+  dns_label    = "default"
 }
 
 resource "oci_core_internet_gateway" "default" {
