@@ -19,6 +19,7 @@ Cloud provider: Oracle Cloud Infrastructure
 | [checkov](https://github.com/bridgecrewio/checkov#getting-started)                                    | Static analysis                              |
 | [helm](https://helm.sh/docs/intro/install/)                                                           | Package manager for container orchestration  |
 | [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli) | Machine images provisioning                  |
+| [pre-commit](https://pre-commit.com/)                                                                 | Managing pre-commit hooks                    |
 
 ### Installation: TODO
 
@@ -42,32 +43,41 @@ Cloud provider: Oracle Cloud Infrastructure
 
 ## Static analysis
 
-### Terraform fmt
+### Local
+
+#### Terraform fmt pre-commit hook
+
+- [Configuration](.pre-commit-config.yaml)
+- [Documentation](https://github.com/antonbabenko/pre-commit-terraform)
+
+### Remote
+
+#### Terraform fmt
 
 - [Template](.github/workflows/terraform-fmt.yaml)
 - [Documentation](https://developer.hashicorp.com/terraform/cli/commands/fmt)
 
-### Terraform validate
+#### Terraform validate
 
 - [Template](.github/workflows/terraform-validate.yaml)
 - [Documentation](https://developer.hashicorp.com/terraform/cli/commands/validate)
 
-### TFLint
+#### TFLint
 
 - [Template](.github/workflows/tflint.yaml)
 - [Documentation](https://github.com/terraform-linters/tflint)
 
-### Trivy
+#### Trivy
 
 - [Template](.github/workflows/trivy.yaml)
 - [Documentation](https://github.com/aquasecurity/trivy)
 
-### Checkov
+#### Checkov
 
 - [Template](.github/workflows/checkov.yaml)
 - [Documentation](https://github.com/bridgecrewio/checkov-action)
 
-### Aggregator of all static analyzers
+#### Aggregator of all static analyzers
 
 - [Template](.github/workflows/static-analysis.yaml)
 - Includes:
