@@ -7,13 +7,6 @@ module "vcn" {
   internet_gateway_enabled      = var.vcn.internet_gateway_enabled
 }
 
-module "firewall" {
-  source                           = "./firewall"
-  compartment_ocid                 = var.compartment_ocid
-  network_default_security_list_id = module.vcn.default_security_list_id
-  network_cidr_ranges              = var.vcn.ipv4_cidr_blocks
-}
-
 module "servers" {
   source   = "./nodes/servers"
   for_each = var.servers
@@ -25,4 +18,9 @@ module "servers" {
   cidr_range             = each.value.cidr_range
   shape                  = var.shape
   vault_cert_private_key = var.vault_cert_private_key
+}
+
+moved {
+  from = module.firewall.oci_core_default_security_list.internal
+  to   = module.vcn.oci_core_default_security_list.internal
 }

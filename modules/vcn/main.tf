@@ -24,11 +24,42 @@ resource "oci_core_vcn" "default" {
   freeform_tags  = data.context_tags.main.tags
 }
 
+resource "oci_core_default_security_list" "internal" {
+  compartment_id             = local.compartment_ocid
+  manage_default_resource_id = oci_core_vcn.default[0].default_security_list_id
+
+  # TODO: move security list rules to appropriate module once created
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = "all"
+  }
+
+  ingress_security_rules {
+    protocol = 6 # TCP
+    source   = "0.0.0.0/0"
+
+    tcp_options {
+      min = 22
+      max = 22
+    }
+  }
+
+  dynamic "ingress_security_rules" {
+    for_each = local.ipv4_cidr_blocks
+    content {
+      protocol = "all"
+      source   = ingress_security_rules.value
+    }
+  }
+}
+
+
 resource "oci_core_default_route_table" "default" {
   count = local.default_route_table_no_routes ? 1 : 0
 
   compartment_id             = local.compartment_ocid
   manage_default_resource_id = oci_core_vcn.default[0].default_route_table_id
+  display_name               = data.context_label.main.rendered
 
   # TODO: move route rules to appropriate module once created
   route_rules {
@@ -41,7 +72,8 @@ resource "oci_core_default_route_table" "default" {
 resource "oci_core_internet_gateway" "default" {
   count = local.internet_gateway_enabled ? 1 : 0
 
-  compartment_id = var.compartment_ocid
+  compartment_id = local.compartment_ocid
+  display_name   = data.context_label.main.rendered
   vcn_id         = oci_core_vcn.default[0].id
   freeform_tags  = data.context_tags.main.tags
 }
