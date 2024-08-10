@@ -6,8 +6,24 @@ region           = "eu-frankfurt-1"
 
 compartment_ocid = "ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dtvvwtctl2toucgqcyeha"
 
-network_cidr_range = "10.20.0.0/16"
-shape              = "VM.Standard.A1.Flex"
+context = {
+  enabled     = true
+  namespace   = "hs"
+  environment = "fra"
+  stage       = "prod"
+  name        = "vcn"
+}
+
+vcn = {
+  ipv4_cidr_blocks = [
+    "10.20.0.0/16",
+  ]
+  default_route_table_no_routes = true
+  internet_gateway_enabled      = true
+  dns_label                     = "default"
+}
+
+shape = "VM.Standard.A1.Flex"
 
 servers = {
   eu-frankfurt-1 = {
@@ -17,7 +33,7 @@ servers = {
       "ppDV:EU-FRANKFURT-1-AD-3",
     ]
     cidr_range = "10.20.0.0/17"
-  },
+  }
 }
 
 # agents = {
