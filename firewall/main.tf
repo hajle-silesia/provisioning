@@ -17,8 +17,11 @@ resource "oci_core_default_security_list" "internal" {
     }
   }
 
-  ingress_security_rules {
-    protocol = "all"
-    source   = var.network_cidr_range
+  dynamic "ingress_security_rules" {
+    for_each = var.network_cidr_ranges
+    content {
+      protocol = "all"
+      source   = ingress_security_rules.value
+    }
   }
 }

@@ -1,14 +1,17 @@
-module "network" {
-  source             = "./network"
-  compartment_ocid   = var.compartment_ocid
-  network_cidr_range = var.network_cidr_range
+module "vcn" {
+  source                        = "./modules/vcn"
+  compartment_ocid              = var.compartment_ocid
+  ipv4_cidr_blocks              = var.vcn.ipv4_cidr_blocks
+  dns_label                     = var.vcn.dns_label
+  default_route_table_no_routes = var.vcn.default_route_table_no_routes
+  internet_gateway_enabled      = var.vcn.internet_gateway_enabled
 }
 
 module "firewall" {
   source                           = "./firewall"
   compartment_ocid                 = var.compartment_ocid
-  network_default_security_list_id = module.network.object.default_security_list_id
-  network_cidr_range               = var.network_cidr_range
+  network_default_security_list_id = module.vcn.default_security_list_id
+  network_cidr_ranges              = var.vcn.ipv4_cidr_blocks
 }
 
 module "servers" {
@@ -17,7 +20,7 @@ module "servers" {
 
   compartment_ocid       = var.compartment_ocid
   name                   = each.key
-  network_id             = module.network.object.id
+  network_id             = module.vcn.id
   availability_domains   = each.value.availability_domains
   cidr_range             = each.value.cidr_range
   shape                  = var.shape
