@@ -18,9 +18,9 @@ vcn = {
   ipv4_cidr_blocks = [
     "10.20.0.0/16",
   ]
+  dns_label                     = "default"
   default_route_table_no_routes = true
   internet_gateway_enabled      = true
-  dns_label                     = "default"
 }
 
 shape = "VM.Standard.A1.Flex"

@@ -10,6 +10,19 @@ variable "ipv4_cidr_blocks" {
   default     = null
 }
 
+variable "dns_label" {
+  type        = string
+  description = <<-EOT
+    DNS label for the VCN, used to form FQDN.
+    Example of FQDN consisting of:
+    - VNIC's hostname `instance1`
+    - subnet's DNS label `subnet-1`
+    - VCN's DNS label `vcn-2`
+    would be `instance1.subnet-1.vcn-2.oraclevcn.com`
+    EOT
+  default     = null
+}
+
 variable "default_route_table_no_routes" {
   type        = bool
   default     = false
@@ -25,15 +38,4 @@ variable "internet_gateway_enabled" {
   default     = true
 }
 
-variable "dns_label" {
-  type        = string
-  description = <<-EOT
-    DNS label for the VCN, used to form FQDN.
-    Example of FQDN consisting of:
-    - VNIC's hostname `instance1`
-    - subnet's DNS label `subnet-1`
-    - VCN's DNS label `vcn-2`
-    would be `instance1.subnet-1.vcn-2.oraclevcn.com`
-    EOT
-  default     = null
-}
+

@@ -35,9 +35,9 @@ variable "context" {
 variable "vcn" {
   type = object({
     ipv4_cidr_blocks              = list(string)
+    dns_label                     = string
     default_route_table_no_routes = bool
     internet_gateway_enabled      = bool
-    dns_label                     = string
   })
 }
 
