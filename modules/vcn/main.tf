@@ -73,13 +73,7 @@ resource "oci_core_default_route_table" "default" {
   compartment_id             = local.compartment_ocid
   manage_default_resource_id = oci_core_vcn.default[0].default_route_table_id
   display_name               = data.context_label.main.rendered
-
-  # TODO: move route rules to appropriate module once created
-  route_rules {
-    network_entity_id = oci_core_internet_gateway.default[0].id
-    destination       = "0.0.0.0/0"
-  }
-  freeform_tags = data.context_tags.main.tags
+  freeform_tags              = data.context_tags.main.tags
 }
 
 resource "oci_core_internet_gateway" "default" {

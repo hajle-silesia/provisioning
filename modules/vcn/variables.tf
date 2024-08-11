@@ -32,8 +32,8 @@ variable "dns_label" {
 variable "default_security_list_deny_all" {
   type        = bool
   description = <<-EOT
-    When `true`, manage the default security list and remove all rules, disabling all ingress and egress.
-    When `false`, do not manage the default security list, allowing it to be managed by another component.
+    If `true`, manage the default security list and remove all rules, disabling all ingress and egress.
+    If `false`, do not manage the default security list, allowing it to be managed by another component.
     EOT
   default     = true
 }
@@ -42,8 +42,8 @@ variable "default_route_table_no_routes" {
   type        = bool
   default     = false
   description = <<-EOT
-    When `true`, manage the default route table and remove all routes, disabling all ingress and egress.
-    When `false`, do not mange the default route table, allowing it to be managed by another component.
+    If `true`, manage the default route table and remove all routes, disabling all ingress and egress.
+    If `false`, do not manage the default route table, allowing it to be managed by another component.
     EOT
 }
 

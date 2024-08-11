@@ -14,6 +14,7 @@ module "subnets" {
   compartment_ocid = var.compartment_ocid
   name             = var.subnets["eu-frankfurt-1"].name
   vcn_id           = module.vcn.id
+  igw_id           = module.vcn.igw_id
   ipv4_cidr_block  = var.subnets["eu-frankfurt-1"].ipv4_cidr_block
   dns_label        = var.subnets["eu-frankfurt-1"].dns_label
 }
