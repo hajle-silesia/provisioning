@@ -1,18 +1,28 @@
 locals {
   enabled = data.context_config.main.enabled
 
-  compartment_ocid              = var.compartment_ocid
-  ipv4_cidr_blocks              = var.ipv4_cidr_blocks
-  dns_label                     = var.dns_label
-  default_route_table_no_routes = local.enabled && var.default_route_table_no_routes
-  internet_gateway_enabled      = local.enabled && var.internet_gateway_enabled
+  compartment_ocid               = var.compartment_ocid
+  name                           = var.name
+  ipv4_cidr_blocks               = var.ipv4_cidr_blocks
+  dns_label                      = var.dns_label
+  default_security_list_deny_all = local.enabled && var.default_security_list_deny_all
+  default_route_table_no_routes  = local.enabled && var.default_route_table_no_routes
+  internet_gateway_enabled       = local.enabled && var.internet_gateway_enabled
 }
 
 data "context_config" "main" {}
 
-data "context_label" "main" {}
+data "context_label" "main" {
+  values = {
+    name = local.name
+  }
+}
 
-data "context_tags" "main" {}
+data "context_tags" "main" {
+  values = {
+    name = local.name
+  }
+}
 
 resource "oci_core_vcn" "default" {
   count = local.enabled ? 1 : 0
@@ -25,6 +35,8 @@ resource "oci_core_vcn" "default" {
 }
 
 resource "oci_core_default_security_list" "internal" {
+  count = local.default_security_list_deny_all ? 1 : 0
+
   compartment_id             = local.compartment_ocid
   manage_default_resource_id = oci_core_vcn.default[0].default_security_list_id
 
@@ -51,6 +63,7 @@ resource "oci_core_default_security_list" "internal" {
       source   = ingress_security_rules.value
     }
   }
+  freeform_tags = data.context_tags.main.tags
 }
 
 

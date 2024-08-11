@@ -43,7 +43,7 @@ resource "oci_load_balancer_load_balancer" "internal" {
   display_name   = "internal"
   shape          = "flexible"
   subnet_ids = [
-    oci_core_subnet.servers.id,
+    var.subnet_id,
   ]
 
   ip_mode    = "IPV4"

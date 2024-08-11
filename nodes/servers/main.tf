@@ -71,16 +71,20 @@ resource "oci_core_instance_configuration" "server" {
   }
 }
 
+data "oci_identity_availability_domains" "main" {
+  compartment_id = var.compartment_ocid
+}
+
 resource "oci_core_instance_pool" "servers" {
   compartment_id            = var.compartment_ocid
   instance_configuration_id = oci_core_instance_configuration.server.id
-  size                      = length(var.availability_domains)
+  size                      = length(data.oci_identity_availability_domains.main.availability_domains)
 
   dynamic "placement_configurations" {
-    for_each = var.availability_domains
+    for_each = data.oci_identity_availability_domains.main.availability_domains
     content {
-      availability_domain = placement_configurations.value
-      primary_subnet_id   = oci_core_subnet.servers.id
+      availability_domain = placement_configurations.value.name
+      primary_subnet_id   = var.subnet_id
     }
   }
 

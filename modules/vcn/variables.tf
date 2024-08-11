@@ -4,6 +4,12 @@ variable "compartment_ocid" {
   default     = null
 }
 
+variable "name" {
+  type        = string
+  description = "The name used as a part of resources display name"
+  default     = null
+}
+
 variable "ipv4_cidr_blocks" {
   type        = list(string)
   description = "CIDR blocks for the VCN"
@@ -23,6 +29,15 @@ variable "dns_label" {
   default     = null
 }
 
+variable "default_security_list_deny_all" {
+  type        = bool
+  description = <<-EOT
+    When `true`, manage the default security list and remove all rules, disabling all ingress and egress.
+    When `false`, do not manage the default security list, allowing it to be managed by another component.
+    EOT
+  default     = true
+}
+
 variable "default_route_table_no_routes" {
   type        = bool
   default     = false
@@ -37,5 +52,3 @@ variable "internet_gateway_enabled" {
   description = "Set `true` to create an internet gateway for the VCN"
   default     = true
 }
-
-
