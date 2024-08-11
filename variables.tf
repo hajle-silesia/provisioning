@@ -34,15 +34,21 @@ variable "context" {
 
 variable "vcn" {
   type = object({
-    ipv4_cidr_blocks              = list(string)
-    dns_label                     = string
-    default_route_table_no_routes = bool
-    internet_gateway_enabled      = bool
+    name                           = string
+    ipv4_cidr_blocks               = list(string)
+    dns_label                      = string
+    default_security_list_deny_all = bool
+    default_route_table_no_routes  = bool
+    internet_gateway_enabled       = bool
   })
 }
 
-variable "servers" {
-  type = map(any)
+variable "subnets" {
+  type = map(object({
+    name            = string
+    ipv4_cidr_block = string
+    dns_label       = string
+  }))
 }
 
 variable "shape" {

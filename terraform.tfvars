@@ -11,30 +11,29 @@ context = {
   namespace   = "hs"
   environment = "fra"
   stage       = "prod"
-  name        = "vcn"
+  name        = "network"
 }
 
 vcn = {
+  name = "vcn"
   ipv4_cidr_blocks = [
     "10.20.0.0/16",
   ]
-  dns_label                     = "default"
-  default_route_table_no_routes = true
-  internet_gateway_enabled      = true
+  dns_label                      = "default"
+  default_security_list_deny_all = true
+  default_route_table_no_routes  = true
+  internet_gateway_enabled       = true
+}
+
+subnets = {
+  eu-frankfurt-1 = {
+    name            = "servers-subnet"
+    ipv4_cidr_block = "10.20.0.0/17"
+    dns_label       = "servers"
+  }
 }
 
 shape = "VM.Standard.A1.Flex"
-
-servers = {
-  eu-frankfurt-1 = {
-    availability_domains = [
-      "ppDV:EU-FRANKFURT-1-AD-1",
-      "ppDV:EU-FRANKFURT-1-AD-2",
-      "ppDV:EU-FRANKFURT-1-AD-3",
-    ]
-    cidr_range = "10.20.0.0/17"
-  }
-}
 
 # agents = {
 #   eu-frankfurt-1 = {
