@@ -45,9 +45,10 @@ variable "vcn" {
 
 variable "subnets" {
   type = map(object({
-    name            = string
-    ipv4_cidr_block = string
-    dns_label       = string
+    name                = string
+    ipv4_cidr_block     = string
+    dns_label           = string
+    route_table_enabled = bool
   }))
 }
 

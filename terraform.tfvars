@@ -27,9 +27,10 @@ vcn = {
 
 subnets = {
   eu-frankfurt-1 = {
-    name            = "servers-subnet"
-    ipv4_cidr_block = "10.20.0.0/17"
-    dns_label       = "servers"
+    name                = "servers-subnet"
+    ipv4_cidr_block     = "10.20.0.0/17"
+    dns_label           = "servers"
+    route_table_enabled = true
   }
 }
 
