@@ -7,6 +7,7 @@ locals {
   igw_id              = var.igw_id
   ipv4_cidr_block     = var.ipv4_cidr_block
   dns_label           = var.dns_label
+  create_route_table  = local.enabled && var.create_route_table
   route_table_enabled = local.enabled && var.route_table_enabled
 }
 
@@ -36,7 +37,7 @@ resource "oci_core_subnet" "default" {
 }
 
 resource "oci_core_route_table" "default" {
-  count = local.route_table_enabled ? 1 : 0
+  count = local.create_route_table ? 1 : 0
 
   compartment_id = local.compartment_ocid
   display_name   = data.context_label.main.rendered
@@ -47,4 +48,11 @@ resource "oci_core_route_table" "default" {
     destination       = "0.0.0.0/0"
   }
   freeform_tags = data.context_tags.main.tags
+}
+
+resource "oci_core_route_table_attachment" "default" {
+  count = local.route_table_enabled ? 1 : 0
+
+  subnet_id      = oci_core_subnet.default[0].id
+  route_table_id = oci_core_route_table.default[0].id
 }
