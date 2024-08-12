@@ -4,8 +4,8 @@ region           = "eu-frankfurt-1"
 context = {
   enabled     = true
   namespace   = "hs"
-  environment = "fra"
   stage       = "prod"
+  environment = "fra"
   name        = "network"
 }
 

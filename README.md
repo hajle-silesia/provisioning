@@ -41,6 +41,10 @@ Cloud provider: Oracle Cloud Infrastructure
 ├── ...                     # other dirs/files
 ```
 
+### Authentication
+
+Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformproviderconfiguration.htm#APIKeyAuth)
+
 ## Static analysis
 
 ### Local
