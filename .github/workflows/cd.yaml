@@ -21,6 +21,13 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      TF_VAR_tenancy_ocid: ${{ vars.TF_VAR_TENANCY_OCID }}
+      TF_VAR_user_ocid: ${{ vars.TF_VAR_USER_OCID }}
+      TF_VAR_private_key: ${{ secrets.TF_VAR_PRIVATE_KEY }}
+      TF_VAR_fingerprint: ${{ vars.TF_VAR_FINGERPRINT }}
+      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     if: |
       github.event_name == 'push' ||
       github.event_name == 'pull_request' ||
@@ -35,19 +42,9 @@ jobs:
       - name: Set up provisioning tool
         uses: hashicorp/setup-terraform@v3
       - name: Initialize provisioning tool
-        env:
-          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform init
       - name: Plan infrastructure changes
         env:
-          OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
-          OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
-          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
-          OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
-          OCI_REGION: ${{ vars.OCI_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           CERTIFICATE: ${{ secrets.CERTIFICATE }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
@@ -67,13 +64,6 @@ jobs:
           github.event_name == 'workflow_dispatch'
         id: provisioning-infrastructure
         env:
-          OCI_TENANCY_OCID: ${{ vars.OCI_TENANCY_OCID }}
-          OCI_USER_OCID: ${{ vars.OCI_USER_OCID }}
-          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
-          OCI_FINGERPRINT: ${{ vars.OCI_FINGERPRINT }}
-          OCI_REGION: ${{ vars.OCI_REGION }}
-          AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           CERTIFICATE: ${{ secrets.CERTIFICATE }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           OCI_INSTANCES_SSH_PUBLIC_KEY: ${{ vars.OCI_INSTANCES_SSH_PUBLIC_KEY }}
