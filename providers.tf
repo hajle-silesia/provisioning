@@ -20,12 +20,12 @@ provider "context" {
       required   = true
       max_length = 3
     }
-    environment = {
-      required = true
-    }
     stage = {
       required         = true
       validation_regex = "^(dev|test|prod)"
+    }
+    environment = {
+      required = true
     }
     name = {
       required = true
@@ -34,8 +34,8 @@ provider "context" {
   tags_key_case = "title"
   values = {
     namespace   = var.context.namespace
-    environment = var.context.environment
     stage       = var.context.stage
+    environment = var.context.environment
     name        = var.context.name
   }
 }
