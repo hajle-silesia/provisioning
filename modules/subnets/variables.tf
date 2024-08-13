@@ -41,6 +41,15 @@ variable "dns_label" {
   default     = null
 }
 
+variable "create_route_table" {
+  type        = bool
+  description = <<-EOT
+    If `true', route table will be created and routes will be added to destinations this module knows about.
+    If `false`, do not manage route table, allowing it to be managed by another component.
+  EOT
+  default     = true
+}
+
 variable "route_table_enabled" {
   type        = bool
   description = <<-EOT
