@@ -1,0 +1,3 @@
+import:
+  - orgs/hs/_defaults
+  - mixins/tenant/plat

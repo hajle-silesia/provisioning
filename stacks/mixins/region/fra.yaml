@@ -1,0 +1,6 @@
+import:
+  - catalog/vcn/defaults
+
+vars:
+  region: eu-frankfurt-1
+  environment: fra

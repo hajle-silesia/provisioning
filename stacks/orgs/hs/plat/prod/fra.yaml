@@ -1,0 +1,29 @@
+import:
+  - orgs/hs/plat/prod/_defaults
+  - mixins/region/fra
+
+components:
+  terraform:
+    vcn:
+      metadata:
+        component: vcn
+      vars:
+        name: network
+
+        region: eu-frankfurt-1
+        compartment_ocid: ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dtvvwtctl2toucgqcyeha
+
+        vcn:
+          name: vcn
+          ipv4_cidr_blocks:
+            - 10.20.0.0/16
+          dns_label: default
+          default_security_list_deny_all: true
+          default_route_table_no_routes: true
+          internet_gateway_enabled: true
+        subnets:
+          name: servers-subnet
+          ipv4_cidr_block: 10.20.0.0/17
+          dns_label: servers
+          create_route_table: true
+          route_table_enabled: true
