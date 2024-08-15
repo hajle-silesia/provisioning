@@ -1,0 +1,10 @@
+components:
+  terraform:
+    vcn:
+      vars:
+        enabled: true
+
+terraform:
+  backend:
+    s3:
+      workspace_key_prefix: vcn
