@@ -15,6 +15,7 @@ stacks:
   excluded_paths:
     - "**/_defaults.yaml"
   name_template: "{{.vars.context.namespace}}-{{.vars.context.tenant}}-{{.vars.context.stage}}-{{.vars.context.environment}}"
+  name_pattern: "{namespace}-{tenant}-{stage}-{environment}" # data "utils_component_config" not compatible with name_template in .atmos.yaml config file
 
 logs:
   file: "/dev/stderr"
