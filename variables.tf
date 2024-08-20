@@ -32,17 +32,6 @@ variable "context" {
   })
 }
 
-variable "vcn" {
-  type = object({
-    name                           = string
-    ipv4_cidr_blocks               = list(string)
-    dns_label                      = string
-    default_security_list_deny_all = bool
-    default_route_table_no_routes  = bool
-    internet_gateway_enabled       = bool
-  })
-}
-
 variable "subnets" {
   type = map(object({
     name                = string

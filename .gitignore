@@ -43,6 +43,9 @@ terraform.rc
 backend.tf
 backend.tf.json
 
+# Exclude planfile as it's generated automatically by Atmos
+*.planfile
+
 # JetBrains
 # source: https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 
