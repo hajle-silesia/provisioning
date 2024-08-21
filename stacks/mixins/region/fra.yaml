@@ -3,4 +3,5 @@ import:
 
 vars:
   region: eu-frankfurt-1
-  environment: fra
+  context:
+    environment: fra

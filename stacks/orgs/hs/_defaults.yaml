@@ -1,5 +1,6 @@
 vars:
-  namespace: hs
+  context:
+    namespace: hs
 
 terraform:
   backend_type: s3

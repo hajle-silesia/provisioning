@@ -1,2 +1,3 @@
 vars:
-  stage: prod
+  context:
+    stage: prod

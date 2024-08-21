@@ -2,7 +2,8 @@ components:
   terraform:
     vcn:
       vars:
-        enabled: true
+        context:
+          enabled: true
 
 terraform:
   backend:

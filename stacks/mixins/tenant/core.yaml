@@ -1,2 +1,3 @@
 vars:
-  tenant: core
+  context:
+    tenant: core

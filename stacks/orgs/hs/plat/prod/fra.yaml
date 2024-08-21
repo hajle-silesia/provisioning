@@ -8,7 +8,8 @@ components:
       metadata:
         component: vcn
       vars:
-        name: network
+        context:
+          name: network
 
         region: eu-frankfurt-1
         compartment_ocid: ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dtvvwtctl2toucgqcyeha
