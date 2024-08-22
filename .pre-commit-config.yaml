@@ -1,6 +1,25 @@
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.92.1
+    rev: v1.92.2
     hooks:
       - id: terraform_fmt
+#        args:
+#          - --args=-check
+#          - --args=-diff
+#          - --args=-recursive
       - id: terraform_tflint
+#        args:
+#          - --args=--init
+      - id: terraform_validate
+        args:
+          - --tf-init-args=-backend=false
+      - id: terraform_trivy
+        args:
+          - --severity=MEDIUM,HIGH,CRITICAL
+          - --args=--exit-code=1
+      - id: terraform_checkov
+        args:
+          - --args=--quiet
+          - --args=--compact
+          - --args=--download-external-modules DOWNLOAD_EXTERNAL_MODULES
+#          - --args=--hard-fail-on MEDIUM
