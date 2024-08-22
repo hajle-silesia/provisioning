@@ -13,12 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-          which pre-commit
-          which terraform
-          which tflint
-          which trivy
-          which checkov
       - name: Set up pre-commit
         run: |
           python3 -m pip install -U pre-commit
