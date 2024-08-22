@@ -21,8 +21,11 @@ jobs:
       - name: Set up TFLint
         run: |
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-      - run: |
-          which tflint
+      - name: Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /usr/local/bin/tflint
+          key: tflint
       - name: TFLint
         working-directory: ${{ inputs.working-directory }}
         run: |
