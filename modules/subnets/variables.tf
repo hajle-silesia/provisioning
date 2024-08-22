@@ -22,6 +22,12 @@ variable "igw_id" {
   default     = null
 }
 
+variable "default_security_list_id" {
+  type        = string
+  description = "The ID of the default security list"
+  default     = null
+}
+
 variable "ipv4_cidr_block" {
   type        = string
   description = "CIDR block for the subnet"
@@ -39,6 +45,15 @@ variable "dns_label" {
     would be `instance1.subnet-1.vcn-2.oraclevcn.com`
     EOT
   default     = null
+}
+
+variable "ssh_enabled" {
+  type        = bool
+  description = <<-EOT
+    If 'true', SSH will be enabled in this subnet by adding corresponding security lists.
+    If 'false', SSH will be disabled.
+  EOT
+  default     = false
 }
 
 variable "create_route_table" {

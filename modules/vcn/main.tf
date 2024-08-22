@@ -34,6 +34,8 @@ resource "oci_core_vcn" "default" {
   freeform_tags  = data.context_tags.main.tags
 }
 
+# default resource implicitly created if not specified in configuration
+# source: https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securitylists.htm#Default
 resource "oci_core_default_security_list" "internal" {
   count = local.default_security_list_deny_all ? 1 : 0
 
@@ -41,32 +43,23 @@ resource "oci_core_default_security_list" "internal" {
   manage_default_resource_id = oci_core_vcn.default[0].default_security_list_id
 
   # TODO: move security list rules to appropriate module once created
-  egress_security_rules {
-    destination = "0.0.0.0/0"
-    protocol    = "all"
-  }
-
-  ingress_security_rules {
-    protocol = 6 # TCP
-    source   = "0.0.0.0/0"
-
-    tcp_options {
-      min = 22
-      max = 22
-    }
-  }
-
-  dynamic "ingress_security_rules" {
-    for_each = local.ipv4_cidr_blocks
-    content {
-      protocol = "all"
-      source   = ingress_security_rules.value
-    }
-  }
+  #   egress_security_rules {
+  #     destination = "0.0.0.0/0"
+  #     protocol    = "all"
+  #   }
+  #
+  #   dynamic "ingress_security_rules" {
+  #     for_each = local.ipv4_cidr_blocks
+  #     content {
+  #       protocol = "all"
+  #       source   = ingress_security_rules.value
+  #     }
+  #   }
   freeform_tags = data.context_tags.main.tags
 }
 
-
+# default resource implicitly created if not specified in configuration
+# source: https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__Working
 resource "oci_core_default_route_table" "default" {
   count = local.default_route_table_no_routes ? 1 : 0
 

@@ -49,6 +49,7 @@ variable "subnets" {
     name                = string
     ipv4_cidr_block     = string
     dns_label           = string
+    ssh_enabled         = bool
     create_route_table  = bool
     route_table_enabled = bool
   })

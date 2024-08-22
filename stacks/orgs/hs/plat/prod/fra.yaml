@@ -26,5 +26,6 @@ components:
           name: servers-subnet
           ipv4_cidr_block: 10.20.0.0/17
           dns_label: servers
+          ssh_enabled: true
           create_route_table: true
           route_table_enabled: true
