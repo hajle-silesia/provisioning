@@ -53,3 +53,9 @@ jobs:
       working-directory: ${{ needs.preparation.outputs.working-directory }}
       terraform-version: ${{ needs.preparation.outputs.terraform-version }}
       severity: ${{ needs.preparation.outputs.severity }}
+
+  static-analysis-pre-commit-test:
+    needs:
+      - preparation
+    name: Static analysis pre-commit
+    uses: ./.github/workflows/static-analyzers-aggregator-pre-commit.yaml

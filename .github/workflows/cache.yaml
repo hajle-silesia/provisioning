@@ -1,0 +1,53 @@
+name: Cache static analyzers
+
+on:
+  schedule:
+    - cron: 0 0 * * 0
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cache-static-analyzers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          which pre-commit
+          which terraform
+          which tflint
+          which trivy
+          which checkov
+      - name: Set up pre-commit
+        run: |
+          python3 -m pip install -U pre-commit
+      - name: Set up provisioning tool
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+      - name: Set up TFLint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+      - name: Set up Trivy
+        run: |
+          sudo apt-get install wget apt-transport-https gnupg
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install trivy
+      - name: Set up Checkov
+        run: |
+          python3 -m pip install -U checkov
+      - run: |
+          which pre-commit
+          which terraform
+          which tflint
+          which trivy
+          which checkov
+#      - name: Cache static analyzers
+#        uses: actions/cache@v4
+#        with:
+#          path: |
+#            .
+#          key: static-analyzers-pre-commit
