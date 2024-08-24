@@ -2,5 +2,6 @@
 
 variable "internal_lb" {
   type    = string
-  default = "${INTERNAL_LB}"
+  default = "10.20.82.196"
 }
+

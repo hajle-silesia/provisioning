@@ -47,7 +47,7 @@ resource "oci_core_instance_configuration" "server" {
       }
 
       metadata = {
-        ssh_authorized_keys = file("./certificates/ssh-key-2024-03-16.key.pub")
+        ssh_authorized_keys = var.instance_public_key
       }
 
       shape = var.shape

@@ -59,9 +59,9 @@ resource "oci_load_balancer_certificate" "vault" {
   certificate_name = "vault"
   load_balancer_id = oci_load_balancer_load_balancer.internal.id
 
-  ca_certificate     = file("certificates/ca.crt")
+  ca_certificate     = var.vault_ca_cert
   private_key        = var.vault_cert_private_key
-  public_certificate = file("certificates/server.crt")
+  public_certificate = var.vault_cert
 
   lifecycle {
     create_before_destroy = true
