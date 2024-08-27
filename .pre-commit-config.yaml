@@ -1,19 +1,39 @@
+default_install_hook_types:
+  - pre-commit
+  - pre-push
 repos:
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.92.2
     hooks:
       - id: terraform_fmt
+        stages:
+          - manual
+          - pre-commit
+          - pre-push
       - id: terraform_tflint
+        stages:
+          - manual
+          - pre-commit
+          - pre-push
       - id: terraform_validate
         args:
           - --tf-init-args=-backend=false
+        stages:
+          - manual
+          - pre-push
       - id: terraform_trivy
         args:
           - --args=--severity=MEDIUM,HIGH,CRITICAL
-          - --args=--skip-dirs=.external_modules
+          - --args=--skip-dirs=.external_modules # Checkov dependencies
+        stages:
+          - manual
+          - pre-push
       - id: terraform_checkov
         args:
           - --args=--quiet
           - --args=--compact
           - --args=--download-external-modules DOWNLOAD_EXTERNAL_MODULES
           - --args=--hard-fail-on MEDIUM
+        stages:
+          - manual
+          - pre-push
