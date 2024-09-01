@@ -1,33 +1,59 @@
 # Docker image customizing
 # source: https://github.com/cloudposse/geodesic#customizing-your-docker-image
-ARG VERSION=3.1.0
-ARG OS=debian
+ARG GEODESIC_VERSION=3.1.0
+ARG GEODESIC_OS=debian
 
-FROM cloudposse/geodesic:$VERSION-$OS
-
+ARG ATMOS_VERSION=1.70.0
 ARG TERRAFORM_VERSION=1.9.4
-ARG TFLINT_VERSION=0.52.0
-ARG TRIVY_VERSION=0.53.0
+ARG TFLINT_VERSION=0.53.0
+ARG TRIVY_VERSION=0.54.1
+ARG CHECKOV_VERSION=3.2.238
+
+FROM cloudposse/geodesic:$GEODESIC_VERSION-$GEODESIC_OS
 
 ENV BANNER="local-dev"
 
-ENV DOCKER_IMAGE="mtweeman/hajle-silesia_local-development"
+ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-ld"
 ENV DOCKER_TAG="latest"
 
-# Debian repository configuration
-# source: https://github.com/cloudposse/packages#for-docker
-#RUN apt-get update && apt-get install -y \
-#    apt-utils \
-#    curl \
-#RUN curl -1sLf 'https://dl.cloudsmith.io/public/cloudposse/packages/cfg/setup/bash.deb.sh' | bash
-#RUN apt-get update && apt-get install -y \
-#    tflint=${TFLINT_VERSION}-\* \
-#    trivy=${TRIVY_VERSION}-\* \
+# Terraform repository installation (Geodesic ~> 3.0 doesn't support Terraform)
+# sources:
+# https://github.com/cloudposse/geodesic/blob/main/README.md
+# https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+RUN apt-get update && apt-get install -y \
+    gnupg \
+    software-properties-common
+RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+RUN gpg --no-default-keyring \
+    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    --fingerprint
+RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    tee /etc/apt/sources.list.d/hashicorp.list
 
-# Terraform configuration
-ARG PACKAGE_VERSION=1.9.5
-ARG OS=linux
-ARG ARCH=amd64
-RUN curl https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip -o terraform.zip
-RUN unzip terraform.zip
-RUN chmod +x terraform
+# Terraform installation
+ARG TERRAFORM_VERSION
+RUN apt-get update && apt-get install -y --allow-downgrades \
+    terraform="${TERRAFORM_VERSION}-*"
+
+# Atmos installation
+ARG ATMOS_VERSION
+RUN apt-get update && apt-get install -y --allow-downgrades \
+    atmos="${ATMOS_VERSION}-*"
+
+# TFLint installation
+ARG TFLINT_VERSION
+RUN apt-get update && apt-get install -y --allow-downgrades \
+    tflint="${TFLINT_VERSION}-*"
+
+# Trivy installation
+ARG TRIVY_VERSION
+RUN apt-get update && apt-get install -y --allow-downgrades \
+    trivy="${TRIVY_VERSION}-*"
+
+## Checkov installation
+#ARG CHECKOV_VERSION
+#RUN apt-get update && apt-get install -y --allow-downgrades \
+#    checkov="${CHECKOV_VERSION}-*"
