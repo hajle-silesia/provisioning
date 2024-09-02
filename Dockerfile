@@ -1,5 +1,6 @@
 # Docker image customizing
 # source: https://github.com/cloudposse/geodesic#customizing-your-docker-image
+# renovate: datasource=docker depName=cloudposse/geodesic cargo=">=3.0.0 <4.0.0"
 ARG GEODESIC_VERSION=3.1.0
 ARG GEODESIC_OS=debian
 
@@ -20,7 +21,7 @@ ENV DOCKER_TAG="latest"
 # sources:
 # https://github.com/cloudposse/geodesic/blob/main/README.md
 # https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     software-properties-common
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | \
@@ -35,22 +36,22 @@ RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
 
 # Terraform installation
 ARG TERRAFORM_VERSION
-RUN apt-get update && apt-get install -y --allow-downgrades \
+RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
     terraform="${TERRAFORM_VERSION}-*"
 
 # Atmos installation
 ARG ATMOS_VERSION
-RUN apt-get update && apt-get install -y --allow-downgrades \
+RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
     atmos="${ATMOS_VERSION}-*"
 
 # TFLint installation
 ARG TFLINT_VERSION
-RUN apt-get update && apt-get install -y --allow-downgrades \
+RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
     tflint="${TFLINT_VERSION}-*"
 
 # Trivy installation
 ARG TRIVY_VERSION
-RUN apt-get update && apt-get install -y --allow-downgrades \
+RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
     trivy="${TRIVY_VERSION}-*"
 
 ## Checkov installation
