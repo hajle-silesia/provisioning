@@ -11,7 +11,7 @@ Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration 
 | [k3s](https://docs.k3s.io/quick-start)                                                                | Container orchestration                           |
 | [oci](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#Quickstart)               | Oracle Cloud Infrastructure cloud provider        |
 | [terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)          | Infrastructure provisioning, static analysis      |
-| [asdf](https://asdf-vm.com/guide/getting-started.html)                                                | Tool version manager                              |
+| [mise](https://mise.jdx.dev/getting-started.html)                                                     | Tool version manager                              |
 | [atmos](https://atmos.tools/install/)                                                                 | Cloud architecture framework for native Terraform |
 | [tflint](https://github.com/terraform-linters/tflint#installation)                                    | Static analysis                                   |
 | [trivy](https://aquasecurity.github.io/trivy/latest/getting-started/installation/)                    | Static analysis                                   |
@@ -28,22 +28,25 @@ Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration 
 
 ## Repository structure
 
+General overview of the repository structure. Not all files are listed.
 ```
 .
 ├── .github                 # GitHub config files
-│   └── workflows           # GitHub Actions config files
+│   ├── workflows           # GitHub Actions config files
+│   └── renovate.json       # Renovate config
 ├── certificates            # certificates
 ├── components              # Terraform root modules
 ├── machine-images          # source files for machine images
 ├── modules                 # Terraform modules
 │   ├── <module-0>          # source files for Terraform <module-0>
 │   └── ...                 # other modules
-├── stacks                  # Terraform stacks
+├── stacks                  # Atmos stacks
+├── .mise.toml              # Mise config file
 ├── .pre-commit-config.yaml # pre-commit config file
+├── .trivyignore.yaml       # Trivy config file
+├── atmos.yaml              # Atmos config file
+├── Dockerfile              # local development image config
 ├── README.md
-├── .tool-versions          # asdf config file
-├── atmos                   # Atmos config file
-├── ...                     # other dirs/files
 ```
 
 ### Authentication
