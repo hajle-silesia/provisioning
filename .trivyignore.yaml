@@ -1,0 +1,5 @@
+misconfigurations:
+  - id: AVD-DS-0002
+    paths:
+      - Dockerfile
+    statement: The image is used for local development
