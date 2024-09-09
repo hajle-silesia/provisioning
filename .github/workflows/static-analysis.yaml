@@ -6,7 +6,6 @@ on:
       - master
   pull_request:
   workflow_dispatch:
-    # checkov:skip=CKV_GHA_7:Low severity
     inputs:
       working-directory:
         description: Working directory
