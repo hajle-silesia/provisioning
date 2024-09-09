@@ -15,7 +15,6 @@ Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration 
 | [atmos](https://atmos.tools/install/)                                                                 | Cloud architecture framework for native Terraform |
 | [tflint](https://github.com/terraform-linters/tflint#installation)                                    | Static analysis                                   |
 | [trivy](https://aquasecurity.github.io/trivy/latest/getting-started/installation/)                    | Static analysis                                   |
-| [checkov](https://github.com/bridgecrewio/checkov#getting-started)                                    | Static analysis                                   |
 | [pre-commit](https://pre-commit.com/)                                                                 | Managing pre-commit hooks                         |
 | [helm](https://helm.sh/docs/intro/install/)                                                           | Package manager for container orchestration       |
 | [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli) | Machine images provisioning                       |
@@ -84,11 +83,6 @@ Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/ia
 - [Template](.github/workflows/trivy.yaml)
 - [Documentation](https://github.com/aquasecurity/trivy)
 
-#### Checkov
-
-- [Template](.github/workflows/checkov.yaml)
-- [Documentation](https://github.com/bridgecrewio/checkov-action)
-
 #### Aggregator of all static analyzers
 
 - [Template](.github/workflows/static-analysis.yaml)
@@ -97,7 +91,6 @@ Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/ia
   - [Terraform validate](#terraform-validate)
   - [TFLint](#tflint)
   - [Trivy](#trivy)
-  - [Checkov](#checkov)
 
 ## Architecture
 

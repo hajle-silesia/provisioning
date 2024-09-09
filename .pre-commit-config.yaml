@@ -25,16 +25,6 @@ repos:
         args:
           - --args=--severity=MEDIUM,HIGH,CRITICAL
           - --args=--ignorefile .trivyignore.yaml
-          - --args=--skip-dirs=.external_modules # Checkov dependencies
-        stages:
-          - manual
-          - pre-push
-      - id: terraform_checkov
-        args:
-          - --args=--quiet
-          - --args=--compact
-          - --args=--download-external-modules DOWNLOAD_EXTERNAL_MODULES
-          - --args=--hard-fail-on MEDIUM
         stages:
           - manual
           - pre-push
