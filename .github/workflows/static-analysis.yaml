@@ -53,8 +53,8 @@ jobs:
       terraform-version: ${{ needs.preparation.outputs.terraform-version }}
       severity: ${{ needs.preparation.outputs.severity }}
 
-  static-analysis-pre-commit-test:
+  static-analysis-geodesic-test:
     needs:
       - preparation
-    name: Static analysis pre-commit
-    uses: ./.github/workflows/static-analyzers-aggregator-pre-commit.yaml
+    name: Static analysis geodesic test
+    uses: ./.github/workflows/static-analyzers-aggregator-geodesic-test.yaml
