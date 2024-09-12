@@ -25,6 +25,9 @@ repos:
         args:
           - --args=--severity=MEDIUM,HIGH,CRITICAL
           - --args=--ignorefile .trivyignore.yaml
+          # race condition observed with parallelism enabled, especially in CI/CD workflows
+          # ref: https://github.com/aquasecurity/trivy/discussions/7139
+          - --hook-config=--parallelism-limit=1
         stages:
           - manual
           - pre-push
