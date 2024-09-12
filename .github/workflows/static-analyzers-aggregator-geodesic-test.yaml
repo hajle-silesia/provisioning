@@ -11,7 +11,7 @@ jobs:
     name: Static analysis geodesic test
     runs-on: ubuntu-latest
     container:
-      image: mtweeman/hajle-silesia_provisioning-ld:0.2.4
+      image: mtweeman/hajle-silesia_provisioning-toolbox:0.2.4
 
     steps:
       - name: Checkout

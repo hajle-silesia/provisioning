@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     tags:
-      - v*.*.*
+      - "v*.*.*"
   pull_request:
   workflow_dispatch:
 
@@ -20,7 +20,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            mtweeman/hajle-silesia_provisioning-ld
+            mtweeman/hajle-silesia_provisioning-toolbox
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
