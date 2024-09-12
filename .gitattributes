@@ -1,1 +1,2 @@
-* text=auto # store remote text files with LF line separator
+# store remote text files with LF line separator
+* text=auto
