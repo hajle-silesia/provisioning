@@ -40,11 +40,12 @@ General overview of the repository structure. Not all files are listed.
 │   ├── <module-0>          # source files for Terraform <module-0>
 │   └── ...                 # other modules
 ├── stacks                  # Atmos stacks
+├── .gitconfig              # development image .gitconfig
 ├── .mise.toml              # Mise config file
 ├── .pre-commit-config.yaml # pre-commit config file
 ├── .trivyignore.yaml       # Trivy config file
 ├── atmos.yaml              # Atmos config file
-├── Dockerfile              # local development image config
+├── Dockerfile              # development image config
 ├── README.md
 ```
 

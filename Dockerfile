@@ -31,3 +31,7 @@ COPY .mise.toml /etc/mise/config.toml
 # install tools
 # source: https://mise.jdx.dev/cli/install.html
 RUN mise install --yes
+
+# Add system-wide git safe directory to avoid ownership issues in the filesystem.
+# Reasoning: in the remote (CI/CD workflows) or local usage of this image, the user cloning the repository will be different than the one operating on it.
+COPY .gitconfig /etc/gitconfig
