@@ -11,14 +11,11 @@ jobs:
     name: Static analysis geodesic test
     runs-on: ubuntu-latest
     container:
-      image: mtweeman/hajle-silesia_provisioning-ld:0.2.1
+      image: mtweeman/hajle-silesia_provisioning-ld:0.2.2
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Configure git
-        run: |
-          git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Run static analysis
         run: |
           pre-commit run --all-files --hook-stage manual
