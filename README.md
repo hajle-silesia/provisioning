@@ -1,3 +1,5 @@
+[![Static analysis](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml)[![CI](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml)[![Infrastructure CD](https://github.com/hajle-silesia/provisioning/actions/workflows/cd.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/cd.yaml)
+
 ## About
 
 Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Infrastructure Cloud.
@@ -27,7 +29,7 @@ Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration 
 
 ## Repository structure
 
-General overview of the repository structure. Not all files are listed.
+General overview of the repository structure. Not all files/directories are listed, only these that are specific to the tools in the repository.
 ```
 .
 ├── .github                 # GitHub config files
@@ -43,6 +45,8 @@ General overview of the repository structure. Not all files are listed.
 ├── .gitconfig              # development image .gitconfig
 ├── .mise.toml              # Mise config file
 ├── .pre-commit-config.yaml # pre-commit config file
+├── .releaserc.yaml         # semantic-release config file
+├── tflint.hcl              # (temporary, until static analysis is migrated) TFlint config file
 ├── .trivyignore.yaml       # Trivy config file
 ├── atmos.yaml              # Atmos config file
 ├── Dockerfile              # development image config
@@ -101,7 +105,7 @@ To avoid configuration drift and shorten deployment time for newly spun instance
 
 ### Secrets management
 
-[HashiCorp Vault](https://www.vaultproject.io/) is used as a secrets management solution for the cluster, deployed as an external service, preferably prior to cluster spinning. Contrary to being installed as a cluster service, it prevents chicken and egg situation where it needs to use some sensitive data during provisioning, not yet available at that time. [External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault.
+[HashiCorp Vault](https://www.vaultproject.io/) is used as a secrets management solution for the cluster, deployed as an external service, preferably prior to cluster spinning. Contrary to being installed as a cluster service, it prevents chicken-and-egg situation where it needs to use some sensitive data during provisioning, not yet available at that time. [External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault.
 
 ### DNS
 
