@@ -36,5 +36,8 @@
       "datasourceTemplate": "npm",
       "depNameTemplate": "semantic-release"
     }
-  ]
+  ],
+  "pre-commit": {
+    "enabled": true
+  }
 }
