@@ -1,6 +1,5 @@
 # Docker image customizing
-# source: https://github.com/cloudposse/geodesic#customizing-your-docker-image
-
+# Source: https://github.com/cloudposse/geodesic#customizing-your-docker-image
 ARG GEODESIC_REPOSITORY=cloudposse/geodesic
 ARG GEODESIC_TAG=3.3.0-debian
 
@@ -15,7 +14,7 @@ ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-ld"
 ENV DOCKER_TAG="latest"
 
 # Mise installation
-# source: https://mise.jdx.dev/getting-started.html
+# Source: https://mise.jdx.dev/getting-started.html
 ARG MISE_VERSION
 ARG MISE_INSTALL_PATH="/usr/local/bin/mise"
 ARG MISE_DATA_DIR="/usr/share/xdg_data_home/mise"
@@ -25,13 +24,16 @@ RUN curl https://mise.run | \
     MISE_DATA_DIR="${MISE_DATA_DIR}" \
     sh
 ENV PATH="${MISE_DATA_DIR}/shims:$PATH"
-# defaults for all users
-# source: https://mise.jdx.dev/configuration.html#system-config-etc-mise-config-toml
+# Defaults for all users
+# Source: https://mise.jdx.dev/configuration.html#system-config-etc-mise-config-toml
 COPY .mise.toml /etc/mise/config.toml
-# install tools
-# source: https://mise.jdx.dev/cli/install.html
+# Install tools
+# Source: https://mise.jdx.dev/cli/install.html
 RUN mise install --yes
 
 # Add system-wide git safe directory to avoid ownership issues in the filesystem.
 # Reasoning: in the remote (CI/CD workflows) or local usage of this image, the user cloning the repository will be different than the one operating on it.
 COPY .gitconfig /etc/gitconfig
+
+COPY rootfs/ /
+ENV ATMOS_CLI_CONFIG_PATH="/rootfs/usr/local/etc/atmos"
