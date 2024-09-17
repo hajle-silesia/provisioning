@@ -35,5 +35,6 @@ RUN mise install --yes
 # Reasoning: in the remote (CI/CD workflows) or local usage of this image, the user cloning the repository will be different than the one operating on it.
 COPY .gitconfig /etc/gitconfig
 
+# Atmos configuration
+# Source: https://atmos.tools/core-concepts/components/terraform/remote-state/#recommended-options
 COPY rootfs/ /
-ENV ATMOS_CLI_CONFIG_PATH="/rootfs/usr/local/etc/atmos"
