@@ -6,14 +6,41 @@ Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration 
 
 ## Setup
 
-### CLI tools useful when working from local machine
+### CLI tools
+
+`mtweeman/hajle-silesia_provisioning-toolbox` Docker image is preferred way to distribute the tools used in this repository. It's designed to bring consistency for local and [remote](.github/workflows) usage by being cross-platform (macOS, Linux, WSL), multi architecture (linux/amd64, linux/arm64), version controlled and reusable.
+
+Run once:
+```shell
+docker run --rm mtweeman/hajle-silesia_provisioning-toolbox:latest init | bash
+```
+
+Run every time new version was released and updated in the workflows files (for consistency with remote workflows):
+
+```shell
+docker pull mtweeman/hajle-silesia_provisioning-toolbox:latest
+```
+
+Run on daily basis, preferably as a second terminal, next to the terminal used for `git` commands:
+
+```shell
+hajle-silesia_provisioning-toolbox
+```
+
+Example: static analysis with hooks managed by pre-commit:
+
+```shell
+pre-commit --all-files --hook-stage manual
+```
+
+Following CLI tools are contained within the image:
 
 | Name                                                                                                  | Description                                       |
 |-------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [mise](https://mise.jdx.dev/getting-started.html)                                                     | Tool version manager                              |
 | [k3s](https://docs.k3s.io/quick-start)                                                                | Container orchestration                           |
 | [oci](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm#Quickstart)               | Oracle Cloud Infrastructure cloud provider        |
 | [terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)          | Infrastructure provisioning, static analysis      |
-| [mise](https://mise.jdx.dev/getting-started.html)                                                     | Tool version manager                              |
 | [atmos](https://atmos.tools/install/)                                                                 | Cloud architecture framework for native Terraform |
 | [tflint](https://github.com/terraform-linters/tflint#installation)                                    | Static analysis                                   |
 | [trivy](https://aquasecurity.github.io/trivy/latest/getting-started/installation/)                    | Static analysis                                   |

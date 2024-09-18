@@ -8,10 +8,14 @@ ARG MISE_VERSION=v2024.9.5
 
 FROM ${GEODESIC_REPOSITORY}:${GEODESIC_TAG}
 
-ENV BANNER="local-dev"
+ENV BANNER="toolbox"
 
-ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-ld"
+ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-toolbox"
 ENV DOCKER_TAG="latest"
+
+# Add system-wide git safe directory to avoid ownership issues in the filesystem.
+# Reasoning: in the remote (CI/CD workflows) or local usage of this image, the user cloning the repository will be different than the one operating on it.
+COPY .gitconfig /etc/gitconfig
 
 # Mise installation
 # Source: https://mise.jdx.dev/getting-started.html
