@@ -8,6 +8,3 @@ trivy = '0.55.2'
 pre-commit = '3.8.0'
 helm = '3.16.1'
 packer = '1.11.1'
-
-[plugins]
-atmos = 'https://github.com/cloudposse/asdf-atmos.git' # (temporary) until Mise plugin for Atmos is merged
