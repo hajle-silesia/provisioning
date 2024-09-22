@@ -39,6 +39,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# Atmos
 # Exclude backend as it's generated automatically by Atmos
 backend.tf
 backend.tf.json

@@ -10,10 +10,6 @@ components:
       vars:
         context:
           name: network
-
-        region: eu-frankfurt-1
-        compartment_ocid: ocid1.tenancy.oc1..aaaaaaaablce6gcqz3rbcsp5sab27djnmzblcv4dtvvwtctl2toucgqcyeha
-
         vcn:
           name: vcn
           ipv4_cidr_blocks:
@@ -29,3 +25,76 @@ components:
           ssh_enabled: true
           create_route_table: true
           route_table_enabled: true
+    alb:
+      metadata:
+        component: alb
+      vars:
+        context:
+          name: alb
+        alb:
+          name: alb
+        vault_ca_cert: |
+          -----BEGIN CERTIFICATE-----
+          MIIFFzCCAv+gAwIBAgIUI28rXTkTMeRm+EQuTTQTBS79J+YwDQYJKoZIhvcNAQEL
+          BQAwGzEZMBcGA1UEAwwQSGFqbGUgU2lsZXNpYSBDQTAeFw0yNDA5MTgxNjQxMjha
+          Fw0yNDEwMTgxNjQxMjhaMBsxGTAXBgNVBAMMEEhhamxlIFNpbGVzaWEgQ0EwggIi
+          MA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQCjOI0jXeiIcy297YIjpjzpeXj/
+          e94tRBkV8eTdsg/vw/rASzNSg19XLysMfy+nnoQyGkrAl7mFzTm6DKgCwOSTjkEt
+          rddVX92JHHvmU+ofGmm92723co4/sIXQJ25EO2LWb+T2QQKPdlIDtsPfkVx4x0/s
+          +/jituSbNv0VH+0c9MANw7tYoj7p9t5fiquZhQPqdOrzU+OjhK5+zej6EjraS17E
+          dpWkui/n+NVPmOERFKq5PmRWH2DyQfQwcV4xQSbDtsGh3ZuKNPprxrR9seGKsrzh
+          5NCUqeDaI97AOPEe7KW4DYWgbF9HuILp0S0zYpeC9IAbmKnvJGPY+Nx8m7D/eeHP
+          ik862uxT1skG2xdfEGGM+jQXQJK40qTQdBFV4Ed+JvP/5MSugqNy0iq8g6qClgZN
+          /eqfXdZSqAsq5v/TnHWEIu/xtXv7G0afo5lG8kgitF2YMJuYsY+o5Spnd2RtuLRC
+          tXIr8Z9xgUwjpXE1dHD78a26mnC/UlldxcDrThVOjl34L44AcC/k8o8+HewGdNHU
+          Ng8H2RSDl7sxyypQI7dsrJwMFGdP+Ozu45SSvH0G3Jwo324RIsWRrKck+pX3DPrE
+          0S17kCinjiNdGE1rufvz41exMzTIfa2k5LQJ9/+W2lio9BzYS+45mSTkMmWmhfaf
+          NK2NdARiUdmADqWmawIDAQABo1MwUTAdBgNVHQ4EFgQUiWUZepd6UV/9c2/x2Gi/
+          OTiEGCQwHwYDVR0jBBgwFoAUiWUZepd6UV/9c2/x2Gi/OTiEGCQwDwYDVR0TAQH/
+          BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAgEAIbZujpUhy06Xdbf5kes5JMUXn5G1
+          9r6FKUI+BC1nCbKqS+8uO3kaKa/yVNWUdhpPIISYQlWABMvmqOcd6oiiLmDCWkXq
+          CTehYYADYzKWyBP62A2fUwpSCNpHB+JVbZb3VDbZ8hUbIyJgZkfiv/asNB30nZiZ
+          EB7y1K2U/nZuCYtvEoGuIYXs6kYGTjZku5Dk3InVKEnElyVagntlEwcndhCic9EI
+          7lOYVBDUbZWzpd8PyLyNhnteV6scTLS0gwE7bbMf5r5sTJ5jelguiD8EdzyvgMbc
+          D+6JRoZOyGw7LC5cg1Yo7RwWgEDpmdJqKJmu3hSelvA24BTWoKJkCf4ZZwzrTUVS
+          SB6cNLNYVWUnZBNnfguu3JvZQ747Ejrh6eEJ/RbSFEigDavtDAFFtxP8RKLvd6z+
+          HoPLZpheKxSyOQldZNbHmsJi+exiNffXPliBpFpg6uiwoVFLl4xEpCD+4l/lAIOc
+          tz7C5rAGOmId15cuiufOiFIzLS1cpQe2l4nrsPdP1LxhSG3DURiNhM9hpye5iV7a
+          JqSR+p5PFndXmxDTPM/2a65i+ntSPOvDXDmGKAr0TtNUvUXzR0ChkXCN9ZTuNMKb
+          P5FM491MhvNrbNqH76TKZ3Pj0Rrcup9cOGXOWBhVr1LvqKFGkDZvV7e3UI09HHrS
+          rh3J+ffXmNe49U4=
+          -----END CERTIFICATE-----
+
+        vault_cert: |
+          -----BEGIN CERTIFICATE-----
+          MIIFmTCCA4GgAwIBAgIBATANBgkqhkiG9w0BAQsFADAbMRkwFwYDVQQDDBBIYWps
+          ZSBTaWxlc2lhIENBMCAXDTI0MDkxODE2NDE0OVoYDzMwMjQwMTIwMTY0MTQ5WjCB
+          hjELMAkGA1UEBhMCUEwxEDAOBgNVBAgMB1dyb2NsYXcxEDAOBgNVBAcMB1dyb2Ns
+          YXcxGTAXBgNVBAoMEEhhamxlIFNpbGVzaWEgQ0ExDjAMBgNVBAsMBXZhdWx0MSgw
+          JgYDVQQDDB8qLnNlcnZlcnMuZGVmYXVsdC5vcmFjbGV2Y24uY29tMIICIjANBgkq
+          hkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAkZzPUBKbkJAYGJJXy3jXlYrkZYBfM8Pb
+          le5YU2qbrgy1bbmzYMCG621CCSdhQ0Y3txclwF6MNB6WwBCOuDvdZiFB++9jB/PO
+          vUhqDqkaIVKcUeL12YGxpe6rmrCrvp7C6YxK4m8RhXM50Jeh+1j+unkwKyl6JCSe
+          NVx3OF91uxSBQPPNDfYE+Okayy3d4ZLipotfwVwljudID2a2yS0Ukp2Xqo3JfK5E
+          L3/Gb6PuKbeK0Q75J/ecBzV2bAGRDUOzYL17KjHNpCscwWeVmJBeaFGnk1pIht7G
+          aFHekcyB6/jCAS46MNxrQForK0QUUDKqj0m1KK0UpEtTJ1Ehh8tcADtWjBr3PFmg
+          LMJAVrrBH6z7R4pChXgT1sJ+oTVxQLDOF2jQz/0hVZLrfQNZqYQ8MU9PTV1i/rip
+          Hcr/0SBbBgcdCNSiL3enwqA9C/G4nOlfY4PnVPq7kGRxdZ4wwfJP3Cj6V9om12wy
+          Bo37omnjdUHvecmmlRPniFwq9Qlho/RLUM4Mt6raW6hvGtQz+MSQTw7ttM3xKhto
+          pfuSOcv6D0wXtpWat1q7QCIMvgPL7fat9+g7D3tn5gwlnOZlCvTYAzMzu33nVP8e
+          3YSrPjRRN+aBuARMI1EJQGVfdtbCVNiiABeOB9kmI2ReMkPLLPhhygObQc7gVDdH
+          jOETqJEwGB0CAwEAAaN6MHgwNgYDVR0RBC8wLYIfKi5zZXJ2ZXJzLmRlZmF1bHQu
+          b3JhY2xldmNuLmNvbYcEAAAAAIcEfwAAATAdBgNVHQ4EFgQUbHEvVKxJhW60XccJ
+          UOymijGWv1QwHwYDVR0jBBgwFoAUiWUZepd6UV/9c2/x2Gi/OTiEGCQwDQYJKoZI
+          hvcNAQELBQADggIBABC8CiV4+BDoczs/q8bUpH/8aiRhx/Oaog2/LULoFOCmzqO2
+          eljmTTHK3lMxX2IVpvc8qkv5P2H4R9oIXpPvFZFJ/Xk4opE9hOWFOp/VKzHblDE9
+          W+5j7tUE15jcA3PTufpEOHB8w/zpGl10dz6YSx83K/HeNjzFgpYApQAlZWAjxy1H
+          FHmeRMKoYCf6xlEt5EAS1YpvmqDLAbsCGYeAxZVK+xPSIv7UD52A5DzckXPdf316
+          1DqJwvYFsp7m694qhgfWe7ziOO5rRuX1uKB0c3VFP5IeJ3rJF+z+RTvcbLvJWOkb
+          7sxtg/FwZhBETmVORco3u0a5oSHwZwu0qbqWS7wKQEIVAUy8Fym95ph/ewYnmjDw
+          K9wY+pOlF+a25mkzXqRXSstiBeTB52o824Q7Anx9uP5TtRtxQTf1LpMq99JzEdkN
+          3zERkcJAbhAcKZFyfK8BhTWZKGp7GJ+3Cxlq6C2jTmGYdseXZRD/4WoeW9Z+kWD4
+          5fMRktyozNPJTV0EOow5ERVBnRvPupU3moyt+jwgSexDlFYfKPgYpozbBfzMhxUj
+          ND8QPipyo6SApQ7ziTbmTmGYB6/kvkIjuNKzWVxmym50Kx2UDHM/Q8hpyfR/S3jR
+          I3GXp8bUyI56UvrZlOhv+7dcefvRUUcVbd3ry/As20HGpPGXl5Uc7QM4zQia
+          -----END CERTIFICATE-----

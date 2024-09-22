@@ -1,15 +1,15 @@
 name: Infrastructure CD
 
 on:
-  push:
-    branches:
-      - master
-    paths-ignore:
-      - 'machine-images/**'
+#  push:
+#    branches:
+#      - master
+#    paths-ignore:
+#      - 'machine-images/**'
   pull_request:
-  repository_dispatch:
-    types:
-      - golden-image-ci
+#  repository_dispatch:
+#    types:
+#      - golden-image-ci
   workflow_dispatch:
 
 permissions:

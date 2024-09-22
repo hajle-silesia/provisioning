@@ -1,5 +1,6 @@
 import:
   - catalog/vcn/defaults
+  - catalog/alb/defaults
 
 vars:
   region: eu-frankfurt-1
