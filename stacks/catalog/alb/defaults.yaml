@@ -1,6 +1,6 @@
 components:
   terraform:
-    vcn:
+    alb:
       vars:
         context:
           enabled: true
