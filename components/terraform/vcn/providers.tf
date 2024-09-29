@@ -7,7 +7,7 @@ provider "oci" {
 }
 
 provider "context" {
-  enabled   = var.context.enabled
+  enabled   = var.enabled
   delimiter = "-"
   property_order = [
     "namespace",
@@ -33,9 +33,9 @@ provider "context" {
   }
   tags_key_case = "title"
   values = {
-    namespace   = var.context.namespace
-    stage       = var.context.stage
-    environment = var.context.environment
-    name        = var.context.name
+    namespace   = var.namespace
+    stage       = var.stage
+    environment = var.environment
+    name        = var.name
   }
 }
