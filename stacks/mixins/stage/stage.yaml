@@ -1,3 +1,2 @@
 vars:
-  context:
-    stage: stage
+  stage: stage

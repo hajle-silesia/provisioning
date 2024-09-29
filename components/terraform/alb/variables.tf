@@ -22,14 +22,24 @@ variable "compartment_ocid" {
   type = string
 }
 
-variable "context" {
-  type = object({
-    enabled     = bool
-    namespace   = string
-    stage       = string
-    environment = string
-    name        = string
-  })
+variable "enabled" {
+  type = bool
+}
+
+variable "namespace" {
+  type = string
+}
+
+variable "stage" {
+  type = string
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "name" {
+  type = string
 }
 
 variable "vault_cert_private_key" {

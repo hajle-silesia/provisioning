@@ -1,3 +1,2 @@
 vars:
-  context:
-    namespace: hs
+  namespace: hs

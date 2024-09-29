@@ -2,5 +2,4 @@ components:
   terraform:
     vcn:
       vars:
-        context:
-          enabled: true
+        enabled: true

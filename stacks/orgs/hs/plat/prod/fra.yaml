@@ -8,8 +8,7 @@ components:
       metadata:
         component: vcn
       vars:
-        context:
-          name: network
+        name: network
         vcn:
           name: vcn
           ipv4_cidr_blocks:
@@ -29,10 +28,7 @@ components:
       metadata:
         component: alb
       vars:
-        context:
-          name: alb
-        alb:
-          name: alb
+        name: alb
         vault_ca_cert: |
           -----BEGIN CERTIFICATE-----
           MIIFFzCCAv+gAwIBAgIUI28rXTkTMeRm+EQuTTQTBS79J+YwDQYJKoZIhvcNAQEL

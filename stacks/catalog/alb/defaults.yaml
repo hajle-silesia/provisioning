@@ -2,5 +2,4 @@ components:
   terraform:
     alb:
       vars:
-        context:
-          enabled: true
+        enabled: true
