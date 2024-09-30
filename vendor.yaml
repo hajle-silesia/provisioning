@@ -1,0 +1,17 @@
+apiVersion: atmos/v1
+kind: AtmosVendorConfig
+metadata:
+  name: vendor-config
+  description: Atmos vendoring manifest
+spec:
+  sources:
+    - component: spacelift/admin-stack
+      source: github.com/cloudposse/terraform-aws-components.git//modules/spacelift/admin-stack?ref={{.Version}}
+      version: 1.497.0
+      targets:
+        - components/terraform/spacelift/admin-stack
+    - component: spacelift/spaces
+      source: github.com/cloudposse/terraform-aws-components.git//modules/spacelift/spaces?ref={{.Version}}
+      version: 1.497.0
+      targets:
+        - components/terraform/spacelift/spaces
