@@ -8,14 +8,14 @@ components:
         spacelift:
           administrative: true
           autodeploy: true
-#          before_apply:
-#            - spacelift-configure-paths
-#          before_init:
-#            - spacelift-configure-paths
-#            - spacelift-write-vars
-#            - spacelift-tf-workspace
-#          before_plan:
-#            - spacelift-configure-paths
+          before_apply:
+            - spacelift-configure-paths
+          before_init:
+            - spacelift-configure-paths
+            - spacelift-write-vars
+            - spacelift-tf-workspace
+          before_plan:
+            - spacelift-configure-paths
           drift_detection_enabled: true
           drift_detection_reconcile: true
           drift_detection_schedule:
