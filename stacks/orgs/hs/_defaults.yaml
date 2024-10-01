@@ -21,18 +21,16 @@ terraform:
 settings:
   spacelift:
     workspace_enabled: true # enable spacelift by default
-#    before_apply:
-#      - spacelift-configure-paths
-#    before_init:
-#      - spacelift-configure-paths
-#      - spacelift-write-varsclear
-
-#      - spacelift-tf-workspace
-#    before_plan:
-#      - spacelift-configure-paths
+    before_apply:
+      - spacelift-configure-paths
+    before_init:
+      - spacelift-configure-paths
+      - spacelift-write-vars
+      - spacelift-tf-workspace
+    before_plan:
+      - spacelift-configure-paths
     labels:
       - pr-comment-triggered
-#      - nobackend
 
 vars:
   namespace: hs
