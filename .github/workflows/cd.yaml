@@ -6,7 +6,7 @@ on:
 #      - master
 #    paths-ignore:
 #      - 'machine-images/**'
-  pull_request:
+#  pull_request:
 #  repository_dispatch:
 #    types:
 #      - golden-image-ci
