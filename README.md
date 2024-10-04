@@ -4,11 +4,38 @@
 
 Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Infrastructure Cloud.
 
-## Setup
+## Repository
 
-### CLI tools
+### Structure
 
-`mtweeman/hajle-silesia_provisioning-toolbox` Docker image is preferred way to distribute the tools used in this repository. It's designed to bring consistency for local and [remote](.github/workflows) usage by being cross-platform (macOS, Linux, WSL), multi architecture (linux/amd64, linux/arm64), version controlled and reusable.
+General overview of the repository structure. Not all files/directories are listed, only these that are specific to the tools in the repository.
+```shell
+.
+├── .github                 # GitHub config files
+│   ├── workflows           # GitHub Actions config files
+│   └── renovate.json       # Renovate config
+├── certificates            # certificates
+├── components              # Terraform root modules
+├── machine-images          # source files for machine images
+├── modules                 # Terraform modules
+│   ├── <module-0>          # source files for Terraform <module-0>
+│   └── ...                 # other modules
+├── rootfs                  # Atmos config file
+├── stacks                  # Atmos stacks
+├── .gitconfig              # development image .gitconfig
+├── .mise.toml              # Mise config file
+├── .pre-commit-config.yaml # pre-commit config file
+├── .releaserc.yaml         # semantic-release config file
+├── tflint.hcl              # (temporary, until static analysis is migrated) TFlint config file
+├── .trivyignore.yaml       # Trivy config file
+├── Dockerfile              # development image config
+├── README.md
+├── vendor.yaml             # Atmos vendor config
+```
+
+### Setup
+
+`mtweeman/hajle-silesia_provisioning-toolbox` Docker image is a preferred way to distribute the tools used in this repository. It's designed to bring consistency for local and [remote](.github/workflows) usage by being cross-platform (macOS, Linux, WSL), multi architecture (linux/amd64, linux/arm64), version controlled and reusable.
 
 Run once:
 ```shell
@@ -48,74 +75,42 @@ Following CLI tools are contained within the image:
 | [helm](https://helm.sh/docs/intro/install/)                                                           | Package manager for container orchestration       |
 | [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli) | Machine images provisioning                       |
 
-### Installation: TODO
+### Dependency updates
 
-1. Oracle Cloud Infrastructure account (free or paid)
-2. Deploy OCI KMS
-3. 
+[Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed.
 
-## Repository structure
+### Static analysis
 
-General overview of the repository structure. Not all files/directories are listed, only these that are specific to the tools in the repository.
-```
-.
-├── .github                 # GitHub config files
-│   ├── workflows           # GitHub Actions config files
-│   └── renovate.json       # Renovate config
-├── certificates            # certificates
-├── components              # Terraform root modules
-├── machine-images          # source files for machine images
-├── modules                 # Terraform modules
-│   ├── <module-0>          # source files for Terraform <module-0>
-│   └── ...                 # other modules
-├── stacks                  # Atmos stacks
-├── .gitconfig              # development image .gitconfig
-├── .mise.toml              # Mise config file
-├── .pre-commit-config.yaml # pre-commit config file
-├── .releaserc.yaml         # semantic-release config file
-├── tflint.hcl              # (temporary, until static analysis is migrated) TFlint config file
-├── .trivyignore.yaml       # Trivy config file
-├── atmos.yaml              # Atmos config file
-├── Dockerfile              # development image config
-├── README.md
-```
+#### Local
 
-### Authentication
-
-Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformproviderconfiguration.htm#APIKeyAuth)
-
-## Static analysis
-
-### Local
-
-#### Terraform fmt pre-commit hook
+##### Terraform pre-commit hook
 
 - [Configuration](.pre-commit-config.yaml)
 - [Documentation](https://github.com/antonbabenko/pre-commit-terraform)
 
-### Remote
+#### Remote
 
-#### Terraform fmt
+##### Terraform fmt
 
 - [Template](.github/workflows/terraform-fmt.yaml)
 - [Documentation](https://developer.hashicorp.com/terraform/cli/commands/fmt)
 
-#### Terraform validate
+##### Terraform validate
 
 - [Template](.github/workflows/terraform-validate.yaml)
 - [Documentation](https://developer.hashicorp.com/terraform/cli/commands/validate)
 
-#### TFLint
+##### TFLint
 
 - [Template](.github/workflows/tflint.yaml)
 - [Documentation](https://github.com/terraform-linters/tflint)
 
-#### Trivy
+##### Trivy
 
 - [Template](.github/workflows/trivy.yaml)
 - [Documentation](https://github.com/aquasecurity/trivy)
 
-#### Aggregator of all static analyzers
+##### Aggregator of all static analyzers
 
 - [Template](.github/workflows/static-analysis.yaml)
 - Includes:
@@ -123,6 +118,20 @@ Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/ia
   - [Terraform validate](#terraform-validate)
   - [TFLint](#tflint)
   - [Trivy](#trivy)
+
+### Version management and package publishing
+
+[semantic-release](https://semantic-release.gitbook.io/semantic-release/) is used as a tool for automated version management and package publishing. See configuration [here](.github/workflows/release.yaml).
+
+### Installation: TODO
+
+1. Oracle Cloud Infrastructure account (free or paid)
+2. Deploy OCI KMS
+3. 
+
+### Authentication
+
+Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformproviderconfiguration.htm#APIKeyAuth)
 
 ## Architecture
 
