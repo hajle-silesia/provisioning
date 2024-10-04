@@ -12,8 +12,8 @@ vars:
 
 components:
   terraform:
-    # This admin stack creates other "admin" stacks
-    admin-stack:
+    # This root admin stack creates other admin stacks, spacelift/spaces, and spacelift/worker-pool
+    spacelift/admin-stack:
       metadata:
         component: spacelift/admin-stack
         inherits:
@@ -36,8 +36,7 @@ components:
         root_stack_policy_attachments:
           - TRIGGER Global Administrator
           - GIT_PUSH Global Administrator # Always trigger this stack on pushes to main
-        # this creates policies for the children (admin) stacks
+        # this creates policies for the child admin stacks
         child_policy_attachments:
           - TRIGGER Global Administrator
           - GIT_PUSH Global Administrator # Always trigger admin stacks on pushes to main
-        spacelift_spaces_component_name: spaces
