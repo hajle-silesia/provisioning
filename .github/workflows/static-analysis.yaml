@@ -6,55 +6,11 @@ on:
       - master
   pull_request:
   workflow_dispatch:
-    inputs:
-      working-directory:
-        description: Working directory
-        type: string
-        required: false
-        default: .
-      terraform-version:
-        description: Terraform version
-        type: string
-        required: false
-        default: latest
-      severity:
-        description: Severity
-        type: string
-        required: false
-        default: MEDIUM,HIGH,CRITICAL
 
 permissions:
   contents: read
 
-env:
-  working-directory: ${{ inputs.working-directory || '.' }}
-  terraform-version: ${{ inputs.terraform-version || 'latest' }}
-  severity: ${{ inputs.severity || 'MEDIUM,HIGH,CRITICAL' }}
-
 jobs:
-  preparation:
-    name: Preparation
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          echo "null"
-    outputs:
-      working-directory: ${{ env.working-directory }}
-      terraform-version: ${{ env.terraform-version }}
-      severity: ${{ env.severity }}
-
-  static-analysis:
-    needs:
-      - preparation
+  static-analyzers-aggregator:
     name: Static analysis
     uses: ./.github/workflows/static-analyzers-aggregator.yaml
-    with:
-      working-directory: ${{ needs.preparation.outputs.working-directory }}
-      terraform-version: ${{ needs.preparation.outputs.terraform-version }}
-      severity: ${{ needs.preparation.outputs.severity }}
-
-  static-analysis-geodesic-test:
-    needs:
-      - preparation
-    name: Static analysis geodesic test
-    uses: ./.github/workflows/static-analyzers-aggregator-geodesic-test.yaml

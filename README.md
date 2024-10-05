@@ -81,43 +81,16 @@ Following CLI tools are contained within the image:
 
 ### Static analysis
 
-#### Local
+Dedicated Docker image is a preferred way to run static analysis as it brings consistency for local and [remote](.github/workflows/static-analysis.yaml) usage.
+Following static analysis tools are contained within the image with pre-commit hooks serving as an execution tool with following [configuration](.pre-commit-config.yaml).
 
-##### Terraform pre-commit hook
-
-- [Configuration](.pre-commit-config.yaml)
-- [Documentation](https://github.com/antonbabenko/pre-commit-terraform)
-
-#### Remote
-
-##### Terraform fmt
-
-- [Template](.github/workflows/terraform-fmt.yaml)
-- [Documentation](https://developer.hashicorp.com/terraform/cli/commands/fmt)
-
-##### Terraform validate
-
-- [Template](.github/workflows/terraform-validate.yaml)
-- [Documentation](https://developer.hashicorp.com/terraform/cli/commands/validate)
-
-##### TFLint
-
-- [Template](.github/workflows/tflint.yaml)
-- [Documentation](https://github.com/terraform-linters/tflint)
-
-##### Trivy
-
-- [Template](.github/workflows/trivy.yaml)
-- [Documentation](https://github.com/aquasecurity/trivy)
-
-##### Aggregator of all static analyzers
-
-- [Template](.github/workflows/static-analysis.yaml)
-- Includes:
-  - [Terraform fmt](#terraform-fmt)
-  - [Terraform validate](#terraform-validate)
-  - [TFLint](#tflint)
-  - [Trivy](#trivy)
+| Name                                                                                  | Description                    |
+|---------------------------------------------------------------------------------------|--------------------------------|
+| [pre-commit for Terraform](https://github.com/antonbabenko/pre-commit-terraform)      | Hooks manager                  |
+| [Terraform fmt](https://developer.hashicorp.com/terraform/cli/commands/fmt)           | Canonical format check         |
+| [Terraform validate](https://developer.hashicorp.com/terraform/cli/commands/validate) | Configuration files validation |
+| [TFLint](https://github.com/terraform-linters/tflint)                                 | Linter                         |
+| [Trivy](https://github.com/aquasecurity/trivy)                                        | Security vulnerabilities check |
 
 ### Version management and package publishing
 
