@@ -14,6 +14,8 @@ General overview of the repository structure. Not all files/directories are list
 ├── .github                 # GitHub config files
 │   ├── workflows           # GitHub Actions config files
 │   └── renovate.json       # Renovate config
+├── .spacelift              # Spacelift config files
+│   └── workflow.yml        # Spacelift workflow tool config file
 ├── certificates            # Certificates
 ├── components              # Terraform root modules
 ├── machine-images          # Source files for machine images
@@ -78,7 +80,7 @@ Following CLI tools are contained within the image:
 
 ### Dependency updates
 
-[Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed.
+[Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed. See [Renovate console](https://developer.mend.io/github/hajle-silesia/provisioning) for scanning details.
 
 ### Static analysis
 
@@ -99,6 +101,15 @@ Following static analysis tools are contained within the image with pre-commit h
 | [Terraform validate](https://developer.hashicorp.com/terraform/cli/commands/validate) | Configuration files validation |
 | [TFLint](https://github.com/terraform-linters/tflint)                                 | Linter                         |
 | [Trivy](https://github.com/aquasecurity/trivy)                                        | Security vulnerabilities check |
+
+### Deployment
+
+[Spacelift](https://spacelift.io/) is used as a tool for orchestration of infrastructure provisioning. It's configured to work with Atmos as described [here](https://docs.cloudposse.com/layers/spacelift/). See [Spacelift console](https://hajle-silesia.app.spacelift.io/) for configuration details. [Custom workflow tool](https://docs.spacelift.io/vendors/terraform/workflow-tool) is defined [here](.spacelift/workflow.yml) due to Terraform FOSS version constraints.
+Additional information:
+- [Spacelift components](https://docs.cloudposse.com/components/library/aws/spacelift/)
+- [Spacelift admin stack component](https://github.com/cloudposse-terraform-components/aws-spacelift-admin-stack)
+- [Spacelift spaces component](https://github.com/cloudposse-terraform-components/aws-spacelift-spaces)
+- [Spacelift as TACOS](https://docs.cloudposse.com/layers/spacelift/)
 
 ### Version management and package publishing
 
