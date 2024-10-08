@@ -19,7 +19,7 @@ components:
           internet_gateway_enabled: true
         subnets:
           name: servers-subnet
-          ipv4_cidr_block: 10.20.0.0/17
+          ipv4_cidr_block: 10.20.0.0/16
           dns_label: servers
           ssh_enabled: true
           create_route_table: true
