@@ -37,6 +37,13 @@ components:
               PLAN Warn On Resource Changes Except Image ID:
                 type: PLAN
                 body_url: https://raw.githubusercontent.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/%s/catalog/policies/plan.warn-on-resource-changes-except-image-id.rego
+              # This policy will automatically assign itself to stacks and is used to trigger stacks directly from the `cloudposse/github-action-atmos-affected-trigger-spacelift` GitHub action
+              # This is only used if said GitHub action is set to trigger on "comments"
+              GIT_PUSH Plan Affected:
+                type: GIT_PUSH
+                labels:
+                  - autoattach:pr-comment-triggered
+                body_url: https://raw.githubusercontent.com/cloudposse/terraform-spacelift-cloud-infrastructure-automation/%s/catalog/policies/push.git_comment.rego
           plat:
             parent_space_id: root
             description: The space for platform tenant
