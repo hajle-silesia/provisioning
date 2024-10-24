@@ -7,7 +7,8 @@ variable "user_ocid" {
 }
 
 variable "private_key" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "fingerprint" {
