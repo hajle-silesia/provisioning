@@ -6,7 +6,7 @@ variable "user_ocid" {
   type = string
 }
 
-variable "private_key" {
+variable "private_key_path" {
   type = string
 }
 
