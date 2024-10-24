@@ -6,7 +6,7 @@ variable "user_ocid" {
   type = string
 }
 
-variable "private_key" {
+variable "private_key_path" {
   type = string
 }
 
@@ -42,7 +42,7 @@ variable "name" {
   type = string
 }
 
-variable "vault_cert_private_key" {
+variable "vault_key" {
   type = string
 }
 

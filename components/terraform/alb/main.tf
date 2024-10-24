@@ -60,7 +60,7 @@ resource "oci_load_balancer_certificate" "vault" {
   load_balancer_id = oci_load_balancer_load_balancer.internal.id
 
   ca_certificate     = var.vault_ca_cert
-  private_key        = var.vault_cert_private_key
+  private_key        = var.vault_key
   public_certificate = var.vault_cert
 
   lifecycle {
