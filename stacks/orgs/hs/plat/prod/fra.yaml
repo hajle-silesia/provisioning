@@ -60,7 +60,6 @@ components:
           SVsRcut/1jt5KhuM3MyW7abEy+n0agbcr96kLqynYtWZWj6krxJr5H/3pOdb2kxr
           KmpmyHyH3ICHZuE=
           -----END CERTIFICATE-----
-
         vault_cert: |
           -----BEGIN CERTIFICATE-----
           MIIFmTCCA4GgAwIBAgIBATANBgkqhkiG9w0BAQsFADAbMRkwFwYDVQQDDBBIYWps
@@ -94,4 +93,3 @@ components:
           56IQ7Hw893slNcsbNUpnLMi0saz2B2UtgLkBTFxK1xMVNn4KaEkf1NtGUvb4gWRQ
           triCvMIdlIS/Bq0oknyaQlB/KePO6yRnuarG5puYrJWNnYSfT7Symte/NTcl
           -----END CERTIFICATE-----
-          
