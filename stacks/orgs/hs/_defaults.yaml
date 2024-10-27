@@ -25,6 +25,7 @@ settings:
     before_init:
       - export ATMOS_BASE_PATH="${TF_VAR_spacelift_workspace_root}/source"
       - atmos terraform generate backend "${ATMOS_COMPONENT}" --stack "${ATMOS_STACK}"
+      - atmos terraform generate varfile "${ATMOS_COMPONENT}" --stack "${ATMOS_STACK}"
     before_plan:
     labels:
       - pr-comment-triggered
