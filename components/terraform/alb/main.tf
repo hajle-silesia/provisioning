@@ -60,7 +60,7 @@ resource "oci_load_balancer_certificate" "vault" {
   load_balancer_id = oci_load_balancer_load_balancer.internal.id
 
   ca_certificate     = var.vault_ca_cert
-  private_key        = var.vault_key
+  private_key        = file("${path.module}/certificates/vault-key.pem")
   public_certificate = var.vault_cert
 
   lifecycle {

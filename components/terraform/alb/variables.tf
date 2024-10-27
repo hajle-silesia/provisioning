@@ -42,10 +42,6 @@ variable "name" {
   type = string
 }
 
-variable "vault_key" {
-  type = string
-}
-
 variable "vault_ca_cert" {
   type = string
 }
