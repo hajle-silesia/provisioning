@@ -10,7 +10,7 @@ data "template_file" "imported_vars" {
     EOT
 
   vars = {
-    INTERNAL_LB = oci_load_balancer_load_balancer.internal.ip_address_details[0].ip_address
+    INTERNAL_LB = module.alb_reference.outputs.internal_lb_ip_address
   }
 }
 

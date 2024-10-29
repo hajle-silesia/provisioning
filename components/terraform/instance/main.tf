@@ -84,19 +84,19 @@ resource "oci_core_instance_pool" "servers" {
     for_each = data.oci_identity_availability_domains.main.availability_domains
     content {
       availability_domain = placement_configurations.value.name
-      primary_subnet_id   = var.subnet_id
+      primary_subnet_id   = module.vcn_reference.outputs.subnet_id
     }
   }
 
   load_balancers {
-    backend_set_name = oci_load_balancer_backend_set.internal.name
-    load_balancer_id = oci_load_balancer_load_balancer.internal.id
+    backend_set_name = module.alb_reference.outputs.internal_backend_set_name
+    load_balancer_id = module.alb_reference.outputs.internal_lb_id
     port             = 6443
     vnic_selection   = "PrimaryVnic"
   }
   load_balancers {
-    backend_set_name = oci_load_balancer_backend_set.vault.name
-    load_balancer_id = oci_load_balancer_load_balancer.internal.id
+    backend_set_name = module.alb_reference.outputs.vault_backend_set_name
+    load_balancer_id = module.alb_reference.outputs.internal_lb_id
     port             = 8200
     vnic_selection   = "PrimaryVnic"
   }
