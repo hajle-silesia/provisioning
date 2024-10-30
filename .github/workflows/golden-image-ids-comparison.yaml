@@ -15,11 +15,11 @@ jobs:
     steps:
       - name: Get images list
         env:
-          OCI_CLI_TENANCY: ${{ vars.TF_VAR_TENANCY_OCID }}
-          OCI_CLI_USER: ${{ vars.TF_VAR_USER_OCID }}
-          OCI_CLI_KEY_CONTENT: ${{ secrets.TF_VAR_PRIVATE_KEY }}
-          OCI_CLI_FINGERPRINT: ${{ vars.TF_VAR_FINGERPRINT }}
-          OCI_CLI_REGION: ${{ vars.OCI_REGION }}
+          OCI_CLI_TENANCY: ${{ vars.OCI_CLI_TENANCY }}
+          OCI_CLI_USER: ${{ vars.OCI_CLI_USER }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+          OCI_CLI_FINGERPRINT: ${{ vars.OCI_CLI_FINGERPRINT }}
+          OCI_CLI_REGION: ${{ vars.OCI_CLI_REGION }}
         uses: oracle-actions/run-oci-cli-command@v1.3.2
         id: images-list
         with:
