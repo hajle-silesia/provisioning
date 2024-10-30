@@ -2,7 +2,6 @@ import:
   - mixins/region/global-region
   - orgs/hs/plat/_defaults
   - catalog/spacelift/admin-stack
-  - catalog/spacelift/spaces
 
 # These intentionally overwrite the default values
 vars:
@@ -12,7 +11,7 @@ vars:
 
 components:
   terraform:
-    spacelift/admin-stack:
+    admin-stack:
       metadata:
         component: spacelift/admin-stack
         inherits:

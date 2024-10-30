@@ -255,11 +255,11 @@ variable "spacelift_spaces_environment_name" {
   default     = null
 }
 
-# variable "spacelift_spaces_stage_name" {
-#   type        = string
-#   description = "The stage name of the spacelift spaces component"
-#   default     = null
-# }
+variable "spacelift_spaces_stage_name" {
+  type        = string
+  description = "The stage name of the spacelift spaces component"
+  default     = null
+}
 
 variable "spacelift_spaces_tenant_name" {
   type        = string

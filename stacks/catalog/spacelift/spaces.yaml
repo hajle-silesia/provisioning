@@ -1,6 +1,6 @@
 components:
   terraform:
-    spacelift/spaces:
+    spaces:
       metadata:
         component: spacelift/spaces
       settings:

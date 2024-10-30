@@ -27,8 +27,10 @@ components:
         branch: master
         repository: provisioning
         allow_public_workers: true
-        runner_image: mtweeman/hajle-silesia_provisioning-toolbox:latest
-        spacelift_spaces_stage_name: root
+        runner_image: mtweeman/hajle-silesia_provisioning-toolbox:0.9.3
+        spacelift_spaces_tenant_name: root
+        spacelift_spaces_stage_name: spacelift
+        spacelift_spaces_component_name: spaces
         # These values need to be manually updated as external configuration changes
         # This should match the version set in the Dockerfile and be updated when the version changes.
         terraform_workflow_tool: CUSTOM
