@@ -13,7 +13,7 @@ vars:
 components:
   terraform:
     # This root admin stack creates other admin stacks, spacelift/spaces, and spacelift/worker-pool
-    spacelift/admin-stack:
+    admin-stack:
       metadata:
         component: spacelift/admin-stack
         inherits:
