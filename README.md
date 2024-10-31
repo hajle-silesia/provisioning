@@ -79,6 +79,17 @@ Following CLI tools are contained within the image:
 
 [Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed.
 
+In addition to `automerge` and `platformAutomerge` options configured within [config file](.github/renovate.json), GitHub repository settings have to be updated as well:
+- `General` section
+  - `Allow auto-merge` activated
+  - `Automatically delete head branches` activated
+- `Branches` section
+  - Branch ruleset
+    - Target branch set to default branch
+    - `Require status checks to pass` and `Require branches to be up to date before merging` activated
+
+See [this discussion](https://github.com/renovatebot/renovate/discussions/13273) for details.
+
 ### Static analysis
 
 Dedicated Docker image is a preferred way to run static analysis as it brings consistency for local and [remote](.github/workflows/static-analysis.yaml) usage.
