@@ -5,6 +5,17 @@
   ],
   "customManagers": [
     {
+      "description": "Updating unannotated Docker image versions in YAML files",
+      "fileMatch": [
+        "(^|/)*.ya?ml$"
+      ],
+      "matchStrings": [
+        "image: ?(?<depName>\\S+):(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
       "description": "Updating annotated package versions in Dockerfiles",
       "fileMatch": [
         "(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$",
@@ -15,6 +26,7 @@
       ]
     },
     {
+      "customType": "regex",
       "description": "Updating semantic-release version used by Node.js",
       "fileMatch": [
         "^\\.github\\/workflows\\/[^/]+\\.ya?ml$"
@@ -26,6 +38,7 @@
       "depNameTemplate": "node"
     },
     {
+      "customType": "regex",
       "description": "Updating semantic-release version used by npx",
       "fileMatch": [
         "^\\.github\\/workflows\\/[^/]+\\.ya?ml$"
@@ -39,5 +52,17 @@
   ],
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
+    }
+  ],
+  "platformAutomerge": true
 }
