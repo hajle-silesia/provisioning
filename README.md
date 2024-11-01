@@ -1,4 +1,4 @@
-[![Static analysis](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml)[![CI](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml)[![Infrastructure CD](https://github.com/hajle-silesia/provisioning/actions/workflows/cd.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/cd.yaml)
+[![Static analysis](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/static-analysis.yaml)[![CI](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml/badge.svg)](https://github.com/hajle-silesia/provisioning/actions/workflows/ci.yaml)
 
 ## About
 
