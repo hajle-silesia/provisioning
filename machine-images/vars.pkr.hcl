@@ -33,6 +33,11 @@ variable "k3s_token" {
   default = env("K3S_TOKEN")
 }
 
+variable "internal_lb" {
+  type    = string
+  default = "10.20.0.4"
+}
+
 variable "availability_domain" {
   type    = string
   default = "ppDV:EU-FRANKFURT-1-AD-1"
