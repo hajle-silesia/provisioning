@@ -15,7 +15,7 @@ function install_packages() {
 function install_cloud_provider_cli() {
   curl -LO https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
   chmod +x install.sh
-  ./install.sh --accept-all-defaults
+  ./install.sh --accept-all-defaults --oci-cli-version 3.46.0
   rm -f install.sh
 }
 
