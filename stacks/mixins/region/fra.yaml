@@ -2,6 +2,7 @@ import:
   - catalog/vcn/defaults
   - catalog/alb/defaults
   - catalog/instance/defaults
+  - catalog/vault/defaults
 
 vars:
   region: eu-frankfurt-1
