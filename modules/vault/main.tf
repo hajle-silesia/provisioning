@@ -47,7 +47,7 @@ resource "oci_vault_secret" "default" {
   compartment_id = var.compartment_ocid
   secret_content {
     content_type = "BASE64"
-    content      = "false"
+    content      = "ZmFsc2U="
   }
   secret_name   = "cluster-initiated"
   vault_id      = oci_kms_vault.default[0].id
