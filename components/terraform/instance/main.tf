@@ -111,13 +111,13 @@ resource "oci_identity_dynamic_group" "servers" {
 
 resource "oci_identity_policy" "compute_instances_list" {
   compartment_id = var.compartment_ocid
-  name           = "compute-instances-list"
-  description    = "Listing compute instances in servers pool"
+  name           = "cluster-state-mgmt"
+  description    = "Cluster state management"
   statements = [
-    # listing compute instances in user-data script for machine image
-    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to inspect instances in compartment id ${var.compartment_ocid}",
-    # using OCI KMS service to get key for vault auto-unsealing
-    # https://developer.hashicorp.com/vault/docs/configuration/seal/ocikms#authentication
-    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to use keys in compartment id ${var.compartment_ocid}",
+    # Cluster state management in machine-images user-data.sh script
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to inspect vaults in compartment id ${var.compartment_ocid}",
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to inspect secrets in compartment id ${var.compartment_ocid}",
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to read secret-bundle in compartment id ${var.compartment_ocid}",
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to use secret in compartment id ${var.compartment_ocid}",
   ]
 }
