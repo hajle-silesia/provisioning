@@ -94,12 +94,6 @@ resource "oci_core_instance_pool" "servers" {
     port             = 6443
     vnic_selection   = "PrimaryVnic"
   }
-  load_balancers {
-    backend_set_name = module.alb_reference.outputs.vault_backend_set_name
-    load_balancer_id = module.alb_reference.outputs.internal_lb_id
-    port             = 8200
-    vnic_selection   = "PrimaryVnic"
-  }
 }
 
 resource "oci_identity_dynamic_group" "servers" {
