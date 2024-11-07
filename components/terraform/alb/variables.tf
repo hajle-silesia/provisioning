@@ -41,11 +41,3 @@ variable "environment" {
 variable "name" {
   type = string
 }
-
-variable "vault_ca_cert" {
-  type = string
-}
-
-variable "vault_cert" {
-  type = string
-}
