@@ -4,8 +4,7 @@ module "vcn_reference" {
 
   component = "vcn"
 
-  namespace   = "hs"
-  tenant      = "plat"
-  stage       = "prod"
-  environment = "fra"
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
 }
