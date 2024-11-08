@@ -1,6 +1,7 @@
 import:
   - catalog/vcn/defaults
   - catalog/alb/defaults
+  - catalog/nlb/defaults
   - catalog/instance/defaults
   - catalog/vault/defaults
 
