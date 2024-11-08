@@ -4,10 +4,9 @@ module "vcn_reference" {
 
   component = "vcn"
 
-  namespace   = "hs"
-  tenant      = "plat"
-  stage       = "prod"
-  environment = "fra"
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
 }
 
 module "alb_reference" {
@@ -16,8 +15,7 @@ module "alb_reference" {
 
   component = "alb"
 
-  namespace   = "hs"
-  tenant      = "plat"
-  stage       = "prod"
-  environment = "fra"
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
 }
