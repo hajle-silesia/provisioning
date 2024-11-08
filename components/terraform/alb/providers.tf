@@ -10,22 +10,22 @@ provider "context" {
   enabled   = var.enabled
   delimiter = "-"
   property_order = [
-    "namespace",
-    "stage",
+    "tenant",
     "environment",
+    "stage",
     "name",
   ]
   properties = {
-    namespace = {
+    tenant = {
       required   = true
-      max_length = 3
+      max_length = 4
+    }
+    environment = {
+      required = true
     }
     stage = {
       required         = true
       validation_regex = "^(dev|test|prod)"
-    }
-    environment = {
-      required = true
     }
     name = {
       required = true
@@ -33,9 +33,9 @@ provider "context" {
   }
   tags_key_case = "title"
   values = {
-    namespace   = var.namespace
-    stage       = var.stage
+    tenant      = var.tenant
     environment = var.environment
+    stage       = var.stage
     name        = var.name
   }
 }

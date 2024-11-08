@@ -18,15 +18,15 @@ variable "region" {
   type = string
 }
 
+variable "compartment_ocid" {
+  type = string
+}
+
 variable "enabled" {
   type = bool
 }
 
-variable "namespace" {
-  type = string
-}
-
-variable "stage" {
+variable "tenant" {
   type = string
 }
 
@@ -34,13 +34,12 @@ variable "environment" {
   type = string
 }
 
-variable "name" {
+variable "stage" {
   type = string
 }
 
-variable "compartment_ocid" {
-  type        = string
-  description = "Compartment OCID"
+variable "name" {
+  type = string
 }
 
 variable "vcn" {
