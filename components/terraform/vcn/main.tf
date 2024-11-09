@@ -21,6 +21,7 @@ module "subnets" {
   ipv4_cidr_block          = var.subnets.ipv4_cidr_block
   dns_label                = var.subnets.dns_label
   ssh_enabled              = var.subnets.ssh_enabled
+  https_enabled            = var.subnets.https_enabled
   create_route_table       = var.subnets.create_route_table
   route_table_enabled      = var.subnets.route_table_enabled
 }

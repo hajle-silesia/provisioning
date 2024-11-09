@@ -22,6 +22,7 @@ components:
           ipv4_cidr_block: 10.20.0.0/17
           dns_label: servers
           ssh_enabled: true
+          https_enabled: true
           create_route_table: true
           route_table_enabled: true
     alb:
@@ -29,6 +30,16 @@ components:
         component: alb
       vars:
         name: alb
+    nlb:
+      metadata:
+        component: nlb
+      vars:
+        name: nlb
+        nlb:
+          name: nlb
+          assigned_private_ipv4: 10.20.0.4
+          listener_port: 6443
+          health_check_port: 6443
     instance:
       metadata:
         component: instance

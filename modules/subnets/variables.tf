@@ -56,6 +56,15 @@ variable "ssh_enabled" {
   default     = false
 }
 
+variable "https_enabled" {
+  type        = bool
+  description = <<-EOT
+    If 'true', HTTPS will be enabled in this subnet by adding corresponding security lists.
+    If 'false', HTTPS will be disabled.
+  EOT
+  default     = false
+}
+
 variable "create_route_table" {
   type        = bool
   description = <<-EOT
