@@ -41,3 +41,9 @@ variable "stage" {
 variable "name" {
   type = string
 }
+
+variable "alb" {
+  type = object({
+    name = string
+  })
+}
