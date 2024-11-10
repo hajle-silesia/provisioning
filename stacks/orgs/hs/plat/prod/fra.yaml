@@ -32,6 +32,8 @@ components:
         name: alb
         alb:
           name: alb
+          listener_port: 6443
+          health_check_port: 6443
     nlb:
       metadata:
         component: nlb
