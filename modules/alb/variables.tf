@@ -19,3 +19,12 @@ variable "subnet_id" {
   type        = string
   description = "The ID of the subnet"
 }
+variable "listener_port" {
+  type        = number
+  description = "The port for the listener"
+}
+
+variable "health_check_port" {
+  type        = number
+  description = "The port to send the health check request to"
+}

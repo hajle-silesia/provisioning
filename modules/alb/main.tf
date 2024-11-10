@@ -1,10 +1,12 @@
 locals {
   enabled = data.context_config.main.enabled
 
-  compartment_ocid = var.compartment_ocid
-  name             = var.name
-  subnet_id        = var.subnet_id
-  vcn_id           = var.vcn_id
+  compartment_ocid  = var.compartment_ocid
+  name              = var.name
+  subnet_id         = var.subnet_id
+  vcn_id            = var.vcn_id
+  listener_port     = var.listener_port
+  health_check_port = var.health_check_port
 }
 
 data "context_config" "main" {}
@@ -49,7 +51,7 @@ resource "oci_load_balancer_backend_set" "internal" {
   policy           = "ROUND_ROBIN"
 
   health_checker {
-    port     = 6443
+    port     = local.health_check_port
     protocol = "TCP"
   }
 }
@@ -60,7 +62,7 @@ resource "oci_load_balancer_listener" "internal" {
   name                     = "internal"
   load_balancer_id         = oci_load_balancer_load_balancer.internal[0].id
   default_backend_set_name = oci_load_balancer_backend_set.internal[0].name
-  port                     = 6443
+  port                     = local.listener_port
   protocol                 = "TCP"
 }
 
