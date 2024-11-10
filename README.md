@@ -26,7 +26,7 @@ General overview of the repository structure. Not all files/directories are list
 ├── .mise.toml              # Mise config file
 ├── .pre-commit-config.yaml # pre-commit config file
 ├── .releaserc.yaml         # semantic-release config file
-├── tflint.hcl              # (temporary, until static analysis is migrated) TFlint config file
+├── tflint.hcl              # (temporary, until static analysis is migrated) TFLint config file
 ├── .trivyignore.yaml       # Trivy config file
 ├── Dockerfile              # development image config
 ├── README.md
@@ -82,6 +82,13 @@ Following CLI tools are contained within the image:
 ### Static analysis
 
 Dedicated Docker image is a preferred way to run static analysis as it brings consistency for local and [remote](.github/workflows/static-analysis.yaml) usage.
+
+Run once, to install hooks in the repository:
+
+```shell
+pre-commit install
+```
+
 Following static analysis tools are contained within the image with pre-commit hooks serving as an execution tool with following [configuration](.pre-commit-config.yaml).
 
 | Name                                                                                  | Description                    |
