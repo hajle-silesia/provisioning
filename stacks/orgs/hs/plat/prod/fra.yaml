@@ -30,6 +30,8 @@ components:
         component: alb
       vars:
         name: alb
+        alb:
+          name: alb
     nlb:
       metadata:
         component: nlb
