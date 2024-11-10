@@ -23,7 +23,7 @@ data "context_tags" "main" {
   }
 }
 
-resource "oci_load_balancer_load_balancer" "internal" {
+resource "oci_load_balancer_load_balancer" "default" {
   count = local.enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
@@ -43,11 +43,11 @@ resource "oci_load_balancer_load_balancer" "internal" {
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_load_balancer_backend_set" "internal" {
+resource "oci_load_balancer_backend_set" "default" {
   count = local.enabled ? 1 : 0
 
-  name             = "internal"
-  load_balancer_id = oci_load_balancer_load_balancer.internal[0].id
+  name             = data.context_label.main.rendered
+  load_balancer_id = oci_load_balancer_load_balancer.default[0].id
   policy           = "ROUND_ROBIN"
 
   health_checker {
@@ -56,38 +56,38 @@ resource "oci_load_balancer_backend_set" "internal" {
   }
 }
 
-resource "oci_load_balancer_listener" "internal" {
+resource "oci_load_balancer_listener" "default" {
   count = local.enabled ? 1 : 0
 
-  name                     = "internal"
-  load_balancer_id         = oci_load_balancer_load_balancer.internal[0].id
-  default_backend_set_name = oci_load_balancer_backend_set.internal[0].name
+  name                     = data.context_label.main.rendered
+  load_balancer_id         = oci_load_balancer_load_balancer.default[0].id
+  default_backend_set_name = oci_load_balancer_backend_set.default[0].name
   port                     = local.listener_port
   protocol                 = "TCP"
 }
 
-resource "oci_dns_view" "internal" {
+resource "oci_dns_view" "default" {
   compartment_id = local.compartment_ocid
   scope          = "PRIVATE"
 }
 
-resource "oci_dns_zone" "internal" {
+resource "oci_dns_zone" "default" {
   compartment_id = local.compartment_ocid
-  name           = "internal-lb.servers.default.oraclevcn.com"
+  name           = "${data.context_label.main.rendered}.${var.subnet_domain_name}"
   scope          = "PRIVATE"
-  view_id        = oci_dns_view.internal.id
+  view_id        = oci_dns_view.default.id
   zone_type      = "PRIMARY"
 }
 
-resource "oci_dns_rrset" "internal_lb" {
-  domain          = "internal-lb.servers.default.oraclevcn.com"
+resource "oci_dns_rrset" "default" {
+  domain          = "${data.context_label.main.rendered}.${var.subnet_domain_name}"
   rtype           = "A"
-  view_id         = oci_dns_view.internal.id
+  view_id         = oci_dns_view.default.id
   scope           = "PRIVATE"
-  zone_name_or_id = oci_dns_zone.internal.id
+  zone_name_or_id = oci_dns_zone.default.id
   items {
-    domain = "internal-lb.servers.default.oraclevcn.com"
-    rdata  = oci_load_balancer_load_balancer.internal[0].ip_address_details[0].ip_address
+    domain = "${data.context_label.main.rendered}.${var.subnet_domain_name}"
+    rdata  = oci_load_balancer_load_balancer.default[0].ip_address_details[0].ip_address
     rtype  = "A"
     ttl    = 300
   }
@@ -102,7 +102,7 @@ resource "oci_dns_resolver" "default" {
 
   scope = "PRIVATE"
   attached_views {
-    view_id = oci_dns_view.internal.id
+    view_id = oci_dns_view.default.id
   }
   freeform_tags = data.context_tags.main.tags
 }
