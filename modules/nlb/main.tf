@@ -1,12 +1,11 @@
 locals {
   enabled = data.context_config.main.enabled
 
-  compartment_ocid      = var.compartment_ocid
-  name                  = var.name
-  subnet_id             = var.subnet_id
-  assigned_private_ipv4 = var.assigned_private_ipv4
-  listener_port         = var.listener_port
-  health_check_port     = var.health_check_port
+  compartment_ocid  = var.compartment_ocid
+  name              = var.name
+  subnet_id         = var.subnet_id
+  listener_port     = var.listener_port
+  health_check_port = var.health_check_port
 }
 
 data "context_config" "main" {}
@@ -26,11 +25,10 @@ data "context_tags" "main" {
 resource "oci_network_load_balancer_network_load_balancer" "default" {
   count = local.enabled ? 1 : 0
 
-  compartment_id        = local.compartment_ocid
-  display_name          = data.context_label.main.rendered
-  subnet_id             = local.subnet_id
-  assigned_private_ipv4 = local.assigned_private_ipv4
-  freeform_tags         = data.context_tags.main.tags
+  compartment_id = local.compartment_ocid
+  display_name   = data.context_label.main.rendered
+  subnet_id      = local.subnet_id
+  freeform_tags  = data.context_tags.main.tags
 }
 
 resource "oci_network_load_balancer_listener" "default" {

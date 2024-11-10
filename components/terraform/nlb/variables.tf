@@ -44,9 +44,8 @@ variable "name" {
 
 variable "nlb" {
   type = object({
-    name                  = string
-    assigned_private_ipv4 = string
-    listener_port         = number
-    health_check_port     = number
+    name              = string
+    listener_port     = number
+    health_check_port = number
   })
 }

@@ -15,11 +15,6 @@ variable "subnet_id" {
   description = "The ID of the subnet"
 }
 
-variable "assigned_private_ipv4" {
-  type        = string
-  description = "Private IP address assigned to the load balancer"
-}
-
 variable "listener_port" {
   type        = number
   description = "The port for the listener"
