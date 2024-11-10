@@ -39,7 +39,6 @@ components:
         name: nlb
         nlb:
           name: nlb
-          assigned_private_ipv4: 10.20.0.4
           listener_port: 6443
           health_check_port: 6443
     instance:
