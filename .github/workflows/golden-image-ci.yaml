@@ -5,10 +5,10 @@ on:
     branches:
       - master
     paths:
-      - 'machine-images/**'
+      - "machine-images/**"
   repository_dispatch:
     types:
-      - golden-image-ids-comparison
+      - golden-images-id-comparison
   workflow_dispatch:
 
 permissions:
