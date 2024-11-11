@@ -1,4 +1,4 @@
-name: Golden image IDs comparison
+name: Golden images ID comparison
 
 on:
   schedule:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  compare-images-ids:
+  golden-images-id-comparison:
     runs-on: ubuntu-latest
 
     steps:
