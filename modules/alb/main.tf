@@ -34,7 +34,7 @@ resource "oci_load_balancer_load_balancer" "default" {
   ]
 
   ip_mode    = "IPV4"
-  is_private = true
+  is_private = false
 
   shape_details {
     maximum_bandwidth_in_mbps = 10
