@@ -25,7 +25,7 @@ provider "context" {
     }
     stage = {
       required         = true
-      validation_regex = "^(dev|test|prod)"
+      validation_regex = "^(dev|test|prod|any)"
     }
     name = {
       required = true

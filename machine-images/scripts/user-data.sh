@@ -54,7 +54,8 @@ function initiate_cluster() {
     --cluster-init \
     --write-kubeconfig-mode 600 \
     --token "${K3S_TOKEN}" \
-    --tls-san "${INTERNAL_LB}"
+    --tls-san "plat-fra-any-nlb.servers.default.oraclevcn.com" \
+    --tls-san "plat-fra-any-alb.servers.default.oraclevcn.com"
 }
 
 
