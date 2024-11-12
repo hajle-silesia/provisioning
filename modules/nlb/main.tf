@@ -16,16 +16,6 @@ data "context_label" "main" {
   }
 }
 
-data "context_label" "nlb" {
-  # The same image can be shared across stages, hence the stage "any" is included in the label, to keep the naming convention consistent.
-  # Upon NLB creation, a DNS record using NLB display name is automatically created.
-  # Baking this DNS record into the image (e.g.: as a SAN of K3s cluster) requires that the DNS record can be resolved regardless of the stage.
-  values = {
-    stage = "any"
-    name  = local.name
-  }
-}
-
 data "context_tags" "main" {
   values = {
     name = local.name
@@ -36,7 +26,7 @@ resource "oci_network_load_balancer_network_load_balancer" "default" {
   count = local.enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
-  display_name   = data.context_label.nlb.rendered
+  display_name   = data.context_label.main.rendered
   subnet_id      = local.subnet_id
   freeform_tags  = data.context_tags.main.tags
 }
