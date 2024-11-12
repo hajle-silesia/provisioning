@@ -1,9 +1,10 @@
 import:
+  - catalog/vault/defaults
   - catalog/vcn/defaults
   - catalog/alb/defaults
   - catalog/nlb/defaults
+  - catalog/dns/defaults
   - catalog/instance/defaults
-  - catalog/vault/defaults
 
 vars:
   region: eu-frankfurt-1
