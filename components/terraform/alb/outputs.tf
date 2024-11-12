@@ -1,14 +1,14 @@
-output "internal_backend_set_name" {
-  value       = module.alb.internal_backend_set_name
-  description = "The name of the internal backend set"
+output "backend_set_name" {
+  value       = module.alb.backend_set_name
+  description = "The name of the backend set"
 }
 
-output "internal_lb_id" {
-  value       = module.alb.internal_lb_id
-  description = "The ID of the internal LB"
+output "id" {
+  value       = module.alb.id
+  description = "The ID of the ALB"
 }
 
-output "internal_lb_ip_address" {
-  value       = module.alb.internal_lb_ip_address
-  description = "The IP address of the internal LB"
+output "ip_address" {
+  value       = module.alb.ip_address
+  description = "The IP address of the ALB"
 }
