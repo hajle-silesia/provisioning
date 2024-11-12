@@ -1,14 +1,14 @@
-output "internal_backend_set_name" {
-  value       = oci_load_balancer_backend_set.default[0].name
-  description = "The name of the internal backend set"
+output "backend_set_name" {
+  value       = join("", oci_load_balancer_backend_set.default[*].name)
+  description = "The name of the backend set"
 }
 
-output "internal_lb_id" {
-  value       = oci_load_balancer_load_balancer.default[0].id
-  description = "The ID of the internal LB"
+output "id" {
+  value       = join("", oci_load_balancer_load_balancer.default[*].id)
+  description = "The ID of the ALB"
 }
 
-output "internal_lb_ip_address" {
-  value       = oci_load_balancer_load_balancer.default[0].ip_address_details[0].ip_address
-  description = "The IP address of the internal LB"
+output "ip_address" {
+  value       = join("", flatten(oci_load_balancer_load_balancer.default[*].ip_address_details[*].ip_address))
+  description = "The IP address of the ALB"
 }
