@@ -19,8 +19,9 @@ data "context_label" "main" {
 
 data "context_label" "any" {
   # The same golden image can be shared across stages, hence the stage "any" is included in the label, to keep the naming convention consistent.
-  # Upon NLB creation, a DNS record using NLB display name is automatically created.
-  # Baking this DNS record into the image (e.g.: as a SAN of K3s cluster) requires that the DNS record can be resolved regardless of the stage.
+  # Upon NLB creation, a DNS record using NLB display name is automatically created. However, this record is not updated when the display name changes.
+  # Upon ALB creation, no DNS record is created.
+  # Baking the DNS record created by this module into the golden image (e.g.: as a SAN of K3s cluster) requires that the DNS record can be resolved regardless of the stage.
   values = {
     stage = "any"
     name  = local.name
