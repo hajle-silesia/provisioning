@@ -11,12 +11,6 @@ locals {
 
 data "context_config" "main" {}
 
-data "context_label" "main" {
-  values = {
-    name = local.name
-  }
-}
-
 data "context_label" "any" {
   # The same golden image can be shared across stages, hence the stage "any" is included in the label, to keep the naming convention consistent.
   # Upon NLB creation, a DNS record using NLB display name is automatically created. However, this record is not updated when the display name changes.
@@ -70,16 +64,29 @@ resource "oci_dns_rrset" "default" {
   }
 }
 
+resource "oci_dns_resolver" "default" {
+  count = local.enabled ? 1 : 0
+
+  resolver_id = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
+  # The order of the evaluation: https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/privatedns.htm#configuration
+  dynamic "attached_views" {
+    for_each = distinct(concat(data.oci_dns_resolver.default[0].attached_views[*].view_id, oci_dns_view.default[*].id))
+    content {
+      view_id = attached_views.value
+    }
+  }
+  freeform_tags = data.oci_dns_resolver.default[0].freeform_tags
+}
+
 data "oci_core_vcn_dns_resolver_association" "default" {
+  count = local.enabled ? 1 : 0
+
   vcn_id = local.vcn_id
 }
 
-resource "oci_dns_resolver" "default" {
-  resolver_id  = data.oci_core_vcn_dns_resolver_association.default.dns_resolver_id
-  display_name = data.context_label.main.rendered
-  scope        = "PRIVATE"
-  attached_views {
-    view_id = oci_dns_view.default[0].id
-  }
-  freeform_tags = data.context_tags.main.tags
+data "oci_dns_resolver" "default" {
+  count = local.enabled ? 1 : 0
+
+  resolver_id = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
+  scope       = "PRIVATE"
 }

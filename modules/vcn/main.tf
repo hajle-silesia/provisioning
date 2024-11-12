@@ -77,3 +77,31 @@ resource "oci_core_internet_gateway" "default" {
   vcn_id         = oci_core_vcn.default[0].id
   freeform_tags  = data.context_tags.main.tags
 }
+
+resource "oci_dns_resolver" "default" {
+  count = local.enabled ? 1 : 0
+
+  resolver_id  = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
+  display_name = data.context_label.main.rendered
+  dynamic "attached_views" {
+    for_each = data.oci_dns_resolver.default[0].attached_views[*].view_id
+    content {
+      view_id = attached_views.value
+    }
+  }
+  freeform_tags = data.context_tags.main.tags
+}
+
+
+data "oci_core_vcn_dns_resolver_association" "default" {
+  count = local.enabled ? 1 : 0
+
+  vcn_id = oci_core_vcn.default[0].id
+}
+
+data "oci_dns_resolver" "default" {
+  count = local.enabled ? 1 : 0
+
+  resolver_id = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
+  scope       = "PRIVATE"
+}
