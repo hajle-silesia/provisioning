@@ -8,7 +8,7 @@ trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
 
 
 function main() {
-  get_cluster_initiated_flag "hs-prod-fra-vault" "cluster-initiated"
+  get_cluster_initiated_flag "plat-fra-prod-vault" "cluster-initiated"
 
   if [[ "${CLUSTER_INITIATED}" == "false" ]]; then
     set_cluster_initiated_flag
