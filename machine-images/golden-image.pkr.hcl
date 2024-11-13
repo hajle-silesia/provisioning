@@ -50,13 +50,13 @@ build {
 
   provisioner "shell" {
     execute_command = "sudo bash -c '{{ .Vars }} {{ .Path }}'"
-    environment_vars = [
-      "K3S_VERSION=${var.k3s_version}",
-      "K3S_TOKEN=${var.k3s_token}",
-      "INTERNAL_LB=${var.internal_lb}",
-      "COMPARTMENT_OCID=${var.tenancy_ocid}",
-      "AVAILABILITY_DOMAIN=${var.availability_domain}",
-    ]
+    # environment_vars = [
+    #   "K3S_VERSION=${var.k3s_version}",
+    #   "K3S_TOKEN=${var.k3s_token}",
+    #   "INTERNAL_LB_DOMAIN=${var.internal_lb}",
+    #   "EXTERNAL_LB_DOMAIN=${var.internal_lb}",
+    #   "COMPARTMENT_OCID=${var.tenancy_ocid}",
+    # ]
     scripts = [
       "machine-images/scripts/create-server-golden-image.sh",
     ]

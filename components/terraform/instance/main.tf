@@ -38,7 +38,7 @@ resource "oci_core_instance_configuration" "server" {
       compartment_id = var.compartment_ocid
 
       instance_options {
-        are_legacy_imds_endpoints_disabled = false # vault CLI uses IMDSv1
+        are_legacy_imds_endpoints_disabled = true
       }
 
       create_vnic_details {
@@ -47,10 +47,31 @@ resource "oci_core_instance_configuration" "server" {
       }
 
       metadata = {
-        ssh_authorized_keys = var.instance_public_key
+        ssh_authorized_keys = var.instance.instance_public_key
+        user_data = base64encode(<<-EOT
+            #!/usr/bin/env bash
+
+            LOGFILE="/root/oci-user-data.log"
+            set -eo pipefail
+            exec 3>&1 4>&2 1>"$${LOGFILE}" 2>&1
+            trap "echo 'ERROR: An error occurred during execution, check log $${LOGFILE} for details.' >&3" ERR
+            trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
+
+            export VAULT_NAME="${module.vault_reference.outputs.name}"
+            export SECRET_NAME="${module.vault_reference.outputs.secret_name}"
+            export COMPARTMENT_OCID="${var.compartment_ocid}"
+            export K3S_VERSION="${var.instance.k3s_version}"
+            export K3S_TOKEN="${var.k3s_token}"
+            export INTERNAL_LB="${module.dns_nlb_reference.outputs.domain_name}"
+            export EXTERNAL_LB="${module.dns_alb_reference.outputs.domain_name}"
+
+            . /root/user-data.sh
+
+          EOT
+        )
       }
 
-      shape = var.shape
+      shape = var.instance.shape
       shape_config {
         memory_in_gbs = 6
         ocpus         = 1
