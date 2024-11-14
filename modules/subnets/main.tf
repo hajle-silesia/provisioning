@@ -83,7 +83,7 @@ resource "oci_core_security_list" "https_ipv4" {
 
   compartment_id = local.compartment_ocid
   vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-https-ipv4-ingress"
+  display_name   = "${data.context_label.main.rendered}-https-ipv4"
 
   ingress_security_rules {
     source      = "0.0.0.0/0"
