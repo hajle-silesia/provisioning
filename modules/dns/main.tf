@@ -6,7 +6,7 @@ locals {
   vcn_id             = var.vcn_id
   subnet_domain_name = var.subnet_domain_name
   ip_address         = var.ip_address
-  domain             = "${data.context_label.any.rendered}.${local.subnet_domain_name}"
+  domain_name        = "${data.context_label.any.rendered}.${local.subnet_domain_name}"
 }
 
 data "context_config" "main" {}
@@ -41,7 +41,7 @@ resource "oci_dns_zone" "default" {
   count = local.enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
-  name           = local.domain
+  name           = local.domain_name
   scope          = "PRIVATE"
   view_id        = oci_dns_view.default[0].id
   zone_type      = "PRIMARY"
@@ -51,13 +51,13 @@ resource "oci_dns_zone" "default" {
 resource "oci_dns_rrset" "default" {
   count = local.enabled ? 1 : 0
 
-  domain          = local.domain
+  domain          = local.domain_name
   rtype           = "A"
   view_id         = oci_dns_view.default[0].id
   scope           = "PRIVATE"
   zone_name_or_id = oci_dns_zone.default[0].id
   items {
-    domain = local.domain
+    domain = local.domain_name
     rdata  = local.ip_address
     rtype  = "A"
     ttl    = 300
