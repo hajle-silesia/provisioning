@@ -38,20 +38,18 @@ resource "oci_core_subnet" "default" {
   dns_label      = local.dns_label
   security_list_ids = concat(
     [local.default_security_list_id],
-    oci_core_security_list.ssh_ipv4_ingress[*].id,
-    oci_core_security_list.ssh_ipv4_egress[*].id,
-    oci_core_security_list.https_ipv4_ingress[*].id,
-    oci_core_security_list.https_ipv4_egress[*].id,
+    oci_core_security_list.ssh_ipv4[*].id,
+    oci_core_security_list.https_ipv4[*].id,
   )
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_core_security_list" "ssh_ipv4_ingress" {
+resource "oci_core_security_list" "ssh_ipv4" {
   count = local.ssh_enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
   vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-ssh-ipv4-ingress"
+  display_name   = "${data.context_label.main.rendered}-ssh-ipv4"
 
   ingress_security_rules {
     source      = "0.0.0.0/0"
@@ -64,16 +62,6 @@ resource "oci_core_security_list" "ssh_ipv4_ingress" {
       max = 22
     }
   }
-  freeform_tags = data.context_tags.main.tags
-}
-
-resource "oci_core_security_list" "ssh_ipv4_egress" {
-  count = local.ssh_enabled ? 1 : 0
-
-  compartment_id = local.compartment_ocid
-  vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-ssh-ipv4-egress"
-
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = 6 # source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
@@ -90,7 +78,7 @@ resource "oci_core_security_list" "ssh_ipv4_egress" {
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_core_security_list" "https_ipv4_ingress" {
+resource "oci_core_security_list" "https_ipv4" {
   count = local.https_enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
@@ -110,16 +98,6 @@ resource "oci_core_security_list" "https_ipv4_ingress" {
       }
     }
   }
-  freeform_tags = data.context_tags.main.tags
-}
-
-resource "oci_core_security_list" "https_ipv4_egress" {
-  count = local.https_enabled ? 1 : 0
-
-  compartment_id = local.compartment_ocid
-  vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-https-ipv4-egress"
-
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
