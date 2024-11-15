@@ -8,7 +8,7 @@ trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
 
 
 function main() {
-  get_cluster_initiated_flag "plat-fra-prod-vault" "cluster-initiated"
+  get_cluster_initiated_flag "${VAULT_NAME}" "${SECRET_NAME}" # "plat-fra-prod-vault" "cluster-initiated"
 
   if [[ "${CLUSTER_INITIATED}" == "false" ]]; then
     set_cluster_initiated_flag
@@ -54,8 +54,8 @@ function initiate_cluster() {
     --cluster-init \
     --write-kubeconfig-mode 600 \
     --token "${K3S_TOKEN}" \
-    --tls-san "plat-fra-any-nlb.servers.default.oraclevcn.com" \
-    --tls-san "plat-fra-any-alb.servers.default.oraclevcn.com"
+    --tls-san "${INTERNAL_LB}" \
+    --tls-san "${EXTERNAL_LB}"
 }
 
 
@@ -94,8 +94,7 @@ function join_cluster() {
   curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${K3S_VERSION}" sh -s - server \
     --server "https://${INTERNAL_LB}:6443" \
     --write-kubeconfig-mode 600 \
-    --token "${K3S_TOKEN}" \
-    --tls-san "${INTERNAL_LB}"
+    --token "${K3S_TOKEN}"
 }
 
 
@@ -111,6 +110,6 @@ function delete_unready_nodes() {
 }
 
 
-cd /root
 export OCI_CLI_AUTH=instance_principal
 PATH="${PATH}:/root/bin"
+main

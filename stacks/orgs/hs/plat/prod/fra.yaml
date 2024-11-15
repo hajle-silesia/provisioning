@@ -69,6 +69,9 @@ components:
         component: instance
       vars:
         name: instance
-        shape: VM.Standard.A1.Flex
-        instance_public_key: |
-          ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCafkXOuGWQfAZvmDyRcWi/HmTh8DJqRicGmFOammZe7oJAvK7YAOoBMlVvODwYA83dAh7YitbAW+RkQKbGDV5Gcz9/aXP+6AMC64wWprwgonGP6DjvRCH3GZBSo4PZfDohao/OelKBKmXVb8XMFDYE5Lu7Edw+Z/o093OBJFU6J12sO8IJNgU9iOnfZl9M4dr4XSf9HGiMlx1INN8+NBgVCySeTpRkmWGKoSwb5MGEBuZ+f1OWg5VARFe2nPbMLryBH7jOvHN0z71C9/W9ztSeejiy37f7TqC1GyHHkzR5+C6WtCyNAOaa3JBNV7W5ngFSb81mA5779PGd3vqUwCHD ssh-key-2024-03-16
+        instance:
+          name: instance
+          shape: VM.Standard.A1.Flex
+          instance_public_key: |
+            ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCafkXOuGWQfAZvmDyRcWi/HmTh8DJqRicGmFOammZe7oJAvK7YAOoBMlVvODwYA83dAh7YitbAW+RkQKbGDV5Gcz9/aXP+6AMC64wWprwgonGP6DjvRCH3GZBSo4PZfDohao/OelKBKmXVb8XMFDYE5Lu7Edw+Z/o093OBJFU6J12sO8IJNgU9iOnfZl9M4dr4XSf9HGiMlx1INN8+NBgVCySeTpRkmWGKoSwb5MGEBuZ+f1OWg5VARFe2nPbMLryBH7jOvHN0z71C9/W9ztSeejiy37f7TqC1GyHHkzR5+C6WtCyNAOaa3JBNV7W5ngFSb81mA5779PGd3vqUwCHD ssh-key-2024-03-16
+          k3s_version: 1.30.0+k3s1

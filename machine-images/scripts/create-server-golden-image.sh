@@ -59,19 +59,8 @@ function configure_firewall() {
 }
 
 
-function set_per_instance_script() {
-  cp user-data.sh /var/lib/cloud/scripts/per-instance/user-data.sh
-  chmod 744 /var/lib/cloud/scripts/per-instance/user-data.sh
-
-  {
-    echo "K3S_VERSION=${K3S_VERSION}"
-    echo "K3S_TOKEN=${K3S_TOKEN}"
-    echo "INTERNAL_LB=${INTERNAL_LB}"
-    echo "COMPARTMENT_OCID=${COMPARTMENT_OCID}"
-    echo "AVAILABILITY_DOMAIN=${AVAILABILITY_DOMAIN}"
-
-    echo "main"
-  } >> /var/lib/cloud/scripts/per-instance/user-data.sh
+function set_user_data_script() {
+  cp user-data.sh /root/user-data.sh
 }
 
 
@@ -82,6 +71,6 @@ install_cloud_provider_cli
 install_package_manager_for_container_orchestration_tool
 disable_firewalls
 #configure_firewall
-set_per_instance_script
+set_user_data_script
 rm /home/ubuntu/create-server-golden-image.sh
 rm /home/ubuntu/user-data.sh

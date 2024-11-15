@@ -42,10 +42,15 @@ variable "name" {
   type = string
 }
 
-variable "shape" {
-  type = string
+variable "instance" {
+  type = object({
+    name                = string
+    shape               = string
+    instance_public_key = string
+    k3s_version         = string
+  })
 }
 
-variable "instance_public_key" {
+variable "k3s_token" {
   type = string
 }
