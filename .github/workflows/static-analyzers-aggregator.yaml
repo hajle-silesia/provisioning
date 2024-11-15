@@ -11,7 +11,7 @@ jobs:
     name: Static analyzers aggregator
     runs-on: ubuntu-latest
     container:
-      image: mtweeman/hajle-silesia_provisioning-toolbox:0.20.0
+      image: mtweeman/hajle-silesia_provisioning-toolbox:0.20.1
 
     steps:
       - name: Checkout
