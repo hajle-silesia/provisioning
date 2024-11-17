@@ -30,6 +30,7 @@ components:
           dns_label: servers
           ssh_enabled: true
           https_enabled: true
+          k3s_api_enabled: true
           create_route_table: true
           route_table_enabled: true
     alb:

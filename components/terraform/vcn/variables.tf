@@ -60,6 +60,7 @@ variable "subnets" {
     dns_label           = string
     ssh_enabled         = bool
     https_enabled       = bool
+    k3s_api_enabled     = bool
     create_route_table  = bool
     route_table_enabled = bool
   })

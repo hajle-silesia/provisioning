@@ -22,6 +22,7 @@ module "subnets" {
   dns_label                = var.subnets.dns_label
   ssh_enabled              = var.subnets.ssh_enabled
   https_enabled            = var.subnets.https_enabled
+  k3s_api_enabled          = var.subnets.k3s_api_enabled
   create_route_table       = var.subnets.create_route_table
   route_table_enabled      = var.subnets.route_table_enabled
 }

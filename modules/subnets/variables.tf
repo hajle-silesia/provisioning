@@ -65,6 +65,15 @@ variable "https_enabled" {
   default     = false
 }
 
+variable "k3s_api_enabled" {
+  type        = bool
+  description = <<-EOT
+    If 'true', K3s API will be enabled in this subnet by adding corresponding security lists.
+    If 'false', K3s API will be disabled.
+  EOT
+  default     = false
+}
+
 variable "create_route_table" {
   type        = bool
   description = <<-EOT
