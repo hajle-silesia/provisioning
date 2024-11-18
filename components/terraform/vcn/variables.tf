@@ -55,13 +55,13 @@ variable "vcn" {
 
 variable "subnets" {
   type = object({
-    name                = string
-    ipv4_cidr_block     = string
-    dns_label           = string
-    ssh_enabled         = bool
-    https_enabled       = bool
-    k3s_api_enabled     = bool
-    create_route_table  = bool
-    route_table_enabled = bool
+    name                      = string
+    ipv4_cidr_block           = string
+    dns_label                 = string
+    ssh_enabled               = bool
+    https_enabled             = bool
+    container_cluster_enabled = bool
+    create_route_table        = bool
+    route_table_enabled       = bool
   })
 }
