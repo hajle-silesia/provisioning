@@ -1,18 +1,18 @@
 locals {
   enabled = data.context_config.main.enabled
 
-  compartment_ocid         = var.compartment_ocid
-  name                     = var.name
-  vcn_id                   = var.vcn_id
-  igw_id                   = var.igw_id
-  default_security_list_id = var.default_security_list_id
-  ipv4_cidr_block          = var.ipv4_cidr_block
-  dns_label                = var.dns_label
-  ssh_enabled              = local.enabled && var.ssh_enabled
-  https_enabled            = local.enabled && var.https_enabled
-  k3s_api_enabled          = local.enabled && var.k3s_api_enabled
-  create_route_table       = local.enabled && var.create_route_table
-  route_table_enabled      = local.enabled && var.route_table_enabled
+  compartment_ocid          = var.compartment_ocid
+  name                      = var.name
+  vcn_id                    = var.vcn_id
+  igw_id                    = var.igw_id
+  default_security_list_id  = var.default_security_list_id
+  ipv4_cidr_block           = var.ipv4_cidr_block
+  dns_label                 = var.dns_label
+  ssh_enabled               = local.enabled && var.ssh_enabled
+  https_enabled             = local.enabled && var.https_enabled
+  container_cluster_enabled = local.enabled && var.container_cluster_enabled
+  create_route_table        = local.enabled && var.create_route_table
+  route_table_enabled       = local.enabled && var.route_table_enabled
 }
 
 data "context_config" "main" {}
@@ -41,7 +41,8 @@ resource "oci_core_subnet" "default" {
     [local.default_security_list_id],
     oci_core_security_list.ssh_ipv4[*].id,
     oci_core_security_list.https_ipv4[*].id,
-    oci_core_security_list.k3s_api_ipv4[*].id,
+    oci_core_security_list.container_cluster_api_ipv4[*].id,
+    oci_core_security_list.container_cluster_key_value_store_ipv4[*].id,
   )
   freeform_tags = data.context_tags.main.tags
 }
@@ -114,18 +115,18 @@ resource "oci_core_security_list" "https_ipv4" {
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_core_security_list" "k3s_api_ipv4" {
-  count = local.k3s_api_enabled ? 1 : 0
+resource "oci_core_security_list" "container_cluster_api_ipv4" {
+  count = local.container_cluster_enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
   vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-k3s-api-ipv4"
+  display_name   = "${data.context_label.main.rendered}-container-cluster-api-ipv4"
 
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
-    description = "Allow K3s API requests egress"
+    description = "Allow container cluster API requests egress"
 
     tcp_options {
       max = 6443
@@ -136,7 +137,7 @@ resource "oci_core_security_list" "k3s_api_ipv4" {
     source      = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
-    description = "Allow K3s API ingress"
+    description = "Allow container cluster API ingress"
 
     tcp_options {
       max = 6443
@@ -147,7 +148,7 @@ resource "oci_core_security_list" "k3s_api_ipv4" {
     destination = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
-    description = "Allow K3s API egress"
+    description = "Allow container cluster API egress"
 
     tcp_options {
       source_port_range {
@@ -160,12 +161,70 @@ resource "oci_core_security_list" "k3s_api_ipv4" {
     source      = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
-    description = "Allow K3s API requests ingress"
+    description = "Allow container cluster API requests ingress"
 
     tcp_options {
       source_port_range {
         max = 6443
         min = 6443
+      }
+    }
+  }
+  freeform_tags = data.context_tags.main.tags
+}
+
+resource "oci_core_security_list" "container_cluster_key_value_store_ipv4" {
+  count = local.container_cluster_enabled ? 1 : 0
+
+  compartment_id = local.compartment_ocid
+  vcn_id         = local.vcn_id
+  display_name   = "${data.context_label.main.rendered}-container-cluster-key-value-store-ipv4"
+
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow container cluster key value store requests egress"
+
+    tcp_options {
+      max = 2380
+      min = 2379
+    }
+  }
+  ingress_security_rules {
+    source      = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow container cluster key value store ingress"
+
+    tcp_options {
+      max = 2380
+      min = 2379
+    }
+  }
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow container cluster key value store egress"
+
+    tcp_options {
+      source_port_range {
+        max = 2380
+        min = 2379
+      }
+    }
+  }
+  ingress_security_rules {
+    source      = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow container cluster key value store requests ingress"
+
+    tcp_options {
+      source_port_range {
+        max = 2380
+        min = 2379
       }
     }
   }

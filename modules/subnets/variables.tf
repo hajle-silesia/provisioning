@@ -65,11 +65,11 @@ variable "https_enabled" {
   default     = false
 }
 
-variable "k3s_api_enabled" {
+variable "container_cluster_enabled" {
   type        = bool
   description = <<-EOT
-    If 'true', K3s API will be enabled in this subnet by adding corresponding security lists.
-    If 'false', K3s API will be disabled.
+    If 'true', container cluster will be enabled in this subnet by adding corresponding security lists.
+    If 'false', container cluster will be disabled.
   EOT
   default     = false
 }
