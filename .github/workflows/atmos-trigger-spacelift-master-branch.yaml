@@ -1,3 +1,4 @@
+# Source: https://docs.cloudposse.com/layers/spacelift/#main-branch
 name: Deploy Affected Spacelift Stacks
 
 on:
