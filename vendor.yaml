@@ -6,12 +6,12 @@ metadata:
 spec:
   sources:
     - component: spacelift/admin-stack
-      source: github.com/cloudposse/terraform-aws-components.git//modules/spacelift/admin-stack?ref={{.Version}}
-      version: 1.529.0
+      source: github.com/cloudposse-terraform-components/aws-spacelift-admin-stack.git//src?ref={{.Version}}
+      version: v1.532.0
       targets:
         - components/terraform/spacelift/admin-stack
     - component: spacelift/spaces
-      source: github.com/cloudposse/terraform-aws-components.git//modules/spacelift/spaces?ref={{.Version}}
-      version: 1.529.0
+      source: github.com/cloudposse-terraform-components/aws-spacelift-spaces.git//src?ref={{.Version}}
+      version: v1.532.0
       targets:
         - components/terraform/spacelift/spaces

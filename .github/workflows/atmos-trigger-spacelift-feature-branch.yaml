@@ -1,3 +1,4 @@
+# Source: https://docs.cloudposse.com/layers/spacelift/#feature-branch
 name: Plan Affected Spacelift Stacks
 
 on:
