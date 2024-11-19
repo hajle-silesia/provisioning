@@ -5,6 +5,7 @@
   ],
   "customManagers": [
     {
+      "customType": "regex",
       "description": "Updating unannotated Docker image versions in YAML files",
       "fileMatch": [
         "(^|/)*.ya?ml$"
