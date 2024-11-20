@@ -14,21 +14,22 @@ General overview of the repository structure. Not all files/directories are list
 ├── .github                 # GitHub config files
 │   ├── workflows           # GitHub Actions config files
 │   └── renovate.json       # Renovate config
-├── certificates            # certificates
+├── certificates            # Certificates
 ├── components              # Terraform root modules
-├── machine-images          # source files for machine images
+├── machine-images          # Source files for machine images
 ├── modules                 # Terraform modules
-│   ├── <module-0>          # source files for Terraform <module-0>
-│   └── ...                 # other modules
-├── rootfs                  # Atmos config file
+│   ├── <module-0>          # Source files for Terraform <module-0>
+│   └── ...                 # Other modules
 ├── stacks                  # Atmos stacks
-├── .gitconfig              # development image .gitconfig
-├── .mise.toml              # Mise config file
-├── .pre-commit-config.yaml # pre-commit config file
-├── .releaserc.yaml         # semantic-release config file
+├── toolbox                 # Toolbox config files
+│   ├── rootfs              # Atmos config file dir
+│   ├── .gitconfig
+│   ├── .mise.toml          # Mise config file
+│   └── Dockerfile
+├── .pre-commit-config.yaml # Pre-commit config file
+├── .releaserc.yaml         # Semantic-release config file
 ├── tflint.hcl              # (temporary, until static analysis is migrated) TFLint config file
 ├── .trivyignore.yaml       # Trivy config file
-├── Dockerfile              # development image config
 ├── README.md
 ├── vendor.yaml             # Atmos vendor config
 ```
