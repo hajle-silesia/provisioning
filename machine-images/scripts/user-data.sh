@@ -16,6 +16,7 @@ function main() {
     set_env_variables
     deploy_cd_tool_for_container_orchestration_tool
     deploy_business_application
+    remove_cluster_initiated_flag_deprecated_versions
   else
     wait_lb
     join_cluster
@@ -76,6 +77,19 @@ function deploy_business_application() {
   helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/container-orchestration-cd-config/master/docs
   helm repo update
   helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd
+}
+
+
+function remove_cluster_initiated_flag_deprecated_versions() {
+  deprecated_versions=$(oci secrets secret-bundle-version list-versions \
+    --secret-id "${SECRET_ID}" \
+    --all | jq -r '.data[] | select(.stages[] == "DEPRECATED") | select(."time-of-deletion" == null) | ."version-number"')
+  for deprecated_version in "${deprecated_versions[@]}"; do
+    oci vault secret-version schedule-deletion \
+      --secret-id "${SECRET_ID}" \
+      --time-of-deletion $(date -uIs -d "1 day 1 minute") \
+      --secret-version-number "${deprecated_version}"
+  done
 }
 
 
