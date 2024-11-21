@@ -73,7 +73,7 @@ Following CLI tools are contained within the image:
 | [tflint](https://github.com/terraform-linters/tflint#installation)                                    | Static analysis                                   |
 | [trivy](https://aquasecurity.github.io/trivy/latest/getting-started/installation/)                    | Static analysis                                   |
 | [pre-commit](https://pre-commit.com/)                                                                 | Managing pre-commit hooks                         |
-| [helm](https://helm.sh/docs/intro/install/)                                                           | Package manager for container orchestration       |
+| [helm](https://helm.sh/docs/intro/install/)                                                           | Container orchestration package manager           |
 | [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli) | Machine images provisioning                       |
 
 ### Dependency updates
