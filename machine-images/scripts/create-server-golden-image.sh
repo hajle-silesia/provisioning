@@ -20,7 +20,7 @@ function install_cloud_provider_cli() {
 }
 
 
-function install_package_manager_for_container_orchestration_tool() {
+function install_container_orchestration_package_manager() {
   curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
   apt-get install -y \
     apt-transport-https

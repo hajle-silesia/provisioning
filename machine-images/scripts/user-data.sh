@@ -66,14 +66,14 @@ function set_env_variables() {
 }
 
 
-function deploy_cd_tool_for_container_orchestration_tool() {
+function deploy_container_orchestration_cd_tool() {
   k3s kubectl create namespace argocd
   curl -sSfL https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.3/manifests/install.yaml | k3s kubectl apply -n argocd -f -
 }
 
 
 function deploy_business_application() {
-  helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/cd-config/master/docs
+  helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/container-orchestration-cd-config/master/docs
   helm repo update
   helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd
 }
