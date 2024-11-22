@@ -40,9 +40,8 @@ resource "oci_core_subnet" "default" {
   security_list_ids = concat(
     [local.default_security_list_id],
     oci_core_security_list.ssh_ipv4[*].id,
-    oci_core_security_list.https_ipv4[*].id,
-    oci_core_security_list.container_cluster_api_ipv4[*].id,
-    oci_core_security_list.container_cluster_key_value_store_ipv4[*].id,
+    oci_core_security_list.node_ipv4[*].id,
+    oci_core_security_list.container_cluster_ipv4[*].id,
   )
   freeform_tags = data.context_tags.main.tags
 }
@@ -81,12 +80,12 @@ resource "oci_core_security_list" "ssh_ipv4" {
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_core_security_list" "https_ipv4" {
+resource "oci_core_security_list" "node_ipv4" {
   count = local.https_enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
   vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-https-ipv4"
+  display_name   = "${data.context_label.main.rendered}-node-ipv4"
 
   ingress_security_rules {
     source      = "0.0.0.0/0"
@@ -115,12 +114,13 @@ resource "oci_core_security_list" "https_ipv4" {
   freeform_tags = data.context_tags.main.tags
 }
 
-resource "oci_core_security_list" "container_cluster_api_ipv4" {
+# Source: https://docs.k3s.io/installation/requirements#inbound-rules-for-k3s-nodes
+resource "oci_core_security_list" "container_cluster_ipv4" {
   count = local.container_cluster_enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
   vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-container-cluster-api-ipv4"
+  display_name   = "${data.context_label.main.rendered}-container-cluster-ipv4"
 
   egress_security_rules {
     destination = "0.0.0.0/0"
@@ -170,16 +170,6 @@ resource "oci_core_security_list" "container_cluster_api_ipv4" {
       }
     }
   }
-  freeform_tags = data.context_tags.main.tags
-}
-
-resource "oci_core_security_list" "container_cluster_key_value_store_ipv4" {
-  count = local.container_cluster_enabled ? 1 : 0
-
-  compartment_id = local.compartment_ocid
-  vcn_id         = local.vcn_id
-  display_name   = "${data.context_label.main.rendered}-container-cluster-key-value-store-ipv4"
-
   egress_security_rules {
     destination = "0.0.0.0/0"
     protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
@@ -226,6 +216,54 @@ resource "oci_core_security_list" "container_cluster_key_value_store_ipv4" {
         max = 2380
         min = 2379
       }
+    }
+  }
+  ingress_security_rules {
+    source      = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow DNS ingress"
+
+    tcp_options {
+      source_port_range {
+        max = 53
+        min = 53
+      }
+    }
+  }
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow DNS egress"
+
+    tcp_options {
+      max = 53
+      min = 53
+    }
+  }
+  ingress_security_rules {
+    source      = "0.0.0.0/0"
+    protocol    = 17 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow DNS ingress"
+
+    udp_options {
+      source_port_range {
+        max = 53
+        min = 53
+      }
+    }
+  }
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol    = 17 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    stateless   = true
+    description = "Allow DNS egress"
+
+    udp_options {
+      max = 53
+      min = 53
     }
   }
   freeform_tags = data.context_tags.main.tags
