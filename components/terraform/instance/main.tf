@@ -140,5 +140,6 @@ resource "oci_identity_policy" "compute_instances_list" {
     "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to inspect secrets in compartment id ${var.compartment_ocid}",
     "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to read secret-bundle in compartment id ${var.compartment_ocid}",
     "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to use secret in compartment id ${var.compartment_ocid}",
+    "allow dynamic-group ${oci_identity_dynamic_group.servers.name} to manage secret-versions in compartment id ${var.compartment_ocid}",
   ]
 }
