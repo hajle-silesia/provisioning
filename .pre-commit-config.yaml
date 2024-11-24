@@ -24,7 +24,7 @@ repos:
       - id: terraform_trivy
         args:
           - --args=--severity=MEDIUM,HIGH,CRITICAL
-          - --args=--ignorefile .trivyignore.yaml
+          - --args=--ignorefile=__GIT_WORKING_DIR__/.trivyignore.yaml
           # Race condition observed with parallelism enabled, especially in CI/CD workflows
           # Ref: https://github.com/aquasecurity/trivy/discussions/7139
           - --hook-config=--parallelism-limit=1
