@@ -2,7 +2,7 @@
 
 ## About
 
-Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Infrastructure Cloud.
+Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Cloud Infrastructure.
 
 ## Repository
 
@@ -51,7 +51,7 @@ Run every time new version was released and updated in the workflows files (for 
 docker pull mtweeman/hajle-silesia_provisioning-toolbox:latest
 ```
 
-Run on daily basis, preferably as a second terminal, next to the terminal used for `git` commands:
+Run on daily basis, preferably as a main terminal:
 
 ```shell
 hajle-silesia_provisioning-toolbox
