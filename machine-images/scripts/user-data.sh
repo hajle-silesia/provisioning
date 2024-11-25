@@ -14,7 +14,7 @@ function main() {
     set_cluster_initiated_flag
     initiate_cluster
     set_env_variables
-    deploy_cd_tool_for_container_orchestration_tool
+    deploy_container_orchestration_cd_tool
     deploy_business_application
     remove_cluster_initiated_flag_deprecated_versions
   else
