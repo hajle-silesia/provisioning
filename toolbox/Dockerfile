@@ -33,6 +33,7 @@ ENV PATH="${MISE_DATA_DIR}/shims:$PATH"
 COPY .mise.toml /etc/mise/config.toml
 # Install tools
 # Source: https://mise.jdx.dev/cli/install.html
+RUN mise trust
 RUN mise install --yes
 
 # Atmos configuration
