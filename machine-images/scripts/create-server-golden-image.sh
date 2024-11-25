@@ -68,7 +68,7 @@ cloud-init status --wait
 update_and_upgrade_packages
 install_packages
 install_cloud_provider_cli
-install_package_manager_for_container_orchestration_tool
+install_container_orchestration_package_manager
 disable_firewalls
 #configure_firewall
 set_user_data_script
