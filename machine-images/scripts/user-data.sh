@@ -81,7 +81,7 @@ function deploy_business_application() {
 
 
 function remove_cluster_initiated_flag_deprecated_versions() {
-  deprecated_versions=$(oci secrets secret-bundle-version list-versions \
+  mapfile -t deprecated_versions < <(oci secrets secret-bundle-version list-versions \
     --secret-id "${SECRET_ID}" \
     --all | jq -r '.data[] | select(.stages[] == "DEPRECATED") | select(."time-of-deletion" == null) | ."version-number"')
   for deprecated_version in "${deprecated_versions[@]}"; do
