@@ -114,9 +114,9 @@ function join_cluster() {
 
 function delete_unready_nodes() {
   hostname="$(hostname)"
-  unready_nodes=$(kubectl get nodes --no-headers | grep "NotReady" | awk '{print $1}')
+  mapfile -t unready_nodes < <(kubectl get nodes --no-headers | grep "NotReady" | awk '{print $1}')
 
-  for node in ${unready_nodes}; do
+  for node in "${unready_nodes[@]}"; do
     if [[ "${node}" != "${hostname}" ]]; then
       kubectl delete node "${node}"
     fi
