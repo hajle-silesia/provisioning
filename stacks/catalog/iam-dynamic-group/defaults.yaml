@@ -1,0 +1,5 @@
+components:
+  terraform:
+    iam-dynamic-group:
+      vars:
+        enabled: true
