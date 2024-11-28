@@ -4,6 +4,7 @@ import:
   - catalog/alb/defaults
   - catalog/nlb/defaults
   - catalog/dns/defaults
+  - catalog/iam-dynamic-group/defaults
   - catalog/instance/defaults
 
 vars:

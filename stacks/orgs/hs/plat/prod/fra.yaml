@@ -65,6 +65,9 @@ components:
         name: dns
         lb:
           name: nlb
+    iam-dynamic-group:
+      metadata:
+        component: iam-dynamic-group
     instance:
       metadata:
         component: instance
