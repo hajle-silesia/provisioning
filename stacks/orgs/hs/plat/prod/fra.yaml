@@ -68,6 +68,8 @@ components:
     iam-dynamic-group:
       metadata:
         component: iam-dynamic-group
+      vars:
+        name: iam-dynamic-group
     instance:
       metadata:
         component: instance
