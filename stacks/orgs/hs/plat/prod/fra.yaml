@@ -40,7 +40,14 @@ components:
         name: alb
         alb:
           name: alb
-          listener_port: 6443
+    alb-listener/cluster-api:
+      metadata:
+        component: alb-listener
+      vars:
+        name: alb-listener
+        alb_listener:
+          name: cluster-api
+          port: 6443
           health_check_port: 6443
     nlb:
       metadata:

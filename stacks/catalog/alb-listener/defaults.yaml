@@ -1,0 +1,5 @@
+components:
+  terraform:
+    alb-listener/cluster-api:
+      vars:
+        enabled: true
