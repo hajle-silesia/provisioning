@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/cloudposse/utils" {
   version     = "1.26.0"
-  constraints = "!= 1.4.0, >= 1.7.1, >= 1.14.0, < 2.0.0"
+  constraints = ">= 1.7.1, >= 1.14.0, < 2.0.0"
   hashes = [
     "h1:uQYlTkw1awAwoWE+KtoXFvLAaaLUhi2AcXCpWhwvTpA=",
     "zh:0f1c2d5d2f0b32808292422bf8e33a5c2e3bf73602493df04a3c6c2de95c99a5",
@@ -27,20 +27,7 @@ provider "registry.terraform.io/hashicorp/aws" {
   version     = "5.78.0"
   constraints = ">= 4.0.0"
   hashes = [
-    "h1:/EKXECKi3XzLR0SwaEyQucvsQx2TdyIF2DYabr9DVqM=",
-    "h1:15pt02WPsTWUsLi37o791kSplIqEf2Ihl+zFdBOpKnY=",
-    "h1:3TLJUm+6523EtS8W8G4f22e0bp2MpZ72f9qptc31WD8=",
-    "h1:EGEcXHT4WdxUTRSPzjevCNXStQ+u2eeQB4EmOSp2nPc=",
-    "h1:GwVGbd+IHAq+qwGs2QKuxazKzrJhSWVicYyGBPftuG0=",
     "h1:OUmta/bL/0S6g4K/Mn1LBkEnMWNCq4dLsfYrdrllcEo=",
-    "h1:cxjNJTMeoxw0csix1iWp4m2esNUOuFfVbIAacUGjYSQ=",
-    "h1:kB3dnSsazjI63RZdz2gldCkDFw8KI0IJd6RbhqxrE6I=",
-    "h1:o7jz+dFixEcwjfdubken5ldmDJm1tkvM2adPtNDei3g=",
-    "h1:vIzenE93tNUfA/hFcwB6wouenp59n9g2J6FNPfJAOpg=",
-    "h1:zA5P+U4hv2P52fwfLNjAIA2jS9xOn4xCmrXrOMKH8gs=",
-    "h1:zKNuYrqjerfmrU0bgKQtubN/NiMLRXP4HTThTm1WfJE=",
-    "h1:zYvhhpw56OF8ClJezKBdKV0+6elVM3FYEAjaNWAinjk=",
-    "h1:zel31ZX4jCQoeQXydOfcm4ncD9aj+437F9Cr1eoCumM=",
     "zh:0ae7d41b96441d0cf7ce2e1337657bdb2e1e5c9f1c2227b0642e1dcec2f9dfba",
     "zh:21f8f1edf477681ea3b095c02cad6b8e85262e45015de58e84e0c7b2bfe9a1f6",
     "zh:2bdc335e341bf98445255549ae93d66cfb9bca706e62b949da98fe467c182cad",
@@ -123,12 +110,7 @@ provider "registry.terraform.io/spacelift-io/spacelift" {
   version     = "1.18.0"
   constraints = ">= 0.1.31"
   hashes = [
-    "h1:FXvLGey+WefxBT+UubXSehuIoSrBCdqRLTPxPn0pqwc=",
-    "h1:GYE+KjFd2WdWJXcIoclet+c81/4gYxY+eCBE48VkQwc=",
     "h1:LaqOZTmU6TUfEn/B22rnGl1SMNH7876JCf12Pol2yvw=",
-    "h1:hTtzUmYK7FMyvuOW6zgFMe6VAd0a2WiEjBq1sHarLMk=",
-    "h1:iomzNQhpDp4btNxl/7gynV7pbyYN3Rrm51ac/xAigqY=",
-    "h1:vImJkZdlETDnrKshZixYTRrzwhWbWvEVXW9G5kw7hs8=",
     "zh:060fbb832a5b209f68070ea16bb0dfefffa4d63ab285b22269e4be422b8215b1",
     "zh:60cf09a34b514ccb61f8d3d91bcea0c9c32a8918221f6e24d0e9aaf779f810f6",
     "zh:86a266bb10726452960996441651c532101ad1c300a2a90b925f159e848660d8",

@@ -2,6 +2,7 @@ import:
   - catalog/vault/defaults
   - catalog/vcn/defaults
   - catalog/alb/defaults
+  - catalog/alb-listener/defaults
   - catalog/nlb/defaults
   - catalog/dns/defaults
   - catalog/iam-dynamic-group/defaults
