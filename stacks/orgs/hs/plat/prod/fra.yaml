@@ -49,6 +49,15 @@ components:
           name: cluster-api
           port: 6443
           health_check_port: 6443
+    alb-listener/https:
+      metadata:
+        component: alb-listener
+      vars:
+        name: alb-listener
+        alb_listener:
+          name: https
+          port: 80
+          health_check_port: 80
     nlb:
       metadata:
         component: nlb

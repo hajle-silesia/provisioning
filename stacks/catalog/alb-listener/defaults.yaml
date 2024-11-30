@@ -3,3 +3,6 @@ components:
     alb-listener/cluster-api:
       vars:
         enabled: true
+    alb-listener/https:
+      vars:
+        enabled: true

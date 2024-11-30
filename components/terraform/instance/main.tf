@@ -115,6 +115,12 @@ resource "oci_core_instance_pool" "servers" {
     port             = 6443
     vnic_selection   = "PrimaryVnic"
   }
+  # load_balancers {
+  #   backend_set_name = "https-test"
+  #   load_balancer_id = module.alb_reference.outputs.id
+  #   port             = 80
+  #   vnic_selection   = "PrimaryVnic"
+  # }
   load_balancers {
     backend_set_name = module.nlb_reference.outputs.backend_set_name
     load_balancer_id = module.nlb_reference.outputs.id
