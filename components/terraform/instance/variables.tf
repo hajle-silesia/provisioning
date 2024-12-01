@@ -44,10 +44,10 @@ variable "name" {
 
 variable "instance" {
   type = object({
-    name                = string
-    shape               = string
-    instance_public_key = string
-    k3s_version         = string
+    name        = string
+    shape       = string
+    public_key  = string
+    k3s_version = string
   })
 }
 
