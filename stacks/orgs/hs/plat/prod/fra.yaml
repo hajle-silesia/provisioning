@@ -40,22 +40,22 @@ components:
         name: alb
         alb:
           name: alb
-    alb-listener/cluster-api:
+    alb-listener/ext-cluster-api:
       metadata:
         component: alb-listener
       vars:
         name: alb-listener
         alb_listener:
-          name: cluster-api
+          name: ext-cluster-api
           port: 6443
           health_check_port: 6443
-    alb-listener/https:
+    alb-listener/ext-https:
       metadata:
         component: alb-listener
       vars:
         name: alb-listener
         alb_listener:
-          name: https
+          name: ext-https
           port: 80
           health_check_port: 80
     nlb:

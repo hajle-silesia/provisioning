@@ -47,7 +47,7 @@ module "alb_listener_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
 
-  component = "alb-listener/cluster-api"
+  component = "alb-listener/ext-cluster-api"
 
   tenant      = var.tenant
   environment = var.environment

@@ -1,8 +1,8 @@
 components:
   terraform:
-    alb-listener/cluster-api:
+    alb-listener/ext-cluster-api:
       vars:
         enabled: true
-    alb-listener/https:
+    alb-listener/ext-https:
       vars:
         enabled: true
