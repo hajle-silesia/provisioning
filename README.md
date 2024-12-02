@@ -146,7 +146,7 @@ To avoid configuration drift and shorten deployment time for newly spun instance
 
 ### Secrets management
 
-[HashiCorp Vault](https://www.vaultproject.io/) is used as a secrets management solution for the cluster, deployed as an external service, preferably prior to cluster spinning. Contrary to being installed as a cluster service, it prevents chicken-and-egg situation where it needs to use some sensitive data during provisioning, not yet available at that time. [External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault.
+OCI Vault is used as a secrets management solution for the cluster. Dedicated secret (see vault module config) stores the cluster initialization flag, useful for server nodes during cold start (spinning new cluster).[External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault as described [here](https://external-secrets.io/latest/provider/oracle-vault/).
 
 ### DNS
 
