@@ -39,6 +39,7 @@ General overview of the repository structure. Not all files/directories are list
 `hajlesilesia/provisioning` Docker image is a preferred way to distribute the tools used in this repository. It's designed to bring consistency for local and [remote](.github/workflows) usage by being cross-platform (macOS, Linux, WSL), multi architecture (linux/amd64, linux/arm64), version controlled and reusable.
 
 Run once:
+
 ```shell
 docker run --rm hajlesilesia/provisioning:latest init | bash
 ```
