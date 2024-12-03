@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - master
+    paths:
+      - "toolbox/**"
   workflow_dispatch:
 
 
