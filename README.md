@@ -104,7 +104,20 @@ Following static analysis tools are contained within the image with pre-commit h
 
 ### Deployment
 
-[Spacelift](https://spacelift.io/) is used as a tool for orchestration of infrastructure provisioning. It's configured to work with Atmos as described [here](https://docs.cloudposse.com/layers/spacelift/). See [Spacelift console](https://hajle-silesia.app.spacelift.io/) for configuration details. [Custom workflow tool](https://docs.spacelift.io/vendors/terraform/workflow-tool) is defined [here](.spacelift/workflow.yml) due to Terraform FOSS version constraints.
+Depending on the phase of software delivery, [Atmos workflows](https://atmos.tools/core-concepts/workflows)/[Spacelift](https://spacelift.io/) is used as a tool for orchestration of infrastructure provisioning. 
+
+#### Day-1
+
+Atmos workflows are used for cold starts. See configuration [here](stacks/workflows). Execute these commands for full deployment:
+
+```shell
+atmos workflow apply-all-components -f foundation
+atmos workflow apply-all-components -f plat-env -s plat-fra-prod
+```
+
+#### Day-2
+
+ Spacelift is configured to work with Atmos as described [here](https://docs.cloudposse.com/layers/spacelift/). See [Spacelift console](https://hajle-silesia.app.spacelift.io/) for configuration details. [Custom workflow tool](https://docs.spacelift.io/vendors/terraform/workflow-tool) is defined [here](.spacelift/workflow.yml) due to Terraform FOSS version constraints.
 Additional information:
 - [Spacelift components](https://docs.cloudposse.com/components/library/aws/spacelift/)
 - [Spacelift admin stack component](https://github.com/cloudposse-terraform-components/aws-spacelift-admin-stack)
