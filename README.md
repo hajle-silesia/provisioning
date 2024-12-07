@@ -29,8 +29,6 @@ General overview of the repository structure. Not all files/directories are list
 │   ├── .mise.toml          # Mise config file
 │   └── Dockerfile
 ├── .pre-commit-config.yaml # Pre-commit config file
-├── .releaserc.yaml         # Semantic-release config file
-├── tflint.hcl              # (temporary, until static analysis is migrated) TFLint config file
 ├── .trivyignore.yaml       # Trivy config file
 ├── README.md
 ├── vendor.yaml             # Atmos vendor config
