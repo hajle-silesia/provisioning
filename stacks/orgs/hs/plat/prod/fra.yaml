@@ -108,8 +108,8 @@ components:
           cluster-admin:
             - Group:test_sa_group@domain.com
             - User:someone@domain.com
-            - ServiceAccount:service@google.com
+            - ServiceAccount:servicegoogle.com
           cluster-viewer:
             - Group:test_sa_group2@domain.com
             - User:someone2@domain.com
-            - ServiceAccount:service2@google.com
+            - ServiceAccount:service2google.com
