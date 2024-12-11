@@ -7,6 +7,7 @@ import:
   - catalog/dns/defaults
   - catalog/iam-dynamic-group/defaults
   - catalog/instance/defaults
+  - catalog/rbac_binding/defaults
 
 vars:
   region: eu-frankfurt-1
