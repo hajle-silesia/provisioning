@@ -91,7 +91,6 @@ resource "oci_core_instance_configuration" "default" {
             #!/usr/bin/env bash
 
             LOGFILE="/root/oci-user-data.log"
-            set -eo pipefail
             exec 3>&1 4>&2 1>"$${LOGFILE}" 2>&1
             trap "echo 'ERROR: An error occurred during execution, check log $${LOGFILE} for details.' >&3" ERR
             trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
