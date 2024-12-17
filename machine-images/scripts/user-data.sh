@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 LOGFILE="/root/user-data.log"
-set -eo pipefail
 exec 3>&1 4>&2 1>"${LOGFILE}" 2>&1
 trap "echo 'ERROR: An error occurred during execution, check log ${LOGFILE} for details.' >&3" ERR
 trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
@@ -15,6 +14,7 @@ function main() {
     initiate_cluster
     set_env_variables
     deploy_container_orchestration_cd_tool
+    install_container_orchestration_cd_tool_cli
     deploy_business_application
     remove_cluster_initiated_flag_deprecated_versions
   else
@@ -61,22 +61,42 @@ function initiate_cluster() {
 
 
 function set_env_variables() {
-  echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> .bashrc
+  export HOME="/root"
+  export KUBECONFIG="/etc/rancher/k3s/k3s.yaml"
 
-  . .bashrc
+  echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> /root/.bashrc
 }
 
 
 function deploy_container_orchestration_cd_tool() {
-  k3s kubectl create namespace argocd
-  curl -sSfL https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.3/manifests/install.yaml | k3s kubectl apply -n argocd -f -
+  kubectl create namespace argocd
+  curl -sSfL https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.3/manifests/install.yaml | kubectl apply -n argocd -f -
+}
+
+
+function install_container_orchestration_cd_tool_cli() {
+  curl -sSL -o argocd-linux-arm64 https://github.com/argoproj/argo-cd/releases/download/v2.11.3/argocd-linux-arm64
+  install -m 555 argocd-linux-arm64 /usr/local/bin/argocd
+  rm argocd-linux-arm64
 }
 
 
 function deploy_business_application() {
-  helm repo add hajle-silesia https://raw.githubusercontent.com/hajle-silesia/container-orchestration-cd-config/master/docs
-  helm repo update
-  helm upgrade --install hajle-silesia hajle-silesia/helm -n argocd
+  kubectl config set-context --current --namespace=argocd
+  argocd login cd.argoproj.io --core
+
+  while true; do
+    argocd app create hajle-silesia \
+      --dest-namespace default \
+      --dest-server https://kubernetes.default.svc \
+      --repo https://github.com/hajle-silesia/container-orchestration-cd-config.git \
+      --path charts/hajle-silesia
+    if [[ "$?" -eq 0 ]]; then
+      break
+    fi
+    sleep 60
+  done
+  argocd app sync hajle-silesia
 }
 
 
