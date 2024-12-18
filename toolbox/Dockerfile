@@ -10,7 +10,7 @@ FROM ${GEODESIC_REPOSITORY}:${GEODESIC_TAG}
 
 ENV BANNER="toolbox"
 
-ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-toolbox"
+ENV DOCKER_IMAGE="hajlesilesia/provisioning"
 ENV DOCKER_TAG="latest"
 
 # Add system-wide git safe directory to avoid ownership issues in the filesystem.
