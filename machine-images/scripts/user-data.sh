@@ -90,7 +90,10 @@ function deploy_business_application() {
       --dest-namespace default \
       --dest-server https://kubernetes.default.svc \
       --repo https://github.com/hajle-silesia/container-orchestration-cd-config.git \
-      --path charts/hajle-silesia
+      --path charts/hajle-silesia \
+      --sync-policy automated \
+      --auto-prune \
+      --self-heal
     if [[ "$?" -eq 0 ]]; then
       break
     fi
