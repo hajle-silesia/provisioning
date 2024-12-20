@@ -4,13 +4,13 @@ ARG GEODESIC_REPOSITORY=cloudposse/geodesic
 ARG GEODESIC_TAG=3.4.0-debian
 
 # renovate: datasource=github-releases depName=jdx/mise
-ARG MISE_VERSION=v2024.11.18
+ARG MISE_VERSION=v2024.12.15
 
 FROM ${GEODESIC_REPOSITORY}:${GEODESIC_TAG}
 
 ENV BANNER="toolbox"
 
-ENV DOCKER_IMAGE="mtweeman/hajle-silesia_provisioning-toolbox"
+ENV DOCKER_IMAGE="hajlesilesia/provisioning"
 ENV DOCKER_TAG="latest"
 
 # Add system-wide git safe directory to avoid ownership issues in the filesystem.
@@ -33,6 +33,7 @@ ENV PATH="${MISE_DATA_DIR}/shims:$PATH"
 COPY .mise.toml /etc/mise/config.toml
 # Install tools
 # Source: https://mise.jdx.dev/cli/install.html
+RUN mise trust
 RUN mise install --yes
 
 # Atmos configuration

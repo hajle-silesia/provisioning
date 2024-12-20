@@ -2,7 +2,7 @@
 
 ## About
 
-Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Infrastructure Cloud.
+Repository for provisioning [K3s](https://docs.k3s.io/) container orchestration tool, basing on [always free](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm) infrastructure resources from Oracle Cloud Infrastructure.
 
 ## Repository
 
@@ -14,21 +14,24 @@ General overview of the repository structure. Not all files/directories are list
 ├── .github                 # GitHub config files
 │   ├── workflows           # GitHub Actions config files
 │   └── renovate.json       # Renovate config
-├── certificates            # certificates
+├── .spacelift              # Spacelift config files
+│   └── workflow.yml        # Spacelift workflow tool config file
+├── certificates            # Certificates
 ├── components              # Terraform root modules
-├── machine-images          # source files for machine images
+├── machine-images          # Source files for machine images
 ├── modules                 # Terraform modules
-│   ├── <module-0>          # source files for Terraform <module-0>
-│   └── ...                 # other modules
-├── rootfs                  # Atmos config file
+│   ├── <module-0>          # Source files for Terraform <module-0>
+│   └── ...                 # Other modules
 ├── stacks                  # Atmos stacks
-├── .gitconfig              # development image .gitconfig
-├── .mise.toml              # Mise config file
-├── .pre-commit-config.yaml # pre-commit config file
-├── .releaserc.yaml         # semantic-release config file
+├── toolbox                 # Toolbox config files
+│   ├── rootfs              # Atmos config file dir
+│   ├── .gitconfig
+│   ├── .mise.toml          # Mise config file
+│   └── Dockerfile
+├── .pre-commit-config.yaml # Pre-commit config file
+├── .releaserc.yaml         # Semantic-release config file
 ├── tflint.hcl              # (temporary, until static analysis is migrated) TFLint config file
 ├── .trivyignore.yaml       # Trivy config file
-├── Dockerfile              # development image config
 ├── README.md
 ├── vendor.yaml             # Atmos vendor config
 ```
@@ -48,7 +51,7 @@ Run every time new version was released and updated in the workflows files (for 
 docker pull mtweeman/hajle-silesia_provisioning-toolbox:latest
 ```
 
-Run on daily basis, preferably as a second terminal, next to the terminal used for `git` commands:
+Run on daily basis, preferably as a main terminal:
 
 ```shell
 hajle-silesia_provisioning-toolbox
@@ -72,12 +75,12 @@ Following CLI tools are contained within the image:
 | [tflint](https://github.com/terraform-linters/tflint#installation)                                    | Static analysis                                   |
 | [trivy](https://aquasecurity.github.io/trivy/latest/getting-started/installation/)                    | Static analysis                                   |
 | [pre-commit](https://pre-commit.com/)                                                                 | Managing pre-commit hooks                         |
-| [helm](https://helm.sh/docs/intro/install/)                                                           | Package manager for container orchestration       |
+| [helm](https://helm.sh/docs/intro/install/)                                                           | Container orchestration package manager           |
 | [packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli) | Machine images provisioning                       |
 
 ### Dependency updates
 
-[Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed.
+[Renovate](https://docs.renovatebot.com/) is used as a tool for automated dependency updates. Although it handles many dependencies out of the box, there are many that are not supported yet. These have to be taken care of separately via [config file](.github/renovate.json). Verify periodically all dependencies against Renovate latest documentation/config file, to see if dependency support is added/separate handling is still needed. See [Renovate console](https://developer.mend.io/github/hajle-silesia/provisioning) for scanning details.
 
 ### Static analysis
 
@@ -98,6 +101,28 @@ Following static analysis tools are contained within the image with pre-commit h
 | [Terraform validate](https://developer.hashicorp.com/terraform/cli/commands/validate) | Configuration files validation |
 | [TFLint](https://github.com/terraform-linters/tflint)                                 | Linter                         |
 | [Trivy](https://github.com/aquasecurity/trivy)                                        | Security vulnerabilities check |
+
+### Deployment
+
+Depending on the phase of software delivery, [Atmos workflows](https://atmos.tools/core-concepts/workflows)/[Spacelift](https://spacelift.io/) is used as a tool for orchestration of infrastructure provisioning. 
+
+#### Day-1
+
+Atmos workflows are used for cold starts. See configuration [here](stacks/workflows). Execute these commands for full deployment:
+
+```shell
+atmos workflow apply-all-components -f foundation
+atmos workflow apply-all-components -f plat-env -s plat-fra-prod
+```
+
+#### Day-2
+
+ Spacelift is configured to work with Atmos as described [here](https://docs.cloudposse.com/layers/spacelift/). See [Spacelift console](https://hajle-silesia.app.spacelift.io/) for configuration details. [Custom workflow tool](https://docs.spacelift.io/vendors/terraform/workflow-tool) is defined [here](.spacelift/workflow.yml) due to Terraform FOSS version constraints.
+Additional information:
+- [Spacelift components](https://docs.cloudposse.com/components/library/aws/spacelift/)
+- [Spacelift admin stack component](https://github.com/cloudposse-terraform-components/aws-spacelift-admin-stack)
+- [Spacelift spaces component](https://github.com/cloudposse-terraform-components/aws-spacelift-spaces)
+- [Spacelift as TACOS](https://docs.cloudposse.com/layers/spacelift/)
 
 ### Version management and package publishing
 

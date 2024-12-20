@@ -1,0 +1,117 @@
+name: Environment provisioning within platform
+description: Atmos workflows for managing environment provisioning within platform
+
+workflows:
+  plan-all-vault:
+    description: Run 'terraform plan' on all 'vault' components in all stacks
+    steps:
+      - command: terraform plan vault
+
+  plan-all-iam-dynamic-group:
+    description: Run 'terraform plan' on all 'iam-dynamic-group' components in all stacks
+    steps:
+      - command: terraform plan iam-dynamic-group
+
+  plan-all-vcn:
+    description: Run 'terraform plan' on all 'vcn' components in all stacks
+    steps:
+      - command: terraform plan vcn
+
+  plan-all-alb:
+    description: Run 'terraform plan' on all 'alb' components in all stacks
+    steps:
+      - command: terraform plan alb
+
+  plan-all-nlb:
+    description: Run 'terraform plan' on all 'nlb' components in all stacks
+    steps:
+      - command: terraform plan nlb
+
+  plan-all-alb-listener-ext-cluster-api:
+    description: Run 'terraform plan' on all 'alb-listener/ext-cluster-api' components in all stacks
+    steps:
+      - command: terraform plan alb-listener/ext-cluster-api
+
+  plan-all-alb-listener-ext-https:
+    description: Run 'terraform plan' on all 'alb-listener/ext-https' components in all stacks
+    steps:
+      - command: terraform plan alb-listener/ext-https
+
+  plan-all-dns-alb:
+    description: Run 'terraform plan' on all 'dns/alb' components in all stacks
+    steps:
+      - command: terraform plan dns/alb
+
+  plan-all-dns-nlb:
+    description: Run 'terraform plan' on all 'dns/nlb' components in all stacks
+    steps:
+      - command: terraform plan dns/nlb
+
+  plan-all-instance:
+    description: Run 'terraform plan' on all 'instance' components in all stacks
+    steps:
+      - command: terraform plan instance
+
+  apply-all-components:
+    description: Run 'terraform apply' on all components in all stacks
+    steps:
+      - command: terraform deploy vault
+      - command: terraform deploy iam-dynamic-group
+      - command: terraform deploy vcn
+      - command: terraform deploy alb
+      - command: terraform deploy nlb
+      - command: terraform deploy alb-listener/ext-cluster-api
+      - command: terraform deploy alb-listener/ext-https
+      - command: terraform deploy dns/alb
+      - command: terraform deploy dns/nlb
+      - command: terraform deploy instance
+
+  validate-all-vault:
+    description: Validate all vault components in all stacks
+    steps:
+      - command: validate component vault
+
+  validate-all-iam-dynamic-group:
+    description: Validate all iam-dynamic-group components in all stacks
+    steps:
+      - command: validate component iam-dynamic-group
+
+  validate-all-vcn:
+    description: Validate all vcn components in all stacks
+    steps:
+      - command: validate component vcn
+
+  validate-all-alb:
+    description: Validate all alb components in all stacks
+    steps:
+      - command: validate component alb
+
+  validate-all-nlb:
+    description: Validate all nlb components in all stacks
+    steps:
+      - command: validate component nlb
+
+  validate-all-alb-listener-ext-cluster-api:
+    description: Validate all alb-listener/ext-cluster-api components in all stacks
+    steps:
+      - command: validate component alb-listener/ext-cluster-api
+
+  validate-all-alb-listener-ext-https:
+    description: Validate all alb-listener/ext-https components in all stacks
+    steps:
+      - command: validate component alb-listener/ext-https
+
+  validate-all-dns-alb:
+    description: Validate all dns/alb components in all stacks
+    steps:
+      - command: validate component dns/alb
+
+  validate-all-dns-nlb:
+    description: Validate all dns/nlb components in all stacks
+    steps:
+      - command: validate component dns/nlb
+
+  validate-all-instance:
+    description: Validate all instance components in all stacks
+    steps:
+      - command: validate component instance

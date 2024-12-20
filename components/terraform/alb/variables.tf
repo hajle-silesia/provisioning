@@ -44,8 +44,6 @@ variable "name" {
 
 variable "alb" {
   type = object({
-    name              = string
-    listener_port     = number
-    health_check_port = number
+    name = string
   })
 }

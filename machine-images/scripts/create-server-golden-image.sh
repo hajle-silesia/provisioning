@@ -20,17 +20,6 @@ function install_cloud_provider_cli() {
 }
 
 
-function install_package_manager_for_container_orchestration_tool() {
-  curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null
-  apt-get install -y \
-    apt-transport-https
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
-  apt-get update
-  apt-get install -y \
-    helm
-}
-
-
 function disable_firewalls() {
   netfilter-persistent stop
   netfilter-persistent flush
@@ -68,7 +57,6 @@ cloud-init status --wait
 update_and_upgrade_packages
 install_packages
 install_cloud_provider_cli
-install_package_manager_for_container_orchestration_tool
 disable_firewalls
 #configure_firewall
 set_user_data_script

@@ -1,0 +1,32 @@
+name: Orchestration of infrastructure provisioning
+description: Atmos workflows for managing orchestration of infrastructure provisioning
+
+workflows:
+  plan-all-spaces:
+    description: Run 'terraform plan' on all 'spaces' components in all stacks
+    steps:
+      - command: terraform plan spaces -s root-gbl-spacelift
+
+  plan-all-admin-stack:
+    description: Run 'terraform plan' on all 'admin-stack' components in all stacks
+    steps:
+      - command: terraform plan admin-stack -s root-gbl-spacelift
+      - command: terraform plan admin-stack -s plat-gbl-spacelift
+
+  apply-all-components:
+    description: Run 'terraform apply' on all components in all stacks
+    steps:
+      - command: terraform deploy spaces -s root-gbl-spacelift
+      - command: terraform deploy admin-stack -s root-gbl-spacelift
+      - command: terraform deploy admin-stack -s plat-gbl-spacelift
+
+  validate-all-spaces:
+    description: Validate all spaces components in all stacks
+    steps:
+      - command: validate component spaces -s root-gbl-spacelift
+
+  validate-all-admin-stack:
+    description: Validate all admin-stack components in all stacks
+    steps:
+      - command: validate component admin-stack -s root-gbl-spacelift
+      - command: validate component admin-stack -s plat-gbl-spacelift
