@@ -1,6 +1,6 @@
 [tools]
 k3s = '1.30.0+k3s1'
-oci = '3.51.0'
+oci = '3.51.1'
 terraform = '1.10.3'
 atmos = '1.130.0'
 tflint = '0.54.0'
