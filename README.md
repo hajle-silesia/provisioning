@@ -104,12 +104,24 @@ Following static analysis tools are contained within the image with pre-commit h
 
 Depending on the phase of software delivery, [Atmos workflows](https://atmos.tools/core-concepts/workflows)/[Spacelift](https://spacelift.io/) is used as a tool for orchestration of infrastructure provisioning. 
 
+#### Pre-requisites
+
+1. Create Oracle Cloud Infrastructure account.
+1. Upgrade Free Tier account to a paid account. Paid accounts precede Free Tier accounts when it comes to resources (especially instances) provisioning by OCI. For Free Tier accounts it can take hours.
+1. [Optional] Create budgets to control costs. Paid account billing charges specified payment method according to the resource tier type.
+1. Generate API key for your user as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/configuring.htm#APIKeyAuth).
+1. Create S3-compatible backend as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/object-storage-state.htm#s3).
+1. Generate customer secret key for your profile as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/object-storage-state.htm#auth).
+
 #### Day-1
 
 Atmos workflows are used for cold starts. See configuration [here](stacks/workflows). Execute these commands for full deployment:
 
 ```shell
 atmos workflow apply-all-components -f foundation
+
+# Create vault secrets here as they are needed for provisioning platform environment
+
 atmos workflow apply-all-components -f plat-env -s plat-fra-prod
 ```
 
@@ -125,16 +137,6 @@ Additional information:
 ### Version management and package publishing
 
 [semantic-release](https://semantic-release.gitbook.io/semantic-release/) is used as a tool for automated version management and package publishing. See configuration [here](.github/workflows/release.yaml).
-
-### Installation: TODO
-
-1. Oracle Cloud Infrastructure account (free or paid)
-2. Deploy OCI KMS
-3. 
-
-### Authentication
-
-Authentication method: [API Key Authentication](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraformproviderconfiguration.htm#APIKeyAuth)
 
 ## Architecture
 
