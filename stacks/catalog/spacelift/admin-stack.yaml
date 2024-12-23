@@ -27,7 +27,7 @@ components:
         branch: master
         repository: provisioning
         allow_public_workers: true
-        runner_image: hajlesilesia/provisioning:0.32.2
+        runner_image: hajlesilesia/provisioning:0.32.3
         spacelift_spaces_tenant_name: root
         spacelift_spaces_stage_name: spacelift
         spacelift_spaces_component_name: spaces
