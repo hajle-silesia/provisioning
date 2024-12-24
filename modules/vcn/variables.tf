@@ -17,7 +17,8 @@ variable "ipv4_cidr_blocks" {
 }
 
 variable "dns_label" {
-  type        = string
+  type = string
+  # Source: https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/dns.htm#About
   description = <<-EOT
     DNS label for the VCN, used to form FQDN.
     Example of FQDN consisting of:
