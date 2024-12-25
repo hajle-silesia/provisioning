@@ -55,7 +55,48 @@ Run on daily basis, preferably as a main terminal:
 hajle-silesia_provisioning-toolbox
 ```
 
-Example: static analysis with hooks managed by pre-commit:
+Before cloning any repository, create `.env` file with the following content in your local organization directory:
+
+```shell
+#!/usr/bin/env bash
+
+git config --global user.email <email>
+git config --global user.name <username>
+
+# Due to volume mounts of the image, permission issues may occur. Observed examples:
+# - PyCharm installed on Windows, codebase located in WSL 2 - autosave and backup denied for files created from container.
+umask 0
+```
+
+Then, run:
+
+```shell
+. .env
+git clone <repo-name>
+cd "$(basename "$_" .git)"
+touch .env
+```
+
+Copy following content into the `.env` file in your local repository directory:
+
+```shell
+#!/usr/bin/env bash
+
+. ../.env
+
+# Pre-commit needs to be installed to allow `git` actions (e.g. pre-commit, pre-push, etc.)
+pre-commit install
+```
+
+Then, run:
+
+```shell
+. .env
+```
+
+Note: always source `.env` file (run: `. .env`) after starting container to avoid permission issues between host/container.
+
+Example: static analysis with hooks managed by pre-commit can be executed by running:
 
 ```shell
 pre-commit --all-files --hook-stage manual
