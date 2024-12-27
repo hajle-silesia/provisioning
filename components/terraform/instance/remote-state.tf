@@ -43,11 +43,22 @@ module "nlb_reference" {
   stage       = var.stage
 }
 
-module "alb_listener_reference" {
+module "alb_listener_ext_cluster_api_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
 
   component = "alb-listener/ext-cluster-api"
+
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
+}
+
+module "alb_listener_ext_https_reference" {
+  source  = "cloudposse/stack-config/yaml//modules/remote-state"
+  version = "1.8.0"
+
+  component = "alb-listener/ext-https"
 
   tenant      = var.tenant
   environment = var.environment

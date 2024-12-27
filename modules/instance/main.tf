@@ -162,13 +162,5 @@ resource "oci_core_instance_pool" "default" {
       vnic_selection   = "PrimaryVnic"
     }
   }
-
-  # load_balancers {
-  #   backend_set_name = "https-test"
-  #   load_balancer_id = module.alb_reference.outputs.id
-  #   port             = 80
-  #   vnic_selection   = "PrimaryVnic"
-  # }
-
   freeform_tags = data.context_tags.main.tags
 }

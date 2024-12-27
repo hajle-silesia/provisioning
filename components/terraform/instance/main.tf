@@ -9,13 +9,18 @@ module "instance" {
   load_balancers = {
     external_cluster_api = {
       id               = module.alb_reference.outputs.id
-      backend_set_name = module.alb_listener_reference.outputs.backend_set_name
+      backend_set_name = module.alb_listener_ext_cluster_api_reference.outputs.backend_set_name
       port             = 6443
     }
     internal_cluster_api = {
       id               = module.nlb_reference.outputs.id
       backend_set_name = module.nlb_reference.outputs.backend_set_name
       port             = 6443
+    }
+    external_https = {
+      id               = module.alb_reference.outputs.id
+      backend_set_name = module.alb_listener_ext_https_reference.outputs.backend_set_name
+      port             = 80
     }
   }
 
