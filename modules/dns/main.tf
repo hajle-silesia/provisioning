@@ -1,17 +1,24 @@
 locals {
   enabled = data.context_config.main.enabled
 
-  compartment_ocid   = var.compartment_ocid
-  name               = var.name
+  private = local.enabled && var.private
+
+  compartment_ocid = var.compartment_ocid
+  name             = var.name
+  ip_address       = var.ip_address
+  scope            = local.private ? "PRIVATE" : null
+  domain_name      = local.private ? "${data.context_label.any[0].rendered}.${local.subnet_domain_name}" : var.domain_name
+
+  # Locals for private scope
   vcn_id             = var.vcn_id
   subnet_domain_name = var.subnet_domain_name
-  ip_address         = var.ip_address
-  domain_name        = "${data.context_label.any.rendered}.${local.subnet_domain_name}"
 }
 
 data "context_config" "main" {}
 
 data "context_label" "any" {
+  count = local.private ? 1 : 0
+
   # The same golden image can be shared across stages, hence the stage "any" is included in the label, to keep the naming convention consistent.
   # Upon NLB creation, a DNS record using NLB display name is automatically created. However, this record is not updated when the display name changes.
   # Upon ALB creation, no DNS record is created.
@@ -28,22 +35,13 @@ data "context_tags" "main" {
   }
 }
 
-resource "oci_dns_view" "default" {
-  count = local.enabled ? 1 : 0
-
-  compartment_id = local.compartment_ocid
-  display_name   = data.context_label.any.rendered
-  scope          = "PRIVATE"
-  freeform_tags  = data.context_tags.main.tags
-}
-
 resource "oci_dns_zone" "default" {
   count = local.enabled ? 1 : 0
 
   compartment_id = local.compartment_ocid
   name           = local.domain_name
-  scope          = "PRIVATE"
-  view_id        = oci_dns_view.default[0].id
+  scope          = local.scope
+  view_id        = local.private ? oci_dns_view.default[0].id : null
   zone_type      = "PRIMARY"
   freeform_tags  = data.context_tags.main.tags
 }
@@ -53,8 +51,8 @@ resource "oci_dns_rrset" "default" {
 
   domain          = local.domain_name
   rtype           = "A"
-  view_id         = oci_dns_view.default[0].id
-  scope           = "PRIVATE"
+  view_id         = local.private ? oci_dns_view.default[0].id : null
+  scope           = local.scope
   zone_name_or_id = oci_dns_zone.default[0].id
   items {
     domain = local.domain_name
@@ -64,8 +62,17 @@ resource "oci_dns_rrset" "default" {
   }
 }
 
+resource "oci_dns_view" "default" {
+  count = local.private ? 1 : 0
+
+  compartment_id = local.compartment_ocid
+  display_name   = data.context_label.any[0].rendered
+  scope          = local.scope
+  freeform_tags  = data.context_tags.main.tags
+}
+
 resource "oci_dns_resolver" "default" {
-  count = local.enabled ? 1 : 0
+  count = local.private ? 1 : 0
 
   resolver_id = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
   # The order of the evaluation: https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/privatedns.htm#configuration
@@ -79,14 +86,14 @@ resource "oci_dns_resolver" "default" {
 }
 
 data "oci_core_vcn_dns_resolver_association" "default" {
-  count = local.enabled ? 1 : 0
+  count = local.private ? 1 : 0
 
   vcn_id = local.vcn_id
 }
 
 data "oci_dns_resolver" "default" {
-  count = local.enabled ? 1 : 0
+  count = local.private ? 1 : 0
 
   resolver_id = data.oci_core_vcn_dns_resolver_association.default[0].dns_resolver_id
-  scope       = "PRIVATE"
+  scope       = local.scope
 }

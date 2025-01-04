@@ -47,6 +47,11 @@ workflows:
     steps:
       - command: terraform plan dns/nlb
 
+  plan-all-dns-ext-https:
+    description: Run 'terraform plan' on all 'dns/ext-https' components in all stacks
+    steps:
+      - command: terraform plan dns/ext-https
+
   plan-all-instance:
     description: Run 'terraform plan' on all 'instance' components in all stacks
     steps:
@@ -64,6 +69,7 @@ workflows:
       - command: terraform deploy alb-listener/ext-https
       - command: terraform deploy dns/alb
       - command: terraform deploy dns/nlb
+      - command: terraform deploy dns/ext-https
       - command: terraform deploy instance
 
   validate-all-vault:
@@ -110,6 +116,11 @@ workflows:
     description: Validate all dns/nlb components in all stacks
     steps:
       - command: validate component dns/nlb
+
+  validate-all-dns-ext-https:
+    description: Validate all dns/ext-https components in all stacks
+    steps:
+      - command: validate component dns/ext-https
 
   validate-all-instance:
     description: Validate all instance components in all stacks
