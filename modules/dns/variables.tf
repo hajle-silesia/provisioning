@@ -1,3 +1,12 @@
+variable "private" {
+  type        = bool
+  description = <<-EOT
+    If 'true', the DNS record will be private.
+    If 'false', the DNS record will be public.
+    EOT
+  default     = true
+}
+
 variable "compartment_ocid" {
   type        = string
   description = "Compartment OCID"
@@ -10,17 +19,27 @@ variable "name" {
   default     = null
 }
 
+variable "ip_address" {
+  type        = string
+  description = "The IP address of the DNS record"
+  default     = null
+}
+
+variable "domain_name" {
+  type        = string
+  description = "The domain name"
+  default     = null
+}
+
+# Private vars
 variable "vcn_id" {
   type        = string
   description = "The ID of the VCN"
+  default     = null
 }
 
 variable "subnet_domain_name" {
   type        = string
-  description = "The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label, and the oraclevcn.com domain"
-}
-
-variable "ip_address" {
-  type        = string
-  description = "The IP address of the DNS record"
+  description = "The subnet's domain name, which consists of the subnet's DNS label, the VCN's DNS label and the oraclevcn.com domain"
+  default     = null
 }

@@ -6,3 +6,6 @@ components:
     dns/nlb:
       vars:
         enabled: true
+    dns/ext-https:
+      vars:
+        enabled: true

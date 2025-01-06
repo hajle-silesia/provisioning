@@ -42,6 +42,17 @@ variable "name" {
   type = string
 }
 
+variable "dns" {
+  type = object({
+    private     = bool
+    domain_name = string
+  })
+  default = {
+    private     = true
+    domain_name = null
+  }
+}
+
 variable "lb" {
   type = object({
     name = string
