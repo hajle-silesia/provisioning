@@ -3,7 +3,7 @@ output "backend_set_name" {
   description = "The name of the backend set"
 }
 
-output "port" {
-  value       = join("", oci_load_balancer_listener.default[*].port)
-  description = "The port of the listener"
+output "backend_port" {
+  value       = flatten(oci_load_balancer_backend_set.default[*].backend)[0].port
+  description = "The port of the backend"
 }

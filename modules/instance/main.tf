@@ -158,7 +158,7 @@ resource "oci_core_instance_pool" "default" {
     content {
       load_balancer_id = load_balancers.value["id"]
       backend_set_name = load_balancers.value["backend_set_name"]
-      port             = load_balancers.value["port"]
+      port             = load_balancers.value["backend_port"]
       vnic_selection   = "PrimaryVnic"
     }
   }
