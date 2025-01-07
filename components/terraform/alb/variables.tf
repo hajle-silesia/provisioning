@@ -44,6 +44,12 @@ variable "name" {
 
 variable "alb" {
   type = object({
-    name = string
+    name               = string
+    ca_certificate     = string
+    public_certificate = string
   })
+}
+
+variable "dns_primary_private_key_path" {
+  type = string
 }

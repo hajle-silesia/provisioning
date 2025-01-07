@@ -14,3 +14,18 @@ variable "subnet_id" {
   type        = string
   description = "The ID of the subnet"
 }
+
+variable "ca_certificate" {
+  type        = string
+  description = "CA certificate"
+}
+
+variable "private_key_path" {
+  type        = string
+  description = "Private key"
+}
+
+variable "public_certificate" {
+  type        = string
+  description = "Public certificate"
+}
