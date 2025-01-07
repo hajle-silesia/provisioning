@@ -192,7 +192,13 @@ OCI Vault is used as a secrets management solution for the cluster. Dedicated se
 
 ### DNS
 
-Hostnames are used for network resources to allow wildcard certificate usage with name defined as described [here](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/dns.htm#About). Certificate is used in the vault setup. Otherwise, certificate would have to be updated each time private IP address of network resource (VPC, subnet, instance, load balancer, etc.) change.
+#### Private
+
+Hostnames are used for network resources to allow certificate usage with the name defined as described [here](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/dns.htm#About). Certificate is used in the container orchestration cluster.
+
+#### Public
+
+In order to connect the provisioned hosted zone to the purchased domain, add the NS records to the domain registrar. Usually, these need to be added manually to the registered domain. See delegation example [here](https://pomoc.home.pl/baza-wiedzy/jak-wydelegowac-domene-z-home-pl-na-serwery-dns-zewnetrznego-operatora).
 
 ## Access to cluster
 
