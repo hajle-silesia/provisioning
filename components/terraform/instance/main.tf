@@ -10,17 +10,17 @@ module "instance" {
     external_cluster_api = {
       id               = module.alb_reference.outputs.id
       backend_set_name = module.alb_listener_ext_cluster_api_reference.outputs.backend_set_name
-      port             = 6443
+      backend_port     = module.alb_listener_ext_cluster_api_reference.outputs.backend_port
     }
     internal_cluster_api = {
       id               = module.nlb_reference.outputs.id
       backend_set_name = module.nlb_reference.outputs.backend_set_name
-      port             = 6443
+      backend_port     = module.nlb_reference.outputs.port
     }
     external_https = {
       id               = module.alb_reference.outputs.id
       backend_set_name = module.alb_listener_ext_https_reference.outputs.backend_set_name
-      port             = 80
+      backend_port     = module.alb_listener_ext_https_reference.outputs.backend_port
     }
   }
 

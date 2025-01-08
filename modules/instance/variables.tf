@@ -29,7 +29,7 @@ variable "load_balancers" {
   type = map(object({
     id               = string
     backend_set_name = string
-    port             = number
+    backend_port     = number
   }))
 }
 
