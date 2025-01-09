@@ -43,5 +43,6 @@ variable "alb_listener" {
     name              = string
     port              = number
     health_check_port = number
+    use_ssl           = bool
   })
 }
