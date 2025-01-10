@@ -162,6 +162,7 @@ components:
           name: ext-cluster-api
           port: 6443
           health_check_port: 6443
+          use_ssl: false
     alb-listener/ext-https:
       metadata:
         component: alb-listener
@@ -171,6 +172,7 @@ components:
           name: ext-https
           port: 443
           health_check_port: 80
+          use_ssl: true
     nlb:
       metadata:
         component: nlb

@@ -5,6 +5,8 @@ locals {
   load_balancer_id  = var.load_balancer_id
   listener_port     = var.listener_port
   health_check_port = var.health_check_port
+  use_ssl           = local.enabled && var.use_ssl
+  certificate_name  = local.use_ssl ? var.certificate_name : null
 }
 
 data "context_config" "main" {}
@@ -36,4 +38,12 @@ resource "oci_load_balancer_listener" "default" {
   default_backend_set_name = oci_load_balancer_backend_set.default[0].name
   port                     = local.listener_port
   protocol                 = "TCP"
+
+  dynamic "ssl_configuration" {
+    for_each = local.use_ssl ? [1] : []
+    content {
+      certificate_name        = local.certificate_name
+      verify_peer_certificate = false
+    }
+  }
 }
