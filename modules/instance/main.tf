@@ -14,6 +14,7 @@ locals {
   k3s_token               = var.k3s_token
   internal_lb_domain_name = var.internal_lb_domain_name
   external_lb_domain_name = var.external_lb_domain_name
+  external_lb_ip_address  = var.external_lb_ip_address
 }
 
 data "context_config" "main" {}
@@ -100,8 +101,9 @@ resource "oci_core_instance_configuration" "default" {
             export SECRET_NAME="${local.secret_name}"
             export K3S_VERSION="${local.k3s_version}"
             export K3S_TOKEN="${local.k3s_token}"
-            export INTERNAL_LB="${local.internal_lb_domain_name}"
-            export EXTERNAL_LB="${local.external_lb_domain_name}"
+            export INTERNAL_LB_DOMAIN_NAME="${local.internal_lb_domain_name}"
+            export EXTERNAL_LB_DOMAIN_NAME="${local.external_lb_domain_name}"
+            export EXTERNAL_LB_IP_ADDRESS="${local.external_lb_ip_address}"
 
             . /root/user-data.sh
 
