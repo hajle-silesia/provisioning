@@ -56,10 +56,7 @@ function initiate_cluster() {
     --write-kubeconfig-mode 600 \
     --token "${K3S_TOKEN}" \
     --tls-san "${INTERNAL_LB_DOMAIN_NAME}" \
-    --tls-san "${EXTERNAL_LB_DOMAIN_NAME}" \
-    --node-external-ip "${EXTERNAL_LB_IP_ADDRESS}" \
-    --flannel-backend wireguard-native \
-    --flannel-external-ip
+    --tls-san "${EXTERNAL_LB_DOMAIN_NAME}"
 }
 
 
@@ -134,12 +131,7 @@ function join_cluster() {
   curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${K3S_VERSION}" sh -s - server \
     --server "https://${INTERNAL_LB_DOMAIN_NAME}:6443" \
     --write-kubeconfig-mode 600 \
-    --token "${K3S_TOKEN}" \
-    --tls-san "${INTERNAL_LB_DOMAIN_NAME}" \
-    --tls-san "${EXTERNAL_LB_DOMAIN_NAME}" \
-    --node-external-ip "${EXTERNAL_LB_IP_ADDRESS}" \
-    --flannel-backend wireguard-native \
-    --flannel-external-ip
+    --token "${K3S_TOKEN}"
 }
 
 
