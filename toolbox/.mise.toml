@@ -2,7 +2,7 @@
 k3s = '1.30.0+k3s1'
 oci = '3.51.2'
 terraform = '1.10.4'
-atmos = '1.146.1'
+atmos = '1.148.0'
 tflint = '0.55.0'
 trivy = '0.58.2'
 pre-commit = '4.0.1'
