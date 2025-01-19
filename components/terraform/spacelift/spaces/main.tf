@@ -39,7 +39,7 @@ locals {
 
 module "space" {
   source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-space"
-  version = "1.6.0"
+  version = "1.7.2"
 
   # Create a space for each entry in the `spaces` variable, except for the root space which already exists by default
   # and cannot be deleted.
@@ -54,7 +54,7 @@ module "space" {
 
 module "policy" {
   source  = "cloudposse/cloud-infrastructure-automation/spacelift//modules/spacelift-policy"
-  version = "1.7.0"
+  version = "1.7.2"
 
   for_each = local.all_policies_inputs
 
