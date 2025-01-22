@@ -1,7 +1,7 @@
 [tools]
 k3s = '1.30.0+k3s1'
 oci = '3.51.2'
-terraform = '1.10.4'
+terraform = '1.10.5'
 atmos = '1.153.1'
 tflint = '0.55.0'
 trivy = '0.58.2'
