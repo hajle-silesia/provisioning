@@ -22,6 +22,11 @@ module "instance" {
       backend_set_name = module.alb_listener_ext_https_reference.outputs.backend_set_name
       backend_port     = module.alb_listener_ext_https_reference.outputs.backend_port
     }
+    external_video_stream = {
+      id               = module.alb_reference.outputs.id
+      backend_set_name = module.alb_listener_ext_video_stream_reference.outputs.backend_set_name
+      backend_port     = module.alb_listener_ext_video_stream_reference.outputs.backend_port
+    }
   }
 
   # user-data script vars/secrets
@@ -31,5 +36,4 @@ module "instance" {
   k3s_token               = var.k3s_token
   internal_lb_domain_name = module.dns_nlb_reference.outputs.domain_name
   external_lb_domain_name = module.dns_alb_reference.outputs.domain_name
-  external_lb_ip_address  = module.alb_reference.outputs.ip_address
 }

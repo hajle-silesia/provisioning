@@ -4,6 +4,6 @@ output "backend_set_name" {
 }
 
 output "backend_port" {
-  value       = flatten(oci_load_balancer_backend_set.default[*].backend)[0].port
+  value       = local.health_check_port
   description = "The port of the backend"
 }
