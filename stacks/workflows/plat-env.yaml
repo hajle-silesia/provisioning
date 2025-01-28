@@ -37,6 +37,11 @@ workflows:
     steps:
       - command: terraform plan alb-listener/ext-https
 
+  plan-all-alb-listener-ext-video-stream:
+    description: Run 'terraform plan' on all 'alb-listener/ext-video-stream' components in all stacks
+    steps:
+      - command: terraform plan alb-listener/ext-video-stream
+
   plan-all-dns-alb:
     description: Run 'terraform plan' on all 'dns/alb' components in all stacks
     steps:
@@ -67,6 +72,7 @@ workflows:
       - command: terraform deploy nlb
       - command: terraform deploy alb-listener/ext-cluster-api
       - command: terraform deploy alb-listener/ext-https
+      - command: terraform deploy alb-listener/ext-video-stream
       - command: terraform deploy dns/alb
       - command: terraform deploy dns/nlb
       - command: terraform deploy dns/ext-https
@@ -106,6 +112,11 @@ workflows:
     description: Validate all alb-listener/ext-https components in all stacks
     steps:
       - command: validate component alb-listener/ext-https
+
+  validate-all-alb-listener-ext-video-stream:
+    description: Validate all alb-listener/ext-video-stream components in all stacks
+    steps:
+      - command: validate component alb-listener/ext-video-stream
 
   validate-all-dns-alb:
     description: Validate all dns/alb components in all stacks

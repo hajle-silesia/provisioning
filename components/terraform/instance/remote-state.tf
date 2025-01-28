@@ -65,6 +65,17 @@ module "alb_listener_ext_https_reference" {
   stage       = var.stage
 }
 
+module "alb_listener_ext_video_stream_reference" {
+  source  = "cloudposse/stack-config/yaml//modules/remote-state"
+  version = "1.8.0"
+
+  component = "alb-listener/ext-video-stream"
+
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
+}
+
 module "dns_alb_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
