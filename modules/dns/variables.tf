@@ -19,9 +19,12 @@ variable "name" {
   default     = null
 }
 
-variable "ip_address" {
-  type        = string
-  description = "The IP address of the DNS record"
+variable "ip_addresses" {
+  type = list(object({
+    ip_address = string
+    public     = bool
+  }))
+  description = "The IP addresses for the DNS record"
   default     = null
 }
 

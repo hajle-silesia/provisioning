@@ -18,10 +18,6 @@ variable "region" {
   type = string
 }
 
-variable "compartment_ocid" {
-  type = string
-}
-
 variable "enabled" {
   type = bool
 }
@@ -42,8 +38,10 @@ variable "name" {
   type = string
 }
 
-variable "nlb" {
+variable "nlb_listener" {
   type = object({
-    name = string
+    name              = string
+    port              = number
+    health_check_port = number
   })
 }

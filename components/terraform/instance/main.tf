@@ -12,10 +12,15 @@ module "instance" {
       backend_set_name = module.alb_listener_ext_cluster_api_reference.outputs.backend_set_name
       backend_port     = module.alb_listener_ext_cluster_api_reference.outputs.backend_port
     }
-    internal_cluster_api = {
+    cluster_api = {
       id               = module.nlb_reference.outputs.id
-      backend_set_name = module.nlb_reference.outputs.backend_set_name
-      backend_port     = module.nlb_reference.outputs.port
+      backend_set_name = module.nlb_listener_cluster_api_reference.outputs.backend_set_name
+      backend_port     = module.nlb_listener_cluster_api_reference.outputs.backend_port
+    }
+    msg_queue = {
+      id               = module.nlb_reference.outputs.id
+      backend_set_name = module.nlb_listener_msg_queue_reference.outputs.backend_set_name
+      backend_port     = module.nlb_listener_msg_queue_reference.outputs.backend_port
     }
     external_https = {
       id               = module.alb_reference.outputs.id
@@ -35,5 +40,4 @@ module "instance" {
   k3s_version             = var.instance.k3s_version
   k3s_token               = var.k3s_token
   internal_lb_domain_name = module.dns_nlb_reference.outputs.domain_name
-  external_lb_domain_name = module.dns_alb_reference.outputs.domain_name
 }

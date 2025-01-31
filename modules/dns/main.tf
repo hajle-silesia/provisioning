@@ -5,7 +5,7 @@ locals {
 
   compartment_ocid = var.compartment_ocid
   name             = var.name
-  ip_address       = var.ip_address
+  ip_address       = local.private ? one([for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == false]) : one([for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == true])
   scope            = local.private ? "PRIVATE" : null
   domain_name      = local.private ? "${data.context_label.any[0].rendered}.${local.subnet_domain_name}" : var.domain_name
 

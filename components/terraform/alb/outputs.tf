@@ -3,9 +3,9 @@ output "id" {
   description = "The ID of the ALB"
 }
 
-output "ip_address" {
-  value       = module.alb.ip_address
-  description = "The IP address of the ALB"
+output "ip_addresses" {
+  value       = module.alb.ip_addresses
+  description = "The IP addresses of the ALB"
 }
 
 output "certificate_name" {
