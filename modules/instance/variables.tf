@@ -57,8 +57,3 @@ variable "internal_lb_domain_name" {
   type        = string
   description = "The domain name of the internal load balancer"
 }
-
-variable "external_lb_domain_name" {
-  type        = string
-  description = "The domain name of the external load balancer"
-}

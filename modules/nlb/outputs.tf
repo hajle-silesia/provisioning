@@ -1,19 +1,16 @@
+
 output "id" {
   value       = join("", oci_network_load_balancer_network_load_balancer.default[*].id)
-  description = "The ID of the NLB"
+  description = "The ID of the load balancer"
 }
 
-output "ip_address" {
-  value       = join("", flatten(oci_network_load_balancer_network_load_balancer.default[*].ip_addresses[*].ip_address))
-  description = "The IP address of the NLB"
-}
-
-output "backend_set_name" {
-  value       = join("", oci_network_load_balancer_backend_set.default[*].name)
-  description = "The name of the backend set"
-}
-
-output "port" {
-  value       = join("", oci_network_load_balancer_listener.default[*].port)
-  description = "The port of the listener"
+output "ip_addresses" {
+  value = [
+    for ip_address in flatten(oci_network_load_balancer_network_load_balancer.default[*].ip_addresses) :
+    {
+      ip_address = ip_address.ip_address
+      public     = ip_address.is_public
+    }
+  ]
+  description = "The IP addresses of the load balancer"
 }

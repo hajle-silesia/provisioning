@@ -183,6 +183,7 @@ components:
           port: 1935
           # Currently, cloud provider's load balancer isn't integrated with K8s, therefore specifying nodePort is required.
           # After the integration of external cloud controller manager, external load balancer will forward traffic to the node port automatically, while keeping both ports in sync.
+          # For the time being, edit nodePort manually in K3s spec to the value below
           health_check_port: 32217
           use_ssl: false
     nlb:
@@ -192,8 +193,27 @@ components:
         name: nlb
         nlb:
           name: nlb
-          listener_port: 6443
+    nlb-listener/cluster-api:
+      metadata:
+        component: nlb-listener
+      vars:
+        name: nlb-listener
+        nlb_listener:
+          name: cluster-api
+          port: 6443
           health_check_port: 6443
+    nlb-listener/msg-queue:
+      metadata:
+        component: nlb-listener
+      vars:
+        name: nlb-listener
+        nlb_listener:
+          name: msg-queue
+          port: 8883
+          # Currently, cloud provider's load balancer isn't integrated with K8s, therefore specifying nodePort is required.
+          # After the integration of external cloud controller manager, external load balancer will forward traffic to the node port automatically, while keeping both ports in sync.
+          # For the time being, edit nodePort manually in K3s spec to the value below
+          health_check_port: 30487
     dns/alb:
       metadata:
         component: dns

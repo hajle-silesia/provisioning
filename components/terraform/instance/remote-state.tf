@@ -76,11 +76,22 @@ module "alb_listener_ext_video_stream_reference" {
   stage       = var.stage
 }
 
-module "dns_alb_reference" {
+module "nlb_listener_cluster_api_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
 
-  component = "dns/alb"
+  component = "nlb-listener/cluster-api"
+
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
+}
+
+module "nlb_listener_msg_queue_reference" {
+  source  = "cloudposse/stack-config/yaml//modules/remote-state"
+  version = "1.8.0"
+
+  component = "nlb-listener/msg-queue"
 
   tenant      = var.tenant
   environment = var.environment

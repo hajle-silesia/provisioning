@@ -1,0 +1,8 @@
+components:
+  terraform:
+    nlb-listener/cluster-api:
+      vars:
+        enabled: true
+    nlb-listener/msg-queue:
+      vars:
+        enabled: true
