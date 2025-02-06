@@ -14,7 +14,7 @@ source "oracle-oci" "server" {
   fingerprint  = var.fingerprint
   region       = var.region
 
-  availability_domain = "ppDV:EU-FRANKFURT-1-AD-1"
+  availability_domain = var.availability_domain
 
   base_image_filter {
     display_name_search = "^Canonical-Ubuntu-22.04-aarch64-([\\.0-9-]+)$"
@@ -23,14 +23,14 @@ source "oracle-oci" "server" {
   compartment_ocid     = var.tenancy_ocid
   image_name           = "golden-image-${timestamp()}"
   shape                = "VM.Standard.A1.Flex"
-  ssh_private_key_file = "certificates/ssh-key-2024-03-16.key"
+  ssh_private_key_file = var.instance_ssh_private_key_file
   ssh_username         = "ubuntu"
-  subnet_ocid          = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaa7s6w2fwhae3f4donkjxa5nibxbmca6fls3smhlubx2laxynhheba"
+  subnet_ocid          = var.subnet_ocid
   shape_config {
     memory_in_gbs = 6
     ocpus         = 1
   }
-  skip_create_image = false
+  skip_create_image = var.skip_create_image
 }
 
 build {
@@ -50,13 +50,6 @@ build {
 
   provisioner "shell" {
     execute_command = "sudo bash -c '{{ .Vars }} {{ .Path }}'"
-    # environment_vars = [
-    #   "K3S_VERSION=${var.k3s_version}",
-    #   "K3S_TOKEN=${var.k3s_token}",
-    #   "INTERNAL_LB_DOMAIN=${var.internal_lb}",
-    #   "EXTERNAL_LB_DOMAIN=${var.internal_lb}",
-    #   "COMPARTMENT_OCID=${var.tenancy_ocid}",
-    # ]
     scripts = [
       "machine-images/scripts/create-server-golden-image.sh",
     ]
