@@ -148,9 +148,19 @@ Depending on the phase of software delivery, [Atmos workflows](https://atmos.too
 
 #### Pre-requisites
 
-1. Create Oracle Cloud Infrastructure account.
+1. Create Oracle Cloud Infrastructure account [here](https://www.oracle.com/cloud/free/).
 1. Upgrade Free Tier account to a paid account. Paid accounts precede Free Tier accounts when it comes to resources (especially instances) provisioning by OCI. For Free Tier accounts it can take hours.
+   1.  Log into Oracle Cloud Infrastructure Console. 
+   1.  Go to "Billing & Cost Management" in navigation menu. 
+   1.  Go to "Upgrade and Manage Payment" under "Billing" section. 
+   1.  In "Pay As You Go" section, click "Upgrade your account" button. 
+   1.  Follow instructions for payment method. 
+   1.  Account upgrade process should start.
 1. [Optional] Create budgets to control costs. Paid account billing charges specified payment method according to the resource tier type.
+   1. Log into Oracle Cloud Infrastructure Console. 
+   1. Go to "Billing & Cost Management" in navigation menu.
+   1. Go to "Budgets" under "Cost Management" section. 
+   1. Click "Create Budget" and set preferred budget and alerts.
 1. Generate API key for your user as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/configuring.htm#APIKeyAuth).
 1. Create S3-compatible backend as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/object-storage-state.htm#s3).
 1. Generate customer secret key for your profile as described [here](https://docs.oracle.com/en-us/iaas/Content/terraform/object-storage-state.htm#auth).
@@ -161,8 +171,11 @@ Atmos workflows are used for cold starts. See configuration [here](stacks/workfl
 
 ```shell
 atmos workflow apply-all-components -f foundation
+atmos terraform apply vault -s plat-fra-prod
+atmos terraform apply vcn -s plat-fra-prod
 
 # Create vault secrets here as they are needed for provisioning platform environment
+# Run golden image CI workflow as it's needed to create cluster nodes
 
 atmos workflow apply-all-components -f plat-env -s plat-fra-prod
 ```

@@ -7,15 +7,15 @@ workflows:
     steps:
       - command: terraform plan vault
 
-  plan-all-iam-dynamic-group:
-    description: Run 'terraform plan' on all 'iam-dynamic-group' components in all stacks
-    steps:
-      - command: terraform plan iam-dynamic-group
-
   plan-all-vcn:
     description: Run 'terraform plan' on all 'vcn' components in all stacks
     steps:
       - command: terraform plan vcn
+
+  plan-all-iam-dynamic-group:
+    description: Run 'terraform plan' on all 'iam-dynamic-group' components in all stacks
+    steps:
+      - command: terraform plan iam-dynamic-group
 
   plan-all-alb:
     description: Run 'terraform plan' on all 'alb' components in all stacks
@@ -76,8 +76,8 @@ workflows:
     description: Run 'terraform apply' on all components in all stacks
     steps:
       - command: terraform deploy vault
-      - command: terraform deploy iam-dynamic-group
       - command: terraform deploy vcn
+      - command: terraform deploy iam-dynamic-group
       - command: terraform deploy alb
       - command: terraform deploy nlb
       - command: terraform deploy alb-listener/ext-cluster-api
@@ -95,15 +95,15 @@ workflows:
     steps:
       - command: validate component vault
 
-  validate-all-iam-dynamic-group:
-    description: Validate all iam-dynamic-group components in all stacks
-    steps:
-      - command: validate component iam-dynamic-group
-
   validate-all-vcn:
     description: Validate all vcn components in all stacks
     steps:
       - command: validate component vcn
+
+  validate-all-iam-dynamic-group:
+    description: Validate all iam-dynamic-group components in all stacks
+    steps:
+      - command: validate component iam-dynamic-group
 
   validate-all-alb:
     description: Validate all alb components in all stacks
