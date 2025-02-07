@@ -6,6 +6,11 @@ on:
       - master
     paths:
       - "machine-images/**"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "machine-images/**"
   repository_dispatch:
     types:
       - golden-images-id-comparison
@@ -16,13 +21,17 @@ permissions:
 
 jobs:
   golden-image-ci:
+    name: Golden image CI
     runs-on: ubuntu-latest
+    container:
+      image: hajlesilesia/provisioning:0.40.1
     permissions:
       contents: read
     env:
       working_dir: machine-images
     if: |
       github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
       (github.event_name == 'repository_dispatch' && github.event.client_payload.unequal_flag == 'true') ||
       github.event_name == 'workflow_dispatch'
 
@@ -31,14 +40,36 @@ jobs:
 
       - name: Initialize machine image builder
         run: packer init ${{ env.working_dir }}
+      - name: Get availability domain and subnet
+        env:
+          OCI_CLI_TENANCY: ${{ vars.OCI_CLI_TENANCY }}
+          OCI_CLI_USER: ${{ vars.OCI_CLI_USER }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+          OCI_CLI_FINGERPRINT: ${{ vars.OCI_CLI_FINGERPRINT }}
+          OCI_CLI_REGION: ${{ vars.OCI_CLI_REGION }}
+        id: instance-config
+        run: |
+          availability_domain=$(oci iam availability-domain list --compartment-id "${{ env.OCI_CLI_TENANCY }}" | jq -r '.data[0].name')
+          subnet_ocid=$(oci network subnet list --compartment-id "${{ env.OCI_CLI_TENANCY }}" | jq -r '.data[0] | select(."freeform-tags".Name == "servers-subnet") | .id')
+          echo "availability_domain=${availability_domain}" >> $GITHUB_OUTPUT
+          echo "subnet_ocid=${subnet_ocid}" >> $GITHUB_OUTPUT
       - name: Build machine image
         env:
-          K3S_TOKEN: ${{ secrets.K3S_TOKEN }}
-          OCI_PRIVATE_KEY: ${{ secrets.OCI_PRIVATE_KEY }}
+          PKR_VAR_tenancy_ocid: ${{ vars.OCI_CLI_TENANCY }}
+          PKR_VAR_user_ocid: ${{ vars.OCI_CLI_USER }}
+          PKR_VAR_key_file: ${{ vars.OCI_CLI_KEY_FILE }}
+          PKR_VAR_fingerprint: ${{ vars.OCI_CLI_FINGERPRINT }}
+          PKR_VAR_region: ${{ vars.OCI_CLI_REGION }}
+          PKR_VAR_k3s_token: ${{ secrets.K3S_TOKEN }}
+          PKR_VAR_subnet_ocid: ${{ steps.instance-config.outputs.subnet_ocid }}
+          PKR_VAR_availability_domain: ${{ steps.instance-config.outputs.availability_domain }}
+          PKR_VAR_instance_ssh_private_key_file: ${{ vars.INSTANCE_SSH_PRIVATE_KEY_FILE }}
+          PKR_VAR_skip_create_image: ${{ github.event_name == 'pull_request' }}
+          OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
           OCI_INSTANCES_SSH_PRIVATE_KEY: ${{ secrets.OCI_INSTANCES_SSH_PRIVATE_KEY }}
         run: |
-          echo -n "${OCI_PRIVATE_KEY}" > certificates/mtweeman@gmail.com_2024-03-02T19_23_13.049Z.pem
-          echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > certificates/ssh-key-2024-03-16.key
+          echo -n "${OCI_CLI_KEY_CONTENT}" > "${PKR_VAR_key_file}"
+          echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > "${PKR_VAR_instance_ssh_private_key_file}"
           packer build ${{ env.working_dir }}
       - name: Set flag
         uses: peter-evans/repository-dispatch@v3
