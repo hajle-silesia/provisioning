@@ -89,27 +89,27 @@ resource "oci_core_security_list" "node_ipv4" {
 
   ingress_security_rules {
     source      = "0.0.0.0/0"
-    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    protocol    = "all" # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
     description = "Allow HTTPS ingress"
 
-    tcp_options {
-      source_port_range {
-        max = 443
-        min = 443
-      }
-    }
+    # tcp_options {
+    #   source_port_range {
+    #     max = 443
+    #     min = 443
+    #   }
+    # }
   }
   egress_security_rules {
     destination = "0.0.0.0/0"
-    protocol    = 6 # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+    protocol    = "all" # Source: https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
     stateless   = true
     description = "Allow HTTPS egress"
 
-    tcp_options {
-      max = 443
-      min = 443
-    }
+    # tcp_options {
+    #   max = 443
+    #   min = 443
+    # }
   }
   freeform_tags = data.context_tags.main.tags
 }
