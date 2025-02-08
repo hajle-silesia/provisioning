@@ -24,7 +24,7 @@ jobs:
     name: Golden image CI
     runs-on: ubuntu-latest
     container:
-      image: hajlesilesia/provisioning:0.40.1
+      image: hajlesilesia/provisioning:0.40.2
     permissions:
       contents: read
     env:
