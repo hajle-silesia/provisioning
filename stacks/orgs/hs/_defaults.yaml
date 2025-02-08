@@ -4,7 +4,7 @@ terraform:
   backend_type: s3
   backend:
     s3:
-      bucket: backend
+      bucket: bucket-20250206-1300
       region: eu-frankfurt-1
       key: terraform.tfstate
       dynamodb_table:
@@ -16,7 +16,7 @@ terraform:
       skip_s3_checksum: true
       skip_metadata_api_check: true
       endpoints:
-        s3: https://fru7nifnglug.compat.objectstorage.eu-frankfurt-1.oraclecloud.com
+        s3: https://frfje3d7twi9.compat.objectstorage.eu-frankfurt-1.oraclecloud.com
 
 settings:
   spacelift:
