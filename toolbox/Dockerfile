@@ -17,6 +17,10 @@ ENV DOCKER_TAG="latest"
 # Reasoning: in the remote (CI/CD workflows) or local usage of this image, the user cloning the repository will be different than the one operating on it.
 COPY .gitconfig /etc/gitconfig
 
+# Atmos configuration
+# Source: https://atmos.tools/core-concepts/components/terraform/remote-state/#recommended-options
+COPY rootfs/ /
+
 # Mise installation
 # Source: https://mise.jdx.dev/getting-started.html
 ARG MISE_VERSION
@@ -35,7 +39,3 @@ COPY .mise.toml /etc/mise/config.toml
 # Source: https://mise.jdx.dev/cli/install.html
 RUN mise trust
 RUN mise install --yes
-
-# Atmos configuration
-# Source: https://atmos.tools/core-concepts/components/terraform/remote-state/#recommended-options
-COPY rootfs/ /
