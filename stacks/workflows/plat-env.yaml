@@ -47,10 +47,15 @@ workflows:
     steps:
       - command: terraform plan nlb-listener/cluster-api
 
-  plan-all-nlb-listener-msg-queue:
-    description: Run 'terraform plan' on all 'nlb-listener/msg-queue' components in all stacks
+  plan-all-nlb-listener-msg-publisher:
+    description: Run 'terraform plan' on all 'nlb-listener/msg-publisher' components in all stacks
     steps:
-      - command: terraform plan nlb-listener/msg-queue
+      - command: terraform plan nlb-listener/msg-publisher
+
+  plan-all-nlb-listener-msg-subscriber:
+    description: Run 'terraform plan' on all 'nlb-listener/msg-subscriber' components in all stacks
+    steps:
+      - command: terraform plan nlb-listener/msg-subscriber
 
 #  plan-all-dns-alb:
 #    description: Run 'terraform plan' on all 'dns/alb' components in all stacks
@@ -84,7 +89,8 @@ workflows:
       - command: terraform deploy alb-listener/ext-https
       - command: terraform deploy alb-listener/ext-video-stream
       - command: terraform deploy nlb-listener/cluster-api
-      - command: terraform deploy nlb-listener/msg-queue
+      - command: terraform deploy nlb-listener/msg-publisher
+      - command: terraform deploy nlb-listener/msg-subscriber
 #      - command: terraform deploy dns/alb
       - command: terraform deploy dns/nlb
       - command: terraform deploy dns/ext-https
@@ -135,10 +141,16 @@ workflows:
     steps:
       - command: validate component nlb-listener/cluster-api
 
-  validate-all-nlb-listener-msg-queue:
-    description: Validate all nlb-listener/msg-queue components in all stacks
+  validate-all-nlb-listener-msg-publisher:
+    description: Validate all nlb-listener/msg-publisher components in all stacks
     steps:
-      - command: validate component nlb-listener/msg-queue
+      - command: validate component nlb-listener/msg-publisher
+
+
+  validate-all-nlb-listener-msg-subscriber:
+    description: Validate all nlb-listener/msg-subscriber components in all stacks
+    steps:
+      - command: validate component nlb-listener/msg-subscriber
 
 #  validate-all-dns-alb:
 #    description: Validate all dns/alb components in all stacks

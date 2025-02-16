@@ -3,6 +3,9 @@ components:
     nlb-listener/cluster-api:
       vars:
         enabled: true
-    nlb-listener/msg-queue:
+    nlb-listener/msg-publisher:
+      vars:
+        enabled: true
+    nlb-listener/msg-subscriber:
       vars:
         enabled: true

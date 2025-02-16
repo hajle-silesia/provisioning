@@ -87,11 +87,22 @@ module "nlb_listener_cluster_api_reference" {
   stage       = var.stage
 }
 
-module "nlb_listener_msg_queue_reference" {
+module "nlb_listener_msg_publisher_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
 
-  component = "nlb-listener/msg-queue"
+  component = "nlb-listener/msg-publisher"
+
+  tenant      = var.tenant
+  environment = var.environment
+  stage       = var.stage
+}
+
+module "nlb_listener_msg_subscriber_reference" {
+  source  = "cloudposse/stack-config/yaml//modules/remote-state"
+  version = "1.8.0"
+
+  component = "nlb-listener/msg-subscriber"
 
   tenant      = var.tenant
   environment = var.environment

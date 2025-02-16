@@ -17,10 +17,15 @@ module "instance" {
       backend_set_name = module.nlb_listener_cluster_api_reference.outputs.backend_set_name
       backend_port     = module.nlb_listener_cluster_api_reference.outputs.backend_port
     }
-    msg_queue = {
+    msg_publisher = {
       id               = module.nlb_reference.outputs.id
-      backend_set_name = module.nlb_listener_msg_queue_reference.outputs.backend_set_name
-      backend_port     = module.nlb_listener_msg_queue_reference.outputs.backend_port
+      backend_set_name = module.nlb_listener_msg_publisher_reference.outputs.backend_set_name
+      backend_port     = module.nlb_listener_msg_publisher_reference.outputs.backend_port
+    }
+    msg_subscriber = {
+      id               = module.nlb_reference.outputs.id
+      backend_set_name = module.nlb_listener_msg_subscriber_reference.outputs.backend_set_name
+      backend_port     = module.nlb_listener_msg_subscriber_reference.outputs.backend_port
     }
     external_https = {
       id               = module.alb_reference.outputs.id
