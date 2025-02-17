@@ -221,11 +221,11 @@ components:
         name: nlb-listener
         nlb_listener:
           name: msg-subscriber
-          port: 8083
+          port: 8084
           # Currently, cloud provider's load balancer isn't integrated with K8s, therefore specifying nodePort is required.
           # After the integration of external cloud controller manager, external load balancer will forward traffic to the node port automatically, while keeping both ports in sync.
           # For the time being, edit nodePort manually in K3s spec to the value below
-          health_check_port: 31747
+          health_check_port: 32652
     dns/alb:
       metadata:
         component: dns
