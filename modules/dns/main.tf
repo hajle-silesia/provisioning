@@ -5,7 +5,7 @@ locals {
 
   compartment_ocid = var.compartment_ocid
   name             = var.name
-  ip_address       = local.private ? one([for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == false]) : one([for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == true])
+  ip_addresses     = local.private ? [for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == false] : [for ip_address in var.ip_addresses : ip_address.ip_address if ip_address.public == true]
   scope            = local.private ? "PRIVATE" : null
   domain_name      = local.private ? "${data.context_label.any[0].rendered}.${local.subnet_domain_name}" : var.domain_name
 
@@ -54,11 +54,14 @@ resource "oci_dns_rrset" "default" {
   view_id         = local.private ? oci_dns_view.default[0].id : null
   scope           = local.scope
   zone_name_or_id = oci_dns_zone.default[0].id
-  items {
-    domain = local.domain_name
-    rdata  = local.ip_address
-    rtype  = "A"
-    ttl    = 300
+  dynamic "items" {
+    for_each = local.ip_addresses
+    content {
+      domain = local.domain_name
+      rdata  = items.value
+      rtype  = "A"
+      ttl    = 300
+    }
   }
 }
 
