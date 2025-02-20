@@ -274,4 +274,5 @@ components:
           k3s_version: v1.30.0+k3s1
         secret:
           name: cluster-initiated
+          # Indicates whether at least one server node is already created, i.e. control plane exists.
           value: false
