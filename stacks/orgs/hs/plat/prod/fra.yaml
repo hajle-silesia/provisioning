@@ -230,26 +230,27 @@ components:
       metadata:
         component: dns
       vars:
-        name: dns
+        name: alb
         lb:
-          name: alb
+          - alb
     dns/nlb:
       metadata:
         component: dns
       vars:
-        name: dns
+        name: nlb
         lb:
-          name: nlb
+          - nlb
     dns/ext-https:
       metadata:
         component: dns
       vars:
-        name: dns
+        name: ext-https
         dns:
           private: false
           domain_name: hajle-silesia.online
         lb:
-          name: alb
+          - alb
+          - nlb
     iam-dynamic-group:
       metadata:
         component: iam-dynamic-group

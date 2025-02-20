@@ -54,7 +54,5 @@ variable "dns" {
 }
 
 variable "lb" {
-  type = object({
-    name = string
-  })
+  type = set(string)
 }
