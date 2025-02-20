@@ -1,4 +1,6 @@
-# Source: https://docs.cloudposse.com/layers/spacelift/#main-branch
+# Sources:
+# https://docs.cloudposse.com/layers/spacelift/#main-branch
+# https://github.com/orgs/cloudposse/discussions/32
 name: Deploy Affected Spacelift Stacks
 
 on:
@@ -13,10 +15,19 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Get previous commit on base branch
+        id: previous-commit-sha
+        run: |
+          previous_commit_sha=$(git rev-parse HEAD~1)
+          echo "previous_commit_sha=${previous_commit_sha}" >> $GITHUB_OUTPUT
       - name: Atmos Affected Stacks Trigger Spacelift
         uses: cloudposse/github-action-atmos-affected-trigger-spacelift@v2
         with:
           atmos-config-path: ./rootfs/usr/local/etc/atmos
           deploy: true
           github-token: ${{ secrets.PUSH_TOKEN }}
-          head-ref: ${{ github.sha }}~1
+          head-ref: ${{ steps.previous-commit-sha.outputs.previous_commit_sha }}
