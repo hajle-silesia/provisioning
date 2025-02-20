@@ -171,10 +171,10 @@ Atmos workflows are used for cold starts. See configuration [here](stacks/workfl
 
 ```shell
 atmos workflow apply-all-components -f foundation
-atmos terraform apply vault -s plat-fra-prod
-atmos terraform apply vcn -s plat-fra-prod
+atmos terraform apply vault -s plat-fra-prod # Secrets needed for provisioning platform
+atmos terraform apply vcn -s plat-fra-prod # Networking needed for golden image CI
 
-# Create vault secrets here as they are needed for provisioning platform environment
+# Create vault secrets here (see Secrets management section) as they are needed for provisioning platform environment
 # Run golden image CI workflow as it's needed to create cluster nodes
 
 atmos workflow apply-all-components -f plat-env -s plat-fra-prod
@@ -201,7 +201,12 @@ To avoid configuration drift and shorten deployment time for newly spun instance
 
 ### Secrets management
 
-OCI Vault is used as a secrets management solution for the cluster. Dedicated secret (see vault module config) stores the cluster initialization flag, useful for server nodes during cold start (spinning new cluster). [External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault as described [here](https://external-secrets.io/latest/provider/oracle-vault/).
+OCI Vault is used as a secrets management solution for the cluster. Dedicated secret (see instance component) stores the cluster initialization flag, useful for server nodes during cold start (spinning new cluster). [External Secrets Operator](https://external-secrets.io/latest/) generates cluster secrets from the data stored within the vault as described [here](https://external-secrets.io/latest/provider/oracle-vault/).
+
+| Name              | Content                                                                                                                     | Description           |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| msg-queuing       | <pre>{<br>&nbsp; "CA_CERT": "\<ca-cert>",<br>&nbsp; "TLS_CERT": "\<tls-cert>",<br>&nbsp; "TLS_KEY": "\<tls-key>"<br>}</pre> | Domain's certificate. |
+
 
 ### DNS
 
