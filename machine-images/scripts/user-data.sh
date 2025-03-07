@@ -51,11 +51,15 @@ function set_cluster_initiated_flag() {
 
 
 function initiate_cluster() {
+  # High availability embedded etcd
+  # Sources:
+  # https://docs.k3s.io/datastore/ha-embedded
+  # Storage handled by LongHorn
   curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${K3S_VERSION}" sh -s - server \
     --cluster-init \
+    --tls-san "${INTERNAL_LB_DOMAIN_NAME}" \
     --write-kubeconfig-mode 600 \
     --token "${K3S_TOKEN}" \
-    --tls-san "${INTERNAL_LB_DOMAIN_NAME}" \
     --disable local-storage
 }
 
@@ -128,10 +132,15 @@ function wait_lb() {
 
 
 function join_cluster() {
+  # High availability embedded etcd
+  # Sources:
+  # https://docs.k3s.io/datastore/ha-embedded
+  # Storage handled by LongHorn
   curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${K3S_VERSION}" sh -s - server \
     --server "https://${INTERNAL_LB_DOMAIN_NAME}:6443" \
     --write-kubeconfig-mode 600 \
-    --token "${K3S_TOKEN}"
+    --token "${K3S_TOKEN}" \
+    --disable local-storage
 }
 
 
