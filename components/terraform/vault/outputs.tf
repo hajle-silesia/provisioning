@@ -3,7 +3,12 @@ output "name" {
   description = "The name of the vault"
 }
 
-output "secret_name" {
-  value       = module.vault.secret_name
-  description = "The secret name"
+output "id" {
+  value       = module.vault.id
+  description = "The ID of the vault"
+}
+
+output "encryption_key_id" {
+  value       = module.vault.encryption_key_id
+  description = "The ID of the encryption key"
 }
