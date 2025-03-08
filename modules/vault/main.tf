@@ -41,20 +41,3 @@ resource "oci_kms_key" "default" {
   protection_mode     = "SOFTWARE"
   freeform_tags       = data.context_tags.main.tags
 }
-
-resource "oci_vault_secret" "default" {
-  count          = local.enabled ? 1 : 0
-  compartment_id = var.compartment_ocid
-  secret_content {
-    content_type = "BASE64"
-    content      = "ZmFsc2U="
-  }
-  secret_name   = "cluster-initiated"
-  vault_id      = oci_kms_vault.default[0].id
-  key_id        = oci_kms_key.default[0].id
-  freeform_tags = data.context_tags.main.tags
-
-  lifecycle {
-    ignore_changes = all
-  }
-}
