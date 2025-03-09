@@ -41,8 +41,18 @@ module "instance" {
 
   # user-data script vars/secrets
   vault_name              = module.vault_reference.outputs.name
-  secret_name             = module.vault_reference.outputs.secret_name
+  secret_name             = module.secret.name
   k3s_version             = var.instance.k3s_version
   k3s_token               = var.k3s_token
   internal_lb_domain_name = module.dns_nlb_reference.outputs.domain_name
+}
+
+module "secret" {
+  source = "../../../modules/secret"
+
+  compartment_ocid  = var.compartment_ocid
+  name              = var.secret.name
+  value             = var.secret.value
+  vault_id          = module.vault_reference.outputs.id
+  encryption_key_id = module.vault_reference.outputs.encryption_key_id
 }
