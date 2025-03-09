@@ -51,6 +51,13 @@ variable "instance" {
   })
 }
 
+variable "secret" {
+  type = object({
+    name  = string
+    value = string
+  })
+}
+
 variable "k3s_token" {
   type = string
 }
