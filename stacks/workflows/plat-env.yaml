@@ -7,6 +7,11 @@ workflows:
     steps:
       - command: terraform plan vault
 
+  plan-all-storage-backup:
+    description: Run 'terraform plan' on all 'storage-backup' components in all stacks
+    steps:
+      - command: terraform plan storage-backup
+
   plan-all-vcn:
     description: Run 'terraform plan' on all 'vcn' components in all stacks
     steps:
@@ -81,6 +86,7 @@ workflows:
     description: Run 'terraform apply' on all components in all stacks
     steps:
       - command: terraform deploy vault
+      - command: terraform deploy storage-backup
       - command: terraform deploy vcn
       - command: terraform deploy iam-dynamic-group
       - command: terraform deploy alb
@@ -100,6 +106,11 @@ workflows:
     description: Validate all vault components in all stacks
     steps:
       - command: validate component vault
+
+  validate-all-storage-backup:
+    description: Validate all storage-backup components in all stacks
+    steps:
+      - command: validate component storage-backup
 
   validate-all-vcn:
     description: Validate all vcn components in all stacks
