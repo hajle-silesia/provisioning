@@ -203,6 +203,10 @@ To avoid configuration drift and shorten deployment time for newly spun instance
 
 OCI Vault is used as a secrets management solution for the cluster. Dedicated secret (see vault module config) stores the cluster initialization flag, useful for server nodes during cold start (spinning new cluster). [External Secrets Operator](https://external-secrets.io/latest/) automatically generates cluster secrets from the data stored within the vault as described [here](https://external-secrets.io/latest/provider/oracle-vault/).
 
+### Storage backup
+
+OCI Object Storage is used as a storage backup solution for the cluster. Detailed setup can be found [here](https://docs.oracle.com/en/learn/object-storage-longhorn-backups/index.html).
+
 ### DNS
 
 #### Private
