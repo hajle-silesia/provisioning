@@ -11,6 +11,11 @@ components:
         name: vault
         vault:
           name: vault
+    storage-backup:
+      metadata:
+        component: storage-backup
+      vars:
+        name: storage-backup
     vcn:
       metadata:
         component: vcn
