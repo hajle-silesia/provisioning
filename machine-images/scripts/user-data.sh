@@ -7,7 +7,7 @@ trap '{ set +x; } 2>/dev/null; echo -n "[$(date -uIs)] "; set -x' DEBUG
 
 
 function main() {
-  get_cluster_initiated_flag "${VAULT_NAME}" "${SECRET_NAME}" # "plat-fra-prod-vault" "cluster-initiated"
+  get_cluster_initiated_flag "${VAULT_NAME}" "${SECRET_NAME}"
 
   if [[ "${CLUSTER_INITIATED}" == "false" ]]; then
     set_cluster_initiated_flag
@@ -93,8 +93,8 @@ function deploy_business_application() {
     argocd app create hajle-silesia \
       --dest-namespace default \
       --dest-server https://kubernetes.default.svc \
-      --repo https://github.com/hajle-silesia/container-orchestration-cd-config.git \
-      --path charts/hajle-silesia \
+      --repo https://github.com/hajle-silesia/container-orchestration-cd.git \
+      --path appsets \
       --sync-policy automated \
       --auto-prune \
       --self-heal
