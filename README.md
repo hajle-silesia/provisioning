@@ -119,9 +119,10 @@ To avoid configuration drift and shorten deployment time for newly spun instance
 
 OCI Vault is used as a secrets management solution for the cluster. Dedicated secret (see instance component) stores the cluster initialization flag, useful for server nodes during cold start (spinning new cluster). [External Secrets Operator](https://external-secrets.io/latest/) generates cluster secrets from the data stored within the vault as described [here](https://external-secrets.io/latest/provider/oracle-vault/).
 
-| Name              | Content                                                                                                                     | Description           |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------|
-| msg-queuing       | <pre>{<br>&nbsp; "CA_CERT": "\<ca-cert>",<br>&nbsp; "TLS_CERT": "\<tls-cert>",<br>&nbsp; "TLS_KEY": "\<tls-key>"<br>}</pre> | Domain's certificate. |
+| Name          | Content                                                                                                                     | Description           |
+|---------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| image-updater | <pre>{<br>&nbsp; "sshPrivateKey": "\<ssh-private-key>"<br>}</pre>                                                           | GitHub deploy key     |
+| msg-queuing   | <pre>{<br>&nbsp; "CA_CERT": "\<ca-cert>",<br>&nbsp; "TLS_CERT": "\<tls-cert>",<br>&nbsp; "TLS_KEY": "\<tls-key>"<br>}</pre> | Domain's certificate. |
 
 
 ### DNS
