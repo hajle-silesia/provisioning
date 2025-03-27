@@ -11,7 +11,7 @@ jobs:
     name: Static analyzers aggregator
     runs-on: ubuntu-latest
     container:
-      image: hajlesilesia/toolbox:1.0.0
+      image: hajlesilesia/toolbox:1.1.0
 
     steps:
       - name: Checkout
