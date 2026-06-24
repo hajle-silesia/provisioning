@@ -39,7 +39,7 @@ jobs:
       - name: Compare images IDs and set flag
         if: ${{ steps.latest-image-id.outputs.latest_image_id != steps.latest-golden-image-base-image-id.outputs.latest_golden_image_base_image_id }}
         id: images-comparison
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.PUSH_TOKEN }}
           repository: hajle-silesia/provisioning
