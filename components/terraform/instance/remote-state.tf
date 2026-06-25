@@ -1,6 +1,6 @@
 module "vault_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "vault"
 
@@ -12,7 +12,7 @@ module "vault_reference" {
 
 module "vcn_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "vcn"
 
@@ -23,7 +23,7 @@ module "vcn_reference" {
 
 module "alb_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "alb"
 
@@ -34,7 +34,7 @@ module "alb_reference" {
 
 module "nlb_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "nlb"
 
@@ -45,7 +45,7 @@ module "nlb_reference" {
 
 module "alb_listener_ext_cluster_api_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "alb-listener/ext-cluster-api"
 
@@ -56,7 +56,7 @@ module "alb_listener_ext_cluster_api_reference" {
 
 module "alb_listener_ext_https_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "alb-listener/ext-https"
 
@@ -67,7 +67,7 @@ module "alb_listener_ext_https_reference" {
 
 module "alb_listener_ext_video_stream_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "alb-listener/ext-video-stream"
 
@@ -78,7 +78,7 @@ module "alb_listener_ext_video_stream_reference" {
 
 module "nlb_listener_cluster_api_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "nlb-listener/cluster-api"
 
@@ -89,7 +89,7 @@ module "nlb_listener_cluster_api_reference" {
 
 module "nlb_listener_msg_publisher_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "nlb-listener/msg-publisher"
 
@@ -100,7 +100,7 @@ module "nlb_listener_msg_publisher_reference" {
 
 module "nlb_listener_msg_subscriber_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "nlb-listener/msg-subscriber"
 
@@ -111,7 +111,7 @@ module "nlb_listener_msg_subscriber_reference" {
 
 module "dns_nlb_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "dns/nlb"
 
