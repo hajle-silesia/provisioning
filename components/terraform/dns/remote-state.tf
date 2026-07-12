@@ -1,6 +1,6 @@
 module "vcn_reference" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = "vcn"
 
@@ -13,7 +13,7 @@ module "lb_reference" {
   for_each = var.lb
 
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
-  version = "1.8.0"
+  version = "2.0.0"
 
   component = each.value
 
