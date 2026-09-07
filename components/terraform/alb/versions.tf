@@ -8,7 +8,7 @@ terraform {
     }
     context = {
       source  = "cloudposse/context"
-      version = "~> 0.4"
+      version = "~> 0.5"
     }
     random = {
       source  = "hashicorp/random"
