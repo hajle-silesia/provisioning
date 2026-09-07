@@ -72,7 +72,7 @@ jobs:
           echo -n "${OCI_INSTANCES_SSH_PRIVATE_KEY}" > "${PKR_VAR_instance_ssh_private_key_file}"
           packer build ${{ env.working_dir }}
       - name: Set flag
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.PUSH_TOKEN }}
           repository: hajle-silesia/provisioning
